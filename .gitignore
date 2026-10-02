@@ -1,5 +1,7 @@
 # build output
 dist/
+# PDF pipeline intermediates (scripts/render-diagrams.sh, build-pdf.sh)
+build/
 # generated types
 .astro/
 
