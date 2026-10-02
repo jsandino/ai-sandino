@@ -18,5 +18,8 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "lefthook": "^2.1.16"
   }
 }

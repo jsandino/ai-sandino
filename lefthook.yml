@@ -1,0 +1,10 @@
+# Git hooks, managed by Lefthook (installed via npm; see package.json).
+# Every pre-commit check lives in this file.
+
+pre-commit:
+  commands:
+    build-pdf:
+      # Only runs when guide source is staged; the script decides whether
+      # the staged PDF is already current or needs a rebuild.
+      glob: "src/content/harness-guide/**"
+      run: bash scripts/precommit-build-pdf.sh
