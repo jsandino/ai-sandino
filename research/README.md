@@ -2,11 +2,33 @@
 
 Summaries returned by the `researcher` sub-agent (`.claude/agents/researcher.md`),
 kept so the project never re-investigates a question it has already answered.
+**Check the index below before delegating a research question.**
 
-- **Check here first** before delegating a research question.
-- **Naming:** `YYYY-MM-DD-<slug>.md`, for example
-  `2026-10-08-d3-force-layout-options.md`.
-- **Format:** the researcher's structured summary (bottom line,
-  recommendation, key findings with sources, caveats), saved as returned.
-- Summaries are snapshots. If one goes stale, add a new dated summary rather
-  than rewriting the old one.
+## Conventions
+
+- **Numbered like ADRs:** `NNNN-<slug>.md`, four digits, zero-padded and
+  sequential. Numbers are never reused.
+- **Header:** every file starts with this block, followed by the researcher's
+  structured summary as returned:
+
+  ```markdown
+  # NNNN — <Title>
+
+  **Date:** YYYY-MM-DD
+  **Status:** Current | Superseded by NNNN-slug
+  **Question:** <the question that was researched>
+
+  ---
+  ```
+
+- **Snapshots, not living docs.** If a summary goes stale, write a new one
+  that says "Supersedes NNNN" in its header, and change only the old one's
+  **Status** line.
+- **Indexed:** every summary appears in the table below in the same commit
+  that adds it.
+
+## Index
+
+| # | Title | Date | Status |
+|---|---|---|---|
+| [0001](0001-pr-description-template.md) | PR description templates and Conventional Commit PR titles | 2026-10-07 | Current |
