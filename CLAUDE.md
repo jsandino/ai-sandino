@@ -44,8 +44,9 @@ design system, decisions and current status, see
 - External APIs and service behaviour (Astro, Motion, D3, Cloudflare, GitHub Actions)
 - Any "how does X work?" question about something outside this repo
 
-Save each returned summary to `research/YYYY-MM-DD-<slug>.md` and check
-`research/` first. The question may already be answered.
+Save each returned summary to `research/NNNN-<slug>.md` (format and index in
+[`research/README.md`](research/README.md)), and check that index first. The
+question may already be answered.
 
 ### Handle directly:
 
