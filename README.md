@@ -1,12 +1,22 @@
 # ai-sandino
 
-Source for [ai.sandino.ca](https://ai.sandino.ca) — a personal site
-exploring practical AI engineering: harness engineering with code
-agents, RAG in production, LLM gateway design, transformer
-architecture, and autonomous AI agents.
+Source for [ai.sandino.ca](https://ai.sandino.ca): practical AI engineering,
+explained through interactive pages, companion PDF guides and working code.
 
-Built with [Astro](https://astro.build), deployed on
-[Cloudflare Pages](https://pages.cloudflare.com).
+| Topic | Status |
+|---|---|
+| Harness Engineering with Code Agents | In progress |
+| RAG in production | Coming soon |
+| LLM gateways: managing token quotas | Coming soon |
+| The Transformer architecture: a deep dive | Coming soon |
+| Building an autonomous agent with Google's ADK | Coming soon |
 
-## Status
-🚧 Under construction
+## Working on the project
+
+Everything about how the project works (architecture, design system,
+decisions, current status) lives in [docs/](docs/README.md).
+AI agents: start with [CLAUDE.md](CLAUDE.md). Building the PDF guides needs
+extra tools: see [docs/prerequisites.md](docs/prerequisites.md).
+
+Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com),
+deployed on [Cloudflare Pages](https://pages.cloudflare.com).

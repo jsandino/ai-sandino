@@ -1,0 +1,374 @@
+<!doctype html>
+<!--
+  FROZEN REFERENCE: do not update.
+  Mood board for the ai.sandino.ca visual language, as approved on 2026-10-07
+  (ADR 0009). It shows colours, type, components and motion; it is NOT a page
+  layout. docs/design-system.md is the source of truth: if the two disagree,
+  the doc wins. Fonts and Motion load from a CDN so the file opens standalone.
+  The "Theme" button exists only here; the real site follows the system theme.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ai.sandino.ca — style sample (frozen 2026-10-07)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/inter/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono/index.css">
+<style>
+  :root {
+    --bg: #fafafa; --bg-alt: #f1f1f4; --surface: #ffffff; --border: #e2e2e7; --border-strong: #cfcfd6;
+    --text: #13131a; --text-2: #5c5c68; --text-3: #8a8a96;
+    --accent: #f59e0b; --accent-strong: #d97706; --accent-text: #b45309; --accent-ink: #13131a;
+    --accent-tint: rgba(245,158,11,.10); --accent-line: rgba(217,119,6,.40);
+    --grid-line: rgba(19,19,26,.06);
+    --violet: #5b4fe5; --coral: #e5484d;
+    --context: #0284c7; --constraints: #5b4fe5; --capabilities: #059669; --feedback: #e5484d;
+  }
+  :root.dark {
+    --bg: #13131a; --bg-alt: #1b1b24; --surface: #20202b; --border: #2c2c38; --border-strong: #38383d;
+    --text: #f5f5f7; --text-2: #9a9aa5; --text-3: #6b6b78;
+    --accent: #10b981; --accent-strong: #10b981; --accent-text: #10b981; --accent-ink: #0a0b10;
+    --grid-line: rgba(245,245,247,.045);
+    --accent-tint: rgba(16,185,129,.12); --accent-line: rgba(16,185,129,.45);
+    --violet: #6e63ff; --coral: #f65b66;
+    --context: #38bdf8; --constraints: #8b80ff; --capabilities: #10b981; --feedback: #f65b66;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: "Inter Variable", system-ui, sans-serif;
+         line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .4s, color .4s; }
+  .mono, .label, nav a, .btn, .badge, code, pre { font-family: "Geist Mono Variable", ui-monospace, monospace; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .label { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); }
+  .label.muted { color: var(--text-2); }
+  h1, h2 { font-weight: 700; letter-spacing: -.035em; line-height: 1.05; margin: 0; }
+  h2 { font-size: clamp(32px, 4.5vw, 44px); margin: 14px 0 12px; }
+  .sub { font-size: 18px; color: var(--text-2); margin: 0; max-width: 62ch; }
+
+  /* Header with progressive blur */
+  header { position: sticky; top: 0; z-index: 10; }
+  header::before { content: ""; position: absolute; inset: 0 0 -24px; z-index: -1;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 60%, transparent 100%);
+    mask-image: linear-gradient(#000 55%, transparent); -webkit-mask-image: linear-gradient(#000 55%, transparent); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+  nav { display: flex; gap: 26px; align-items: center; }
+  nav a { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); text-decoration: none; }
+  nav a.brand { font-weight: 600; }
+  .links { display: flex; gap: 26px; }
+  @media (max-width: 720px) { .links { display: none; } }
+
+  .btn { display: inline-flex; align-items: center; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+         padding: 13px 20px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; text-decoration: none;
+         transition: transform .2s, background .2s, border-color .2s; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .btn.ghost { color: var(--text); border-color: var(--border-strong); background: transparent; }
+  .btn.ghost:hover { border-color: var(--text-2); }
+  .btn.sm { padding: 9px 14px; }
+  .toggle { font-size: 11px; color: var(--text-2); background: var(--surface); border: 1px solid var(--border);
+            border-radius: 4px; padding: 7px 10px; cursor: pointer; letter-spacing: .08em; text-transform: uppercase;
+            font-family: "Geist Mono Variable", monospace; }
+
+  /* Hero spec-sheet card */
+  .hero { position: relative; padding: 48px 0 96px; overflow: hidden; }
+  .grid { position: absolute; inset: 0; pointer-events: none;
+          background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+          background-size: 30px 30px; background-position: center top;
+          mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 30%, transparent 100%);
+          -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 30%, transparent 100%); }
+  .js .grid { opacity: 0; }
+  .beam { position: absolute; top: -40%; width: 1px; height: 45%;
+          background: linear-gradient(transparent, var(--accent-line) 70%, var(--accent)); opacity: .6;
+          animation: fall 7s linear infinite; }
+  @keyframes fall { to { transform: translateY(330%); } }
+  .card { position: relative; display: grid; grid-template-columns: 200px 1fr; border: 1px solid var(--border-strong);
+          border-radius: 8px; background: var(--bg); }
+  @media (max-width: 760px) { .card { grid-template-columns: 1fr; } .art { display: none !important; } }
+  .art { border-right: 1px solid var(--border-strong); display: flex; align-items: flex-end; justify-content: center; padding: 28px 18px; }
+  .art svg { width: 100%; max-width: 150px; overflow: visible; }
+  .art path, .art line, .art circle { fill: none; stroke: var(--accent-strong); stroke-width: 1.2; }
+  .art .hub { fill: var(--accent-strong); }
+  .head { padding: 18px 20px 26px; border-bottom: 1px solid var(--border-strong); }
+  .badge { display: inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text);
+           background: var(--accent-tint); border: 1px solid var(--accent-line); border-radius: 4px; padding: 6px 10px; }
+  h1 { font-size: clamp(48px, 8vw, 84px); margin: 18px 0 8px; }
+  h1 .hl { color: var(--accent-strong); }
+  .tagline { font-size: clamp(20px, 2.6vw, 27px); letter-spacing: -.02em; font-weight: 500; }
+  .cells { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border-strong); }
+  @media (max-width: 760px) { .cells { grid-template-columns: repeat(2, 1fr); } }
+  .cell { padding: 18px 20px; border-right: 1px solid var(--border-strong); font-size: 12px; letter-spacing: .08em;
+          text-transform: uppercase; color: var(--text-2); line-height: 1.55; font-family: "Geist Mono Variable", monospace; }
+  .cell:last-child { border-right: 0; }
+  .cell b { display: block; font-weight: 400; color: var(--text-3); }
+  .blurb { padding: 30px; border-bottom: 1px solid var(--border-strong); font-size: 17px; color: var(--text-2); }
+  .blurb p { margin: 0; max-width: 60ch; }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 30px; flex-wrap: wrap; }
+  .counter { text-align: right; }
+  .counter .label { display: block; margin-bottom: 4px; font-weight: 600; }
+  .nums { display: flex; gap: 22px; }
+  .num { font-family: "Geist Mono Variable", monospace; font-size: 28px; font-weight: 500; line-height: 1; text-align: center; }
+  .num small { display: block; font-size: 10px; letter-spacing: .1em; color: var(--text-2); margin-top: 6px; }
+
+  /* Bands */
+  .band { padding: 96px 0; }
+  .band.alt { background: var(--bg-alt); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stat { padding: 34px 24px 34px 0; border-right: 1px solid var(--border); padding-left: 40px; }
+  .stat:first-child { padding-left: 0; } .stat:last-child { border-right: 0; }
+  .stat .big { font-size: 44px; font-weight: 700; letter-spacing: -.035em; line-height: 1; margin-bottom: 14px; }
+  @media (max-width: 680px) { .stats { grid-template-columns: 1fr; } .stat { border-right: 0; border-bottom: 1px solid var(--border); padding-left: 0; } }
+
+  .scrub { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; max-width: 22ch; margin: 22px 0 0; }
+  .scrub span { opacity: .28; transition: opacity .25s; }
+  .scrub span.em { color: var(--text); }
+
+  .prims { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 40px; }
+  @media (max-width: 900px) { .prims { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .prims { grid-template-columns: 1fr; } }
+  .prim { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px; position: relative; overflow: hidden; }
+  .prim::before { content: ""; position: absolute; inset: 0 0 auto; height: 70%; opacity: .16;
+                  background: linear-gradient(var(--c), transparent); }
+  .prim .label { color: var(--c); position: relative; }
+  .prim h3 { position: relative; margin: 34px 0 6px; font-size: 20px; letter-spacing: -.02em; }
+  .prim p { position: relative; margin: 0; font-size: 14px; color: var(--text-2); }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+  .cmp { border: 1px solid var(--border-strong); border-radius: 8px; padding: 28px; background: var(--surface); }
+  .cmp.win { border-color: var(--accent-line); background: color-mix(in srgb, var(--accent) 14%, var(--bg-alt)); }
+  .cmp ul { list-style: none; padding: 0; margin: 18px 0 0; color: var(--text-2); }
+  .cmp.win ul { color: var(--text); }
+  .cmp li { margin: 4px 0; }
+  .quote { border-left: 3px solid var(--violet); padding: 6px 0 6px 20px; margin-top: 30px; }
+  .quote p { margin: 0 0 6px; font-size: 22px; letter-spacing: -.01em; }
+
+  details { border: 1px solid var(--border); background: var(--surface); border-radius: 8px; margin-top: 14px; }
+  summary { list-style: none; cursor: pointer; padding: 20px; font-weight: 600; font-size: 17px; display: flex; justify-content: space-between; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent-strong); font-size: 28px; font-weight: 300; line-height: 1; transition: transform .3s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0; padding: 0 20px 20px; color: var(--text-2); }
+
+  .cta .row { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+  .fine { display: flex; justify-content: space-between; margin-top: 40px; flex-wrap: wrap; gap: 12px; }
+  .fine a { color: var(--accent-text); text-decoration: none; }
+  canvas#pixels { display: block; width: 100%; height: 190px; margin-top: 40px; }
+
+  /* Reveal states (only when JS + motion allowed) */
+  .js .reveal, .js .blur-in, .js .fly { opacity: 0; }
+</style>
+<script>
+  // Theme: follow system; the button is for this sample only.
+  if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js');
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><a class="brand" href="#">ai.sandino</a><span class="links"><a href="#topics">Topics</a><a href="#guide">Guide</a><a href="#faq">FAQ</a></span></nav>
+    <div style="display:flex; gap:10px; align-items:center">
+      <button class="toggle" id="toggle">Theme</button>
+      <a class="btn primary sm" href="#">Download guide</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="grid"></div>
+    <div class="beam" style="left: 9%; animation-delay: -2s"></div>
+    <div class="beam" style="left: 31%; animation-delay: -5s; animation-duration: 9s"></div>
+    <div class="beam" style="left: 78%; animation-delay: -1s; animation-duration: 8s"></div>
+    <div class="wrap">
+      <div class="card reveal" data-delay="0.2">
+        <div class="art">
+          <!-- line-art node graph, the site's motif (stands in for the reference's skyscraper) -->
+          <svg viewBox="0 0 150 300" aria-hidden="true">
+            <line class="draw" x1="75" y1="150" x2="25" y2="60"/><line class="draw" x1="75" y1="150" x2="128" y2="88"/>
+            <line class="draw" x1="75" y1="150" x2="30" y2="236"/><line class="draw" x1="75" y1="150" x2="122" y2="262"/>
+            <line class="draw" x1="25" y1="60" x2="75" y2="12"/><line class="draw" x1="128" y1="88" x2="75" y2="12"/>
+            <line class="draw" x1="30" y1="236" x2="122" y2="262"/>
+            <circle class="draw" cx="75" cy="150" r="22"/><circle class="hub" cx="75" cy="150" r="5"/>
+            <circle class="draw" cx="25" cy="60" r="9"/><circle class="draw" cx="128" cy="88" r="9"/>
+            <circle class="draw" cx="30" cy="236" r="9"/><circle class="draw" cx="122" cy="262" r="9"/>
+            <circle class="draw" cx="75" cy="12" r="5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="head">
+            <span class="badge reveal" data-delay="0.6">Topic 1 of 5 · now live</span>
+            <h1 class="blur-in" data-delay="0.7">Practical AI <span class="hl">engineering</span></h1>
+            <div class="tagline blur-in" data-delay="0.8">Five topics, explained visually, each with a guide and working code.</div>
+          </div>
+          <div class="cells reveal" data-delay="0.9">
+            <div class="cell"><b>What</b>Interactive explainers</div>
+            <div class="cell"><b>Plus</b>PDF guides · real repos</div>
+            <div class="cell"><b>Live now</b>Harness engineering</div>
+            <div class="cell"><b>Next</b>RAG in production</div>
+          </div>
+          <div class="blurb reveal" data-delay="0.9">
+            <p>Five topics on building real AI systems, from harnessing code agents to transformer internals. Each comes with a visual explainer, a downloadable companion guide, and a working GitHub project.</p>
+          </div>
+          <div class="foot reveal" data-delay="1.0">
+            <a class="btn primary" href="#topics">Start with harness engineering</a>
+            <div class="counter">
+              <span class="label">Inside the guide</span>
+              <div class="nums">
+                <div class="num" data-count="54">0<small>PAGES</small></div>
+                <div class="num" data-count="4">0<small>PRIMITIVES</small></div>
+                <div class="num" data-count="12">0<small>HEURISTICS</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat reveal"><div class="big">5</div><div class="label muted">Topics on the map</div></div>
+        <div class="stat reveal" data-delay="0.1"><div class="big">54pp</div><div class="label muted">Companion guide, free PDF</div></div>
+        <div class="stat reveal" data-delay="0.2"><div class="big">1</div><div class="label muted">Real repo per topic</div></div>
+      </div>
+      <p class="scrub" id="scrub">An agent without a harness is a <span class="em">guess generator.</span> An agent with a harness is a <span class="em">force multiplier.</span></p>
+    </div>
+  </section>
+
+  <section class="band" id="topics">
+    <div class="wrap">
+      <div class="label reveal">Harness engineering</div>
+      <h2 class="blur-in">The four primitives</h2>
+      <p class="sub reveal">Every harness, whatever the project, is built from the same four parts.</p>
+      <div class="prims">
+        <div class="prim fly" style="--c: var(--context)" data-rot="-6"><div class="label">01</div><h3>Context</h3><p>What the agent reads: CLAUDE.md, docs/, ADRs.</p></div>
+        <div class="prim fly" style="--c: var(--constraints)" data-rot="-2"><div class="label">02</div><h3>Constraints</h3><p>What stops mistakes: linters, hooks, checks.</p></div>
+        <div class="prim fly" style="--c: var(--capabilities)" data-rot="2"><div class="label">03</div><h3>Capabilities</h3><p>Reusable procedures: skills and scripts.</p></div>
+        <div class="prim fly" style="--c: var(--feedback)" data-rot="6"><div class="label">04</div><h3>Feedback loops</h3><p>How failures correct: tests, watch the loop.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="guide">
+    <div class="wrap">
+      <div class="label reveal">Why it matters</div>
+      <h2 class="blur-in">Prose drifts. Checks don't.</h2>
+      <p class="sub reveal">If a rule matters, make it mechanical.</p>
+      <div class="compare">
+        <div class="cmp reveal"><div class="label muted" style="color:var(--text)">Without a harness</div>
+          <ul><li>Every session starts with re-explaining</li><li>The same mistakes keep coming back</li><li>Decisions live in old chat logs</li></ul></div>
+        <div class="cmp win reveal" data-delay="0.15"><div class="label">With a harness</div>
+          <ul><li>A fresh agent gets its bearings in a minute</li><li>Checks fail loudly, with the fix in the message</li><li>The repo is the source of truth</li></ul></div>
+      </div>
+      <div class="quote reveal"><p>"Every agent mistake is a harness improvement waiting to be made."</p><div class="label muted">Heuristic 11 · Compound the fixes</div></div>
+    </div>
+  </section>
+
+  <section class="band" id="faq">
+    <div class="wrap">
+      <div class="label reveal" style="color: var(--violet)">FAQ</div>
+      <h2 class="blur-in">Just keep building</h2>
+      <details class="reveal"><summary>Who is this site for?</summary><p>Engineers already building with AI who want the practical engineering, not the hype.</p></details>
+      <details class="reveal"><summary>Is the guide free?</summary><p>Yes. Every topic's companion PDF is a free download.</p></details>
+      <details class="reveal"><summary>When are the other topics coming?</summary><p>One at a time. Each goes live once its explainer, guide and repo are all ready.</p></details>
+    </div>
+  </section>
+
+  <section class="band alt cta">
+    <div class="wrap">
+      <div class="label reveal">Topic 1 · Harness engineering</div>
+      <h2 class="blur-in">Leave with a better harness</h2>
+      <p class="sub reveal">The patterns work with whatever agent and stack you already use.</p>
+      <div class="row reveal"><a class="btn primary" href="#">Download the guide</a><a class="btn ghost" href="#">View on GitHub</a></div>
+      <div class="fine label"><a href="#">Javier Sandino</a><a href="#">github.com/jsandino</a></div>
+      <canvas id="pixels"></canvas>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+  import { animate, inView, scroll } from "https://cdn.jsdelivr.net/npm/motion@12/+esm";
+
+  document.getElementById('toggle').onclick = () => document.documentElement.classList.toggle('dark');
+  const motionOK = document.documentElement.classList.contains('js');
+  const spring = { type: "spring", bounce: 0, duration: 1.2 };
+  const delayOf = el => parseFloat(el.dataset.delay || 0);
+
+  if (motionOK) {
+    // Fade up 26px (reference: y 26 → 0, spring 1.2s, no bounce)
+    inView(".reveal", el => { animate(el, { opacity: [0, 1], y: [26, 0] }, { ...spring, delay: delayOf(el) }); }, { amount: 0.3 });
+    animate(".grid", { opacity: [0, 1] }, { duration: 1.5, delay: 0.1 });
+    // Blur-in headings (reference: blur 10px → 0)
+    inView(".blur-in", el => {
+      animate(el, { opacity: [0, 1], filter: ["blur(10px)", "blur(0px)"], y: [12, 0] }, { ...spring, delay: delayOf(el) });
+    }, { amount: 0.5 });
+    // Cards fly in from below, rotated (reference: y 214, rotate ±8 → 0)
+    inView(".prims", grid => {
+      grid.querySelectorAll(".fly").forEach((el, i) => {
+        animate(el, { opacity: [0, 1], y: [214, 0], rotate: [parseFloat(el.dataset.rot), 0] }, { ...spring, delay: 0.1 + i * 0.1 });
+      });
+    }, { amount: 0.2 });
+    // Line art draws itself
+    document.querySelectorAll(".art .draw").forEach((el, i) => {
+      const len = Math.ceil(el.getTotalLength());
+      el.style.strokeDasharray = len;
+      el.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+                 { duration: 1400, delay: 500 + i * 70, easing: "ease-in-out", fill: "both" });
+    });
+    // Counters tick up
+    document.querySelectorAll("[data-count]").forEach(el => {
+      const small = el.querySelector("small").outerHTML;
+      animate(0, +el.dataset.count, { duration: 1.6, delay: 1.1, ease: "easeOut",
+        onUpdate: v => el.innerHTML = Math.round(v) + small });
+    });
+  } else {
+    document.querySelectorAll("[data-count]").forEach(el => el.firstChild.textContent = el.dataset.count);
+  }
+
+  // Scroll-linked word highlight (reference: grey words light up)
+  const p = document.getElementById("scrub");
+  const words = [];
+  const parts = [...p.childNodes].map(n => ({ text: n.textContent, em: n.nodeType === 1 }));
+  p.textContent = "";
+  parts.forEach(({ text, em }) => text.split(/(\s+)/).forEach(t => {
+    if (!t) return;
+    if (!t.trim()) { p.append(t); return; }
+    const s = document.createElement("span"); s.textContent = t;
+    if (em) s.className = "em";
+    p.append(s); words.push(s);
+  }));
+  if (motionOK) {
+    scroll(progress => words.forEach((w, i) => w.style.opacity = progress * words.length > i ? 1 : 0.28),
+           { target: p, offset: ["start 0.85", "end 0.45"] });
+  } else words.forEach(w => w.style.opacity = 1);
+
+  // Pixel field (reference footer): twinkling emerald squares
+  const c = document.getElementById("pixels"), ctx = c.getContext("2d");
+  const resize = () => { c.width = c.clientWidth * devicePixelRatio; c.height = c.clientHeight * devicePixelRatio; };
+  resize(); addEventListener("resize", resize);
+  const cell = 9 * devicePixelRatio;
+  function draw(t) {
+    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent-strong").trim();
+    ctx.clearRect(0, 0, c.width, c.height);
+    const cols = Math.floor(c.width / cell), rows = Math.floor(c.height / cell);
+    for (let x = 0; x < cols; x++) for (let y = 0; y < rows; y++) {
+      const dx = (x - cols / 2) / (cols / 2), dy = (y - rows) / rows;
+      const fall = Math.max(0, 1 - Math.hypot(dx * 1.05, dy * 1.4));
+      const h = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453 % 1;
+      const tw = motionOK ? (Math.sin(t / 900 + h * 40) + 1) / 2 : 0.5;
+      if (Math.abs(h) < fall * 0.35) {
+        ctx.globalAlpha = fall * (0.25 + 0.75 * tw);
+        ctx.fillStyle = accent;
+        ctx.fillRect(x * cell, y * cell, cell * 0.45, cell * 0.45);
+      }
+    }
+    if (motionOK) requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+</script>
+</body>
+</html>
