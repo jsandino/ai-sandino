@@ -9,12 +9,13 @@ about what the project *is* lives here.
 ## Current status
 
 > **Phase:** Harness foundation
-> **In progress:** CI workflow: build, links, Lighthouse, PDF freshness (branch `ci/pr-workflow`)
-> **Next step:** After merge, add the `site` and `pdf` required checks to `protect-main`; then the tooling PR (Prettier, ESLint, `astro check`, npm block)
+> **Done:** context layer (`CLAUDE.md`, `docs/`, ADRs 0001–0010), PDF pipeline + hook, CI gates (`site`, `pdf`) required on `main`
+> **Next step:** Tooling PR: Prettier, ESLint, `astro check` (layers 1–2) and the `.claude/settings.json` command block
 > **Open questions:** none
 
-Update this block in the same commit as the work that changes it. Keep the
-four fields; keep each to one line.
+Every PR updates this block to describe the state **after it merges** (not
+while it is open), so `main` is never stale. Keep the four fields; keep each
+to one line.
 
 ---
 
