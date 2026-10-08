@@ -7,8 +7,11 @@ scripts report what is missing and stop.
 
 | Tool | Version | Install (macOS) |
 |---|---|---|
-| Node.js | ≥ 22.12.0 (from `package.json` `engines`) | `nvm install 22` or [nodejs.org](https://nodejs.org) |
+| Node.js | 22.x, ≥ 22.12.0 (pinned in `.nvmrc`) | `nvm install && nvm use` (reads `.nvmrc`), or [nodejs.org](https://nodejs.org) |
 | make | any | Ships with Xcode Command Line Tools: `xcode-select --install` |
+| Google Chrome | current | Needed by `make lighthouse`; set `CHROME_PATH` if it's installed somewhere unusual |
+
+Then run `make ci` to install the project's dependencies and git hooks.
 
 ## PDF guides only
 

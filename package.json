@@ -20,6 +20,10 @@
     "esbuild": true
   },
   "devDependencies": {
-    "lefthook": "^2.1.16"
+    "@lhci/cli": "^0.15.1",
+    "@untitaker/hyperlink": "^0.3.2",
+    "lefthook": "^2.1.16",
+    "remark-cli": "^12.0.1",
+    "remark-validate-links": "^13.1.0"
   }
 }

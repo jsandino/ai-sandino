@@ -9,8 +9,8 @@ about what the project *is* lives here.
 ## Current status
 
 > **Phase:** Harness foundation
-> **In progress:** `CLAUDE.md`, `docs/`, first ADRs (branch `docs/harness-foundation`)
-> **Next step:** Kickoff step 5: propose the CI workflow
+> **In progress:** CI workflow: build, links, Lighthouse, PDF freshness (branch `ci/pr-workflow`)
+> **Next step:** After merge, add the `site` and `pdf` required checks to `protect-main`; then the tooling PR (Prettier, ESLint, `astro check`, npm block)
 > **Open questions:** none
 
 Update this block in the same commit as the work that changes it. Keep the
