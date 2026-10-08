@@ -32,3 +32,5 @@ kept so the project never re-investigates a question it has already answered.
 | # | Title | Date | Status |
 |---|---|---|---|
 | [0001](0001-pr-description-template.md) | PR description templates and Conventional Commit PR titles | 2026-10-07 | Current |
+| [0002](0002-link-checking.md) | Internal link and anchor checking in CI | 2026-10-08 | Current |
+| [0003](0003-lighthouse-ci.md) | Lighthouse CI for the static build, without public upload | 2026-10-08 | Current |
