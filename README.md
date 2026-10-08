@@ -11,6 +11,14 @@ explained through interactive pages, companion PDF guides and working code.
 | The Transformer architecture: a deep dive | Coming soon |
 | Building an autonomous agent with Google's ADK | Coming soon |
 
+## Quick start
+
+```bash
+make ci      # install dependencies from the lockfile
+make dev     # local dev server
+make help    # every other command
+```
+
 ## Working on the project
 
 Everything about how the project works (architecture, design system,

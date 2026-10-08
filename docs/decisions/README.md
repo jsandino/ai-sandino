@@ -40,3 +40,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0007](0007-hand-written-topic-pages.md) | Write topic pages by hand, using the guide as a reference | Accepted (provisional) |
 | [0008](0008-flat-urls-and-topics-data.md) | Use flat URLs, with `topics.ts` as the single source | Accepted |
 | [0009](0009-visual-language.md) | Base the visual language on the AI Dev reference | Accepted |
+| [0010](0010-ci-checks-and-gates.md) | CI checks and their gates | Accepted |

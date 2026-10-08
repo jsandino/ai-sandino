@@ -1,0 +1,48 @@
+# CI: runs on every PR to main. Every step is a make target, so anything
+# that fails here can be reproduced locally with the same command.
+# Required checks (ruleset protect-main): "site" and "pdf".
+# Rationale: docs/decisions/0010-ci-checks-and-gates.md
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    name: site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: make ci
+      - run: make build
+      - run: make linkcheck
+      - run: make lighthouse
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+
+  pdf:
+    name: pdf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - run: make pdf-check
