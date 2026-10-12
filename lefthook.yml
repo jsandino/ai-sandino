@@ -3,7 +3,7 @@
 
 pre-commit:
   # `jobs` run in the order written: format before lint, because both
-  # rewrite the staged files.
+  # rewrite the staged files; types last, on the final contents.
   jobs:
     - name: format
       # Formats only the staged files Prettier handles, then re-stages them.
@@ -15,6 +15,11 @@ pre-commit:
       glob: '*.{astro,ts,js,mjs,cjs}'
       run: bash scripts/lint.sh fix {staged_files}
       stage_fixed: true
+    - name: types
+      # Checks the whole project (astro check takes no file list), but only
+      # when code is staged. Reads files only, so nothing to re-stage.
+      glob: '*.{astro,ts,js,mjs,cjs}'
+      run: bash scripts/typecheck.sh
     - name: build-pdf
       # Only runs when guide source is staged; the script decides whether
       # the staged PDF is already current or needs a rebuild.
