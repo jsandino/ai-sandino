@@ -1,4 +1,4 @@
-.PHONY: help ci install dev-install uninstall dev build format format-check linkcheck lighthouse pdf-check pdf clean merged
+.PHONY: help ci install dev-install uninstall dev build format format-check lint lint-fix linkcheck lighthouse pdf-check pdf clean merged
 
 help: ## List all targets
 	@bash scripts/make-help.sh Makefile
@@ -32,6 +32,12 @@ format: ## Format code and config with Prettier (rewrites files)
 
 format-check: ## Fail if any file is not formatted (CI)
 	@bash scripts/format.sh check
+
+lint: ## Fail on any ESLint error or warning (CI)
+	@bash scripts/lint.sh check
+
+lint-fix: ## Apply ESLint's automatic fixes (rewrites files)
+	@bash scripts/lint.sh fix
 
 linkcheck: ## Check internal links and anchors in dist/ and the repo's Markdown
 	@bash scripts/linkcheck.sh
