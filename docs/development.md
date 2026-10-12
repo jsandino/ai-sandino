@@ -25,6 +25,7 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make format-check` | Fail if any file is not formatted (CI) |
 | `make lint` | Fail on any ESLint error or warning (CI) |
 | `make lint-fix` | Apply ESLint's automatic fixes (rewrites files) |
+| `make typecheck` | `astro check` on the whole project; fails on errors or warnings |
 | `make linkcheck` | Internal links and anchors in `dist/` and the repo's Markdown |
 | `make lighthouse` | Lighthouse audit of `dist/` against the score thresholds |
 | `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
@@ -86,7 +87,7 @@ Each layer catches a different class of mistake, as early as possible.
 | Layer | Tool | Runs on | Status |
 |---|---|---|---|
 | L1: format & lint | Prettier (Astro + Tailwind plugins), ESLint (`eslint-plugin-astro`) | Pre-commit with auto-fix; CI in check mode | available (Prettier skips Markdown, see `.prettierignore`) |
-| L2: types | `astro check` (strict TS) | Pre-commit + CI | planned (tooling PR) |
+| L2: types | `astro check` (strict TS; TypeScript 6.x per [ADR 0011](decisions/0011-pin-typescript-6.md)) | Pre-commit + CI | available |
 | L3: project checks | Scripts in `tools/` | Pre-commit + CI | Added only when a rule earns one |
 | L4: tests | none yet; Vitest arrives with the D3 graph | none | The Astro build is the test for now |
 | CI gates | build, links, Lighthouse, PDF freshness (see [CI](#ci)) | Every PR | available |

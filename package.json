@@ -20,6 +20,7 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.15.1",
     "@untitaker/hyperlink": "^0.3.2",
