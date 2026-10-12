@@ -90,7 +90,7 @@ Each layer catches a different class of mistake, as early as possible.
 | L2: types | `astro check` (strict TS; TypeScript 6.x per [ADR 0011](decisions/0011-pin-typescript-6.md)) | Pre-commit + CI | available |
 | L3: project checks | Scripts in `tools/` | Pre-commit + CI | Added only when a rule earns one |
 | L4: tests | none yet; Vitest arrives with the D3 graph | none | The Astro build is the test for now |
-| CI gates | build, links, Lighthouse, PDF freshness (see [CI](#ci)) | Every PR | available |
+| CI gates | format, lint, types, build, links, Lighthouse, PDF freshness (see [CI](#ci)) | Every PR | available |
 | PDF freshness | `scripts/precommit-build-pdf.sh` | Pre-commit | available |
 
 Hooks are defined in `lefthook.yml` and installed automatically when the
@@ -127,7 +127,7 @@ target, so any failure can be reproduced locally with the same command.
 
 | Job | Steps | Notes |
 |---|---|---|
-| `site` | `make ci` → `make build` → `make linkcheck` → `make lighthouse` | Lighthouse reports are uploaded as the `lighthouse-reports` artifact, even on failure |
+| `site` | `make ci` → `make format-check` → `make lint` → `make typecheck` → `make build` → `make linkcheck` → `make lighthouse` | Lighthouse reports are uploaded as the `lighthouse-reports` artifact, even on failure |
 | `pdf` | `make pdf-check` | Checks out full history (`fetch-depth: 0`) to compare commit order |
 
 **Link check:** internal links and anchors only, in `dist/` (hyperlink) and
