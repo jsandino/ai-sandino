@@ -1,4 +1,4 @@
-.PHONY: help ci install dev-install uninstall dev build linkcheck lighthouse pdf-check pdf clean merged
+.PHONY: help ci install dev-install uninstall dev build format format-check linkcheck lighthouse pdf-check pdf clean merged
 
 help: ## List all targets
 	@bash scripts/make-help.sh Makefile
@@ -26,6 +26,12 @@ build: ## Build the production site into dist/
 	npm run build
 
 # --- Checks (CI runs these on every PR) ------------------------------------
+
+format: ## Format code and config with Prettier (rewrites files)
+	@bash scripts/format.sh write
+
+format-check: ## Fail if any file is not formatted (CI)
+	@bash scripts/format.sh check
 
 linkcheck: ## Check internal links and anchors in dist/ and the repo's Markdown
 	@bash scripts/linkcheck.sh

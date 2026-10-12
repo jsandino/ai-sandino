@@ -21,6 +21,8 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make uninstall PKG=x` | `npm uninstall x` |
 | `make dev` | Astro dev server |
 | `make build` | Production build into `dist/` |
+| `make format` | Format code and config with Prettier (rewrites files) |
+| `make format-check` | Fail if any file is not formatted (CI) |
 | `make linkcheck` | Internal links and anchors in `dist/` and the repo's Markdown |
 | `make lighthouse` | Lighthouse audit of `dist/` against the score thresholds |
 | `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
@@ -81,7 +83,7 @@ Each layer catches a different class of mistake, as early as possible.
 
 | Layer | Tool | Runs on | Status |
 |---|---|---|---|
-| L1: format & lint | Prettier (Astro + Tailwind plugins), ESLint (`eslint-plugin-astro`) | Pre-commit with auto-fix; CI in check mode | planned (tooling PR) |
+| L1: format & lint | Prettier (Astro + Tailwind plugins), ESLint (`eslint-plugin-astro`) | Pre-commit with auto-fix; CI in check mode | Prettier available (code and config; Markdown excluded, see `.prettierignore`); ESLint planned (tooling PR) |
 | L2: types | `astro check` (strict TS) | Pre-commit + CI | planned (tooling PR) |
 | L3: project checks | Scripts in `tools/` | Pre-commit + CI | Added only when a rule earns one |
 | L4: tests | none yet; Vitest arrives with the D3 graph | none | The Astro build is the test for now |
@@ -92,6 +94,11 @@ Hooks are defined in `lefthook.yml` and installed automatically when the
 project's dependencies are installed. When a check fails, its message says
 what rule broke, where, why, and how to fix it. Fix the cause; never
 `--no-verify` around it.
+
+If a commit fails with "failed to save unstaged changes", a file has both
+staged and unstaged edits (a Lefthook bug with `git diff --output`). Stage
+the whole file (`git add <file>`), or set the unstaged edits aside, then
+commit again.
 
 ### The PDF hook
 

@@ -1,0 +1,16 @@
+# Generated or vendored
+dist/
+build/
+.astro/
+.lighthouseci/
+package-lock.json
+public/
+
+# Authored content, not code (CLAUDE.md: never edit without being asked)
+src/content/harness-guide/
+# Frozen mood board (docs/README.md#documentation-conventions)
+docs/design/style-sample.html
+
+# Markdown is left as written: Prettier re-pads whole tables on any cell
+# edit, which makes docs diffs noisy. Links are guarded by make linkcheck.
+*.md
