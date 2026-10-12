@@ -26,6 +26,7 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
 | `make pdf` | Rebuild `public/harness-guide.pdf` |
 | `make clean` | Remove `build/` intermediates (keeps the committed PDF) |
+| `make merged` | After a PR merges: switch to `main`, pull, delete the branch (see [Git workflow](#git-workflow)) |
 | `make help` | List targets |
 
 ### Conventions
@@ -53,7 +54,11 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
    an imperative title, then one paragraph on **why**.
 3. Push and open a PR. CI runs, and Cloudflare posts a preview deploy.
 4. Javier reviews and merges (**rebase merge**). Agents never merge.
-5. `main` is protected: no direct pushes, and CI must pass before merging.
+   GitHub deletes the remote branch automatically.
+5. Clean up with `make merged` (from the Claude console: `!make merged`).
+   It checks the PR is merged, switches to `main`, fast-forwards it and
+   deletes the local branch. Already on `main`? `make merged BRANCH=<name>`.
+6. `main` is protected: no direct pushes, and CI must pass before merging.
 
 ### Branch protection
 

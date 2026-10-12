@@ -9,6 +9,7 @@ scripts report what is missing and stop.
 |---|---|---|
 | Node.js | 24.x (pinned in `.nvmrc`; CI uses the same file) | `nvm install && nvm use` (reads `.nvmrc`), or [nodejs.org](https://nodejs.org) |
 | make | any | Ships with Xcode Command Line Tools: `xcode-select --install` |
+| GitHub CLI (`gh`) | any, signed in | `brew install gh && gh auth login`; used by `make merged` |
 | Google Chrome | current | Needed by `make lighthouse`; set `CHROME_PATH` if it's installed somewhere unusual |
 
 Then run `make ci` to install the project's dependencies and git hooks.
