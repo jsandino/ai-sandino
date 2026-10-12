@@ -1,4 +1,4 @@
-.PHONY: help ci install dev-install uninstall dev build linkcheck lighthouse pdf-check pdf clean
+.PHONY: help ci install dev-install uninstall dev build linkcheck lighthouse pdf-check pdf clean merged
 
 help: ## List all targets
 	@bash scripts/make-help.sh Makefile
@@ -44,3 +44,8 @@ pdf: ## Rebuild public/harness-guide.pdf (Mermaid pre-render, then pandoc)
 
 clean: ## Remove build/ intermediates (keeps the committed PDF)
 	rm -rf build
+
+# --- Git --------------------------------------------------------------------
+
+merged: ## After a PR merges: switch to main, pull, delete the branch [BRANCH=<name>]
+	@bash scripts/merged.sh $(BRANCH)
