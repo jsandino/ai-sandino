@@ -92,6 +92,7 @@ Each layer catches a different class of mistake, as early as possible.
 | L4: tests | none yet; Vitest arrives with the D3 graph | none | The Astro build is the test for now |
 | CI gates | format, lint, types, build, links, Lighthouse, PDF freshness (see [CI](#ci)) | Every PR | available |
 | PDF freshness | `scripts/precommit-build-pdf.sh` | Pre-commit | available |
+| Agent commands | `.claude/settings.json` denies direct `npm`/`npx`/`pnpm`/`yarn`, so agents go through `make`; a guard rail, not a security boundary | Every agent session | available |
 
 Hooks are defined in `lefthook.yml` and installed automatically when the
 project's dependencies are installed. When a check fails, its message says
