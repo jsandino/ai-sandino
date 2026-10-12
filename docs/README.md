@@ -9,9 +9,9 @@ about what the project *is* lives here.
 ## Current status
 
 > **Phase:** Harness foundation
-> **Done:** context layer (`CLAUDE.md`, `docs/`, ADRs 0001–0010), PDF pipeline + hook, CI gates (`site`, `pdf`) required on `main`
-> **Next step:** Tooling PR: Prettier, ESLint, `astro check` (layers 1–2) and the `.claude/settings.json` command block
-> **Open questions:** none
+> **Done:** context layer (`CLAUDE.md`, `docs/`, ADRs 0001–0011), PDF pipeline + hook, CI gates (`site`, `pdf`) required on `main`, L1–L2 checks (Prettier, ESLint, `astro check`) in hooks and CI
+> **Next step:** Agent permissions PR: `.claude/settings.json` deny rules for direct npm/npx (separate from the tooling PR)
+> **Open questions:** settings file scope: deny rules only, or also allow `make *`? (recommendation: deny only)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Keep the four fields; keep each
