@@ -41,3 +41,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0008](0008-flat-urls-and-topics-data.md) | Use flat URLs, with `topics.ts` as the single source | Accepted |
 | [0009](0009-visual-language.md) | Base the visual language on the AI Dev reference | Accepted |
 | [0010](0010-ci-checks-and-gates.md) | CI checks and their gates | Accepted |
+| [0011](0011-pin-typescript-6.md) | Pin TypeScript to 6.x while `astro check` needs it | Accepted |
