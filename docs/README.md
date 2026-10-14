@@ -8,10 +8,10 @@ about what the project *is* lives here.
 
 ## Current status
 
-> **Phase:** Harness foundation
-> **Done:** context layer (`CLAUDE.md`, `docs/`, ADRs 0001–0011), PDF pipeline + hook, CI gates (`site`, `pdf`) required on `main`, L1–L2 checks (Prettier, ESLint, `astro check`) in hooks and CI
-> **Next step:** Agent permissions PR: `.claude/settings.json` deny rules for direct npm/npx (separate from the tooling PR)
-> **Open questions:** settings file scope: deny rules only, or also allow `make *`? (recommendation: deny only)
+- **Phase:** Site v1: shared shell, landing page, Harness Engineering page
+- **Done:** harness foundation (context layer, ADRs 0001–0011, PDF pipeline, CI gates, L1–L2 checks, agent npm block); page briefs
+- **Next step:** Build the shared shell; read [`briefs/shell.md`](briefs/shell.md) and settle its open questions first
+- **Open questions:** shell header and footer contents, social preview image (in `briefs/shell.md`)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Keep the four fields; keep each
@@ -52,6 +52,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 | How the site is put together: routes, topic data, pages, PDF pipeline, repo layout | [`architecture.md`](architecture.md) |
 | What we use and why | [`tech-stack.md`](tech-stack.md) |
 | Colours, fonts, components, animation | [`design-system.md`](design-system.md) |
+| Building a page or the shared shell: what it must contain, acceptance criteria, open questions | [`briefs/`](briefs/) (`shell.md`, `landing.md`, `harness-engineering.md`) |
 | Running, building, checking; `make`; git workflow; hooks and CI | [`development.md`](development.md) |
 | Tools to install locally (PDF toolchain, Node) | [`prerequisites.md`](prerequisites.md) |
 | Why something is the way it is | [`decisions/`](decisions/README.md) |
@@ -65,6 +66,16 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
   Each has one job; if a fact fits two docs, it lives in one and the other
   links to it.
 - **`decisions/`** holds ADRs: immutable records of non-obvious decisions.
+- **`briefs/`** holds one brief per page (plus the shared shell): purpose,
+  required content, acceptance criteria and open questions. A brief is a
+  work order, not a living doc:
+  - Write it just in time, as its own step and PR (not inside a build PR).
+  - Answer its open questions in the brief ("Decided: …") before building;
+    add an ADR if an answer is non-obvious and spans pages.
+  - The PR that builds the page sets its **Status** to `Built (PR #N)`; it is
+    then frozen. A later redesign gets a new brief.
+  - **Current status's "Next step" always points at a ready brief.** If none
+    exists, the next step is writing one.
 - **`design/`** holds visual references. `style-sample.html` is a frozen
   mood board; `design-system.md` is the source of truth.
 - **`/research/`** at the repo root holds summaries from the researcher
