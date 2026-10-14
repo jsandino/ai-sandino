@@ -95,7 +95,13 @@ Each layer catches a different class of mistake, as early as possible.
 | Agent commands | `.claude/settings.json` denies direct `npm`/`npx`/`pnpm`/`yarn`, so agents go through `make`; a guard rail, not a security boundary | Every agent session | available |
 
 Hooks are defined in `lefthook.yml` and installed automatically when the
-project's dependencies are installed. When a check fails, its message says
+project's dependencies are installed (`make ci`). That relies on
+`allowScripts` in `package.json`: the npm that ships with Node 24 runs a
+package's install script only if it is listed there with `true`, and
+warns about any it doesn't list. Lefthook's script installs the hooks,
+and hyperlink's downloads its link-checker binary. `fsevents` is `false`
+because it ships prebuilt and its script would only recompile it. When a
+check fails, its message says
 what rule broke, where, why, and how to fix it. Fix the cause; never
 `--no-verify` around it.
 

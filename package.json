@@ -17,7 +17,10 @@
     "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "lefthook": true,
+    "@untitaker/hyperlink": true,
+    "fsevents": false
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
