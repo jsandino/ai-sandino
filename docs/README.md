@@ -1,4 +1,4 @@
-# ai-sandino — Documentation
+# Documentation
 
 This directory is the **system of record** for ai-sandino.
 [`CLAUDE.md`](../CLAUDE.md) at the repo root says how to behave; everything
@@ -8,14 +8,12 @@ about what the project *is* lives here.
 
 ## Current status
 
-- **Phase:** Site v1: shared shell, landing page, Harness Engineering page
-- **Done:** harness foundation (context layer, ADRs 0001–0011, PDF pipeline, CI gates, L1–L2 checks, agent npm block); page briefs
-- **Next step:** Build the shared shell; read [`briefs/shell.md`](briefs/shell.md) and settle its open questions first
-- **Open questions:** shell header and footer contents, social preview image (in `briefs/shell.md`)
+- **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
+- **Next step:** 2 — Header formatting (see the phase file)
 
 Every PR updates this block to describe the state **after it merges** (not
-while it is open), so `main` is never stale. Keep the four fields; keep each
-to one line.
+while it is open), so `main` is never stale. Two fields, one line each:
+everything else lives in the phase file and its briefs.
 
 ---
 
@@ -52,6 +50,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 | How the site is put together: routes, topic data, pages, PDF pipeline, repo layout | [`architecture.md`](architecture.md) |
 | What we use and why | [`tech-stack.md`](tech-stack.md) |
 | Colours, fonts, components, animation | [`design-system.md`](design-system.md) |
+| What work is planned, in what order, and what's done | [`roadmap/`](roadmap/README.md) |
 | Building a page or the shared shell: what it must contain, acceptance criteria, open questions | [`briefs/`](briefs/) (`shell.md`, `landing.md`, `harness-engineering.md`) |
 | Running, building, checking; `make`; git workflow; hooks and CI | [`development.md`](development.md) |
 | Tools to install locally (PDF toolchain, Node) | [`prerequisites.md`](prerequisites.md) |
@@ -66,16 +65,21 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
   Each has one job; if a fact fits two docs, it lives in one and the other
   links to it.
 - **`decisions/`** holds ADRs: immutable records of non-obvious decisions.
+- **`roadmap/`** holds one file per phase: its goal, ordered steps and their
+  status, with links to the briefs. Rules and the phase index are in its
+  README.
 - **`briefs/`** holds one brief per page (plus the shared shell): purpose,
-  required content, acceptance criteria and open questions. A brief is a
-  work order, not a living doc:
+  required content, acceptance criteria and open questions. Its **Status**
+  is **Draft** (open questions remain), **Ready** (none remain, and every
+  criterion maps to a check or "human review"; a `<<loop>>` may start), or
+  **Done (PR #N)**. A brief is a work order, not a living doc:
   - Write it just in time, as its own step and PR (not inside a build PR).
   - Answer its open questions in the brief ("Decided: …") before building;
     add an ADR if an answer is non-obvious and spans pages.
-  - The PR that builds the page sets its **Status** to `Built (PR #N)`; it is
+  - The PR that builds the page sets its **Status** to `Done (PR #N)`; it is
     then frozen. A later redesign gets a new brief.
-  - **Current status's "Next step" always points at a ready brief.** If none
-    exists, the next step is writing one.
+  - **A phase step that builds a page links a Ready brief before it
+    starts.** If none exists, writing it comes first, as its own step.
 - **`design/`** holds visual references. `style-sample.html` is a frozen
   mood board; `design-system.md` is the source of truth.
 - **`/research/`** at the repo root holds summaries from the researcher
