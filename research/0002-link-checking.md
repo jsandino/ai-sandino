@@ -1,10 +1,10 @@
 # 0002 — Internal link and anchor checking in CI
 
-**Date:** 2026-10-08
-**Status:** Current
-**Question:** Which npm-installable tool should check internal links and
-`#anchor` fragments in the built site (`dist/`) and in the repo's Markdown,
-offline and without flaky external links?
+- **Date:** 2026-10-08
+- **Status:** Current
+- **Question:** Which npm-installable tool should check internal links and
+  `#anchor` fragments in the built site (`dist/`) and in the repo's Markdown,
+  offline and without flaky external links?
 
 ---
 

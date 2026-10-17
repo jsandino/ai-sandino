@@ -1,8 +1,8 @@
 # NNNN — [Short title in imperative form]
 
-**Status:** Proposed | Accepted | Superseded by [NNNN-slug]
-**Date:** YYYY-MM-DD
-**Supersedes:** NNNN-slug  ← include only if this replaces a prior ADR
+- **Status:** Proposed | Accepted | Superseded by [NNNN-slug]
+- **Date:** YYYY-MM-DD
+- **Supersedes:** NNNN-slug  ← include only if this replaces a prior ADR
 
 ---
 

@@ -1,7 +1,7 @@
 # 0001 — Use Lefthook for git hooks
 
-**Status:** Accepted
-**Date:** 2026-10-01
+- **Status:** Accepted
+- **Date:** 2026-10-01
 
 ---
 

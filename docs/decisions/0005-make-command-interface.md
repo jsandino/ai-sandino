@@ -1,7 +1,7 @@
 # 0005 — Use make as the only command interface
 
-**Status:** Accepted
-**Date:** 2026-10-07
+- **Status:** Accepted
+- **Date:** 2026-10-07
 
 ---
 

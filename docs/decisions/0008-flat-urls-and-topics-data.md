@@ -1,7 +1,7 @@
 # 0008 — Use flat URLs, with `topics.ts` as the single source
 
-**Status:** Accepted
-**Date:** 2026-10-06
+- **Status:** Accepted
+- **Date:** 2026-10-06
 
 ---
 

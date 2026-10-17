@@ -1,7 +1,7 @@
 # 0012 — Adopt agent autonomy in stages
 
-**Status:** Accepted
-**Date:** 2026-10-14
+- **Status:** Accepted
+- **Date:** 2026-10-14
 
 ---
 

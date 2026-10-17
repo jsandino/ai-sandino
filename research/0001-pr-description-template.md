@@ -1,9 +1,9 @@
 # 0001 — PR description templates and Conventional Commit PR titles
 
-**Date:** 2026-10-07
-**Status:** Current
-**Question:** What is a good standard PR description template, and how
-should PR titles follow Conventional Commits?
+- **Date:** 2026-10-07
+- **Status:** Current
+- **Question:** What is a good standard PR description template, and how
+  should PR titles follow Conventional Commits?
 
 ---
 

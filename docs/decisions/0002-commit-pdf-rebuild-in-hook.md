@@ -1,7 +1,7 @@
 # 0002 — Commit the built PDF and rebuild it in a pre-commit hook
 
-**Status:** Accepted
-**Date:** 2026-10-02
+- **Status:** Accepted
+- **Date:** 2026-10-02
 
 ---
 

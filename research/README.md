@@ -14,9 +14,9 @@ kept so the project never re-investigates a question it has already answered.
   ```markdown
   # NNNN — <Title>
 
-  **Date:** YYYY-MM-DD
-  **Status:** Current | Superseded by NNNN-slug
-  **Question:** <the question that was researched>
+  - **Date:** YYYY-MM-DD
+  - **Status:** Current | Superseded by NNNN-slug
+  - **Question:** <the question that was researched>
 
   ---
   ```
