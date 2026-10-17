@@ -20,8 +20,9 @@ each kind of task.
   Fix the cause, or ask.
 - Never edit the guide source (`src/content/harness-guide/`) without being
   asked. It is authored content, not code.
-- Never edit an accepted ADR. Supersede it with a new one
-  ([`docs/decisions/`](docs/decisions/)).
+- Never change the substance of an accepted ADR or research summary:
+  supersede it with a new one. Formatting-only fixes are allowed when
+  Javier asks for them.
 - Never touch DNS, Cloudflare or GitHub settings. Propose the change and
   Javier applies it.
 

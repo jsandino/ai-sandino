@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-ADRs are short, immutable records of non-obvious decisions. Each one captures
+ADRs are short records of non-obvious decisions. Each one captures
 the context, the decision, the alternatives considered and the consequences.
 
 ## When to write one
@@ -16,9 +16,9 @@ belong in the relevant doc, not here.
 
 ## Rules
 
-- **Immutable.** Never edit an ADR after it is accepted. If a decision
-  changes, write a new ADR that supersedes it, and change only the old one's
-  **Status** line to `Superseded by NNNN-slug`.
+- **Superseded, not rewritten.** If a decision changes, write a new ADR that
+  supersedes it, and change only the old one's **Status** line to
+  `Superseded by NNNN-slug`.
 - **Indexed.** Every ADR appears in the table below before it is merged.
 - **Numbered.** Four-digit, zero-padded, sequential (`0001`, `0002`, …).
   Numbers are never reused.
