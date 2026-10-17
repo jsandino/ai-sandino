@@ -1,9 +1,9 @@
 # 0003 — Lighthouse CI for the static build, without public upload
 
-**Date:** 2026-10-08
-**Status:** Current
-**Question:** How should Lighthouse CI (`@lhci/cli`) audit the static Astro
-build on every PR, with score assertions, keeping reports private?
+- **Date:** 2026-10-08
+- **Status:** Current
+- **Question:** How should Lighthouse CI (`@lhci/cli`) audit the static Astro
+  build on every PR, with score assertions, keeping reports private?
 
 ---
 

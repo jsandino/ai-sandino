@@ -1,10 +1,10 @@
 # 0004 — Formatting, linting and type checking for Astro 7 + Tailwind v4
 
-**Date:** 2026-10-11
-**Status:** Current
-**Question:** How should Prettier, ESLint and `astro check` be set up for an
-Astro 7 + Tailwind v4 site, run from Lefthook pre-commit with auto-fix, and
-how can `.claude/settings.json` block direct `npm`/`npx` calls?
+- **Date:** 2026-10-11
+- **Status:** Current
+- **Question:** How should Prettier, ESLint and `astro check` be set up for an
+  Astro 7 + Tailwind v4 site, run from Lefthook pre-commit with auto-fix, and
+  how can `.claude/settings.json` block direct `npm`/`npx` calls?
 
 ---
 

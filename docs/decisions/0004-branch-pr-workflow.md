@@ -1,7 +1,7 @@
 # 0004 — Every change goes through a branch, a PR and a protected `main`
 
-**Status:** Accepted
-**Date:** 2026-10-02
+- **Status:** Accepted
+- **Date:** 2026-10-02
 
 ---
 

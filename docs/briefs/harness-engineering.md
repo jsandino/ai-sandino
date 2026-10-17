@@ -1,8 +1,10 @@
 # Brief — Harness Engineering topic page (`/harness-engineering`)
 
-**Status:** Draft · **Roadmap:** [phase 002](../roadmap/phase-002.md), step 8 · **Source:** kickoff "Harness Engineering topic
-page"; ADR 0007 (written by hand from the guide, provisional); ADR 0003
-(vanilla Motion); `design-system.md`
+- **Status:** Draft
+- **Roadmap:** [phase 002](../roadmap/phase-002.md), step 8
+- **Source:** kickoff "Harness Engineering topic page"; ADR 0007 (written
+  by hand from the guide, provisional); ADR 0003 (vanilla Motion);
+  `design-system.md`
 
 ## Purpose
 

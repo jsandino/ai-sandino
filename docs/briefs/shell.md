@@ -1,8 +1,10 @@
 # Brief — Shared shell
 
-**Status:** Draft · **Roadmap:** [phase 002](../roadmap/phase-002.md), steps 4–5 · **Source:** `design-system.md` (tokens, type,
-components, motion); `architecture.md` (routes, `topics.ts`, live ⇔ page
-check); ADR 0003 (vanilla Motion), ADR 0008, ADR 0009
+- **Status:** Draft
+- **Roadmap:** [phase 002](../roadmap/phase-002.md), steps 4–5
+- **Source:** `design-system.md` (tokens, type, components, motion);
+  `architecture.md` (routes, `topics.ts`, live ⇔ page check); ADR 0003
+  (vanilla Motion), ADR 0008, ADR 0009
 
 ## Purpose
 

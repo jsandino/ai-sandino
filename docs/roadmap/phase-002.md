@@ -1,7 +1,7 @@
 # Phase 002 — Autonomy foundations and Site v1
 
-**Status:** Current
-**Dates:** 2026-10-14 →
+- **Status:** Current
+- **Dates:** 2026-10-14 →
 
 ---
 
@@ -17,8 +17,8 @@ and the Harness Engineering page.
 | # | Step | Brief | Status |
 |---|---|---|---|
 | 1 | Staged autonomy: ADR 0012, the CLAUDE.md Approvals section (`<<loop>>`), this roadmap | — | Done |
-| 2 | Header formatting: one field per line (bullets) in every ADR, research summary and phase file, and in both templates; allow formatting-only fixes to ADRs and research | — | Next |
-| 3 | Test layers: Vitest and Playwright (with axe), `make` targets, hooks and CI; one smoke test each | — | Planned |
+| 2 | Header formatting: one field per line (bullets) in every ADR, research summary, phase file and brief, and in both templates; allow formatting-only fixes to ADRs and research | — | Done |
+| 3 | Test layers: Vitest and Playwright (with axe), `make` targets, hooks and CI; one smoke test each | — | Next |
 | 4 | Brief readiness: the rule (no open questions; every criterion maps to a check or "human review"); settle the shell brief's open questions | [shell](../briefs/shell.md) | Planned |
 | 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Planned |
 | 6 | Tune the harness from the shell run | — | Planned |

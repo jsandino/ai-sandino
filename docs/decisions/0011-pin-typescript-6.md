@@ -1,7 +1,7 @@
 # 0011 — Pin TypeScript to 6.x while `astro check` needs it
 
-**Status:** Accepted
-**Date:** 2026-10-11
+- **Status:** Accepted
+- **Date:** 2026-10-11
 
 ---
 

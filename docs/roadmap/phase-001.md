@@ -1,7 +1,7 @@
 # Phase 001 — Harness foundation
 
-**Status:** Done
-**Dates:** 2026-10-01 → 2026-10-14
+- **Status:** Done
+- **Dates:** 2026-10-01 → 2026-10-14
 
 ---
 

@@ -1,7 +1,7 @@
 # 0007 — Write topic pages by hand, using the guide as a reference
 
-**Status:** Accepted (provisional, see Consequences)
-**Date:** 2026-10-07
+- **Status:** Accepted (provisional, see Consequences)
+- **Date:** 2026-10-07
 
 ---
 

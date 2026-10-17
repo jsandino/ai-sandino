@@ -1,7 +1,7 @@
 # 0010 — CI checks and their gates
 
-**Status:** Accepted
-**Date:** 2026-10-08
+- **Status:** Accepted
+- **Date:** 2026-10-08
 
 ---
 

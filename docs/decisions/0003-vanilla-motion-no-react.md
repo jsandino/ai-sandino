@@ -1,7 +1,7 @@
 # 0003 — Use vanilla Motion, no React
 
-**Status:** Accepted
-**Date:** 2026-10-06
+- **Status:** Accepted
+- **Date:** 2026-10-06
 
 ---
 

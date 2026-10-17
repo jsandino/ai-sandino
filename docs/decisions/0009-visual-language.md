@@ -1,7 +1,7 @@
 # 0009 — Base the visual language on the AI Dev reference
 
-**Status:** Accepted
-**Date:** 2026-10-07
+- **Status:** Accepted
+- **Date:** 2026-10-07
 
 ---
 

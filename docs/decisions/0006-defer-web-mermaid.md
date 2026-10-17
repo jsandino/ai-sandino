@@ -1,7 +1,7 @@
 # 0006 — Put off rendering Mermaid on the web
 
-**Status:** Accepted
-**Date:** 2026-10-02
+- **Status:** Accepted
+- **Date:** 2026-10-02
 
 ---
 

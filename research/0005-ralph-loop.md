@@ -1,9 +1,9 @@
 # 0005 — Huntley's loop ("Ralph") and headless Claude Code
 
-**Date:** 2026-10-14
-**Status:** Current
-**Question:** What is Geoffrey Huntley's autonomous coding loop, how is it
-driven, and what keeps its output high quality?
+- **Date:** 2026-10-14
+- **Status:** Current
+- **Question:** What is Geoffrey Huntley's autonomous coding loop, how is it
+  driven, and what keeps its output high quality?
 
 ---
 
