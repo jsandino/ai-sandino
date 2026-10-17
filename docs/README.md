@@ -64,7 +64,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 - **Top-level docs** describe stable, long-lived properties of the project.
   Each has one job; if a fact fits two docs, it lives in one and the other
   links to it.
-- **`decisions/`** holds ADRs: immutable records of non-obvious decisions.
+- **`decisions/`** holds ADRs: records of non-obvious decisions.
 - **`roadmap/`** holds one file per phase: its goal, ordered steps and their
   status, with links to the briefs. Rules and the phase index are in its
   README.
@@ -89,7 +89,6 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 
 - Update **Current status** whenever the focus shifts.
 - Update docs **in the same commit** as the code they describe.
-- Never edit an accepted ADR; write a new one that supersedes it.
 - A significant change to `architecture.md` or `tech-stack.md` needs an ADR
   explaining why.
 - If a fresh session has to ask something these docs should answer, that's a
