@@ -13,6 +13,8 @@ export default defineConfig([
     'build/',
     '.astro/',
     '.lighthouseci/',
+    'test-results/',
+    'playwright-report/',
     'src/content/harness-guide/',
   ]),
   js.configs.recommended,

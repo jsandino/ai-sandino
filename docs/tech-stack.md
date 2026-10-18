@@ -15,6 +15,7 @@ What we use, and why in one line. The full reasoning is in the linked ADRs.
 | Git hooks | **Lefthook** | One config file listing every pre-commit check, installed through npm ([ADR 0001](decisions/0001-lefthook-for-git-hooks.md)) |
 | CI | **GitHub Actions** | Runs on every PR (see [`development.md`](development.md#ci)) |
 | CI checks | **hyperlink**, **remark-validate-links**, **Lighthouse CI** | Internal links and anchors in the built site and the docs; performance, accessibility and SEO gates. All npm devDependencies ([ADR 0010](decisions/0010-ci-checks-and-gates.md)) |
+| Tests | **Vitest**, **Playwright** + **@axe-core/playwright** | Unit tests render pages through Astro's Container API; end-to-end tests run Chromium against the built site with a WCAG 2.2 AA axe check ([ADR 0013](decisions/0013-test-layers.md)) |
 | Hosting | **Cloudflare Pages** | Builds on merge to `main`, preview deploys per PR |
 | DNS | `ai.sandino.ca` CNAME → Cloudflare Pages | `sandino.ca` is managed at EasyDNS. Never change its nameservers. |
 

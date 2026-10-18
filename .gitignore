@@ -27,3 +27,6 @@ pnpm-debug.log*
 build-pdf.log
 # Lighthouse CI reports (make lighthouse)
 .lighthouseci/
+# Playwright output (make test-e2e)
+test-results/
+playwright-report/

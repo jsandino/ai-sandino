@@ -43,3 +43,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0010](0010-ci-checks-and-gates.md) | CI checks and their gates | Accepted |
 | [0011](0011-pin-typescript-6.md) | Pin TypeScript to 6.x while `astro check` needs it | Accepted |
 | [0012](0012-staged-agent-autonomy.md) | Adopt agent autonomy in stages | Accepted |
+| [0013](0013-test-layers.md) | Test layers: Vitest for units, Playwright with axe end to end | Accepted |

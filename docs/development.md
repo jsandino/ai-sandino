@@ -28,6 +28,10 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make typecheck` | `astro check` on the whole project; fails on errors or warnings |
 | `make linkcheck` | Internal links and anchors in `dist/` and the repo's Markdown |
 | `make lighthouse` | Lighthouse audit of `dist/` against the score thresholds |
+| `make test-unit` | Vitest unit tests in `tests/unit/` |
+| `make test-e2e` | Playwright + axe tests in `tests/e2e/`, against `astro preview` of `dist/` (build first) |
+| `make test` | `test-unit`, then `test-e2e` |
+| `make browsers` | Install the Chromium headless shell the e2e tests use (once per Playwright version) |
 | `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
 | `make pdf` | Rebuild `public/harness-guide.pdf` |
 | `make clean` | Remove `build/` intermediates (keeps the committed PDF) |
@@ -41,6 +45,10 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
   `scripts/` and the target calls it. The Makefile stays readable at a glance.
 - **Names mirror the underlying tool** (`ci`, `install`, `dev-install`,
   `uninstall`), so nothing needs translating.
+- **Hooks call the scripts, not `make`.** `make` is the interface for
+  people, agents and CI. `lefthook.yml` calls the scripts behind the
+  targets directly, so it can pass staged file lists as separate
+  arguments; through a make variable, paths with spaces would break.
 - **Every target has a `## description` comment.** That's what `make help`
   prints.
 - **Missing a command? Add a target** rather than calling npm or npx
@@ -89,8 +97,8 @@ Each layer catches a different class of mistake, as early as possible.
 | L1: format & lint | Prettier (Astro + Tailwind plugins), ESLint (`eslint-plugin-astro`) | Pre-commit with auto-fix; CI in check mode | available (Prettier skips Markdown, see `.prettierignore`) |
 | L2: types | `astro check` (strict TS; TypeScript 6.x per [ADR 0011](decisions/0011-pin-typescript-6.md)) | Pre-commit + CI | available |
 | L3: project checks | Scripts in `tools/` | Pre-commit + CI | Added only when a rule earns one |
-| L4: tests | none yet; Vitest arrives with the D3 graph | none | The Astro build is the test for now |
-| CI gates | format, lint, types, build, links, Lighthouse, PDF freshness (see [CI](#ci)) | Every PR | available |
+| L4: tests | Vitest (unit, Astro Container API) and Playwright with axe (end to end, WCAG 2.2 AA) ([ADR 0013](decisions/0013-test-layers.md)) | Unit: pre-commit + CI. End to end: CI only (needs a build and a browser) | available |
+| CI gates | format, lint, types, unit tests, build, links, Lighthouse, end-to-end tests, PDF freshness (see [CI](#ci)) | Every PR | available |
 | PDF freshness | `scripts/precommit-build-pdf.sh` | Pre-commit | available |
 | Agent commands | `.claude/settings.json` denies direct `npm`/`npx`/`pnpm`/`yarn`, so agents go through `make`; a guard rail, not a security boundary | Every agent session | available |
 
@@ -129,12 +137,13 @@ chapter order in `scripts/guide-files.sh` does **not** trigger the hook; run
 ## CI
 
 `.github/workflows/ci.yml` runs on every PR to `main`
-([ADR 0010](decisions/0010-ci-checks-and-gates.md)). Every step is a `make`
+([ADR 0010](decisions/0010-ci-checks-and-gates.md),
+[ADR 0013](decisions/0013-test-layers.md)). Every step is a `make`
 target, so any failure can be reproduced locally with the same command.
 
 | Job | Steps | Notes |
 |---|---|---|
-| `site` | `make ci` → `make format-check` → `make lint` → `make typecheck` → `make build` → `make linkcheck` → `make lighthouse` | Lighthouse reports are uploaded as the `lighthouse-reports` artifact, even on failure |
+| `site` | `make ci` → `make format-check` → `make lint` → `make typecheck` → `make test-unit` → `make build` → `make linkcheck` → `make lighthouse` → `make browsers` → `make test-e2e` | Lighthouse reports are uploaded as the `lighthouse-reports` artifact, even on failure; the Playwright report as `playwright-report` when the job fails. Browsers are installed on every run, with no cache |
 | `pdf` | `make pdf-check` | Checks out full history (`fetch-depth: 0`) to compare commit order |
 
 **Link check:** internal links and anchors only, in `dist/` (hyperlink) and
@@ -146,3 +155,9 @@ print-only.
 Accessibility, best practices and SEO must score at least 0.95, and
 performance at least 0.90. A failing page is listed with its category; the
 HTML reports are in `.lighthouseci/` locally, or in the artifact on CI.
+
+**End-to-end tests:** run `make browsers` once locally (and again after
+Playwright is upgraded), then `make build && make test-e2e`. Locally,
+Playwright reuses a preview server already running on port 4321. The axe
+check fails on any WCAG 2.2 AA violation and lists each rule id, node and
+help URL.

@@ -105,6 +105,7 @@ Directory roles, not file lists. Docs are listed in the
 | `src/styles/` | Global CSS and Tailwind theme tokens |
 | `public/` | Static files served as-is, including committed PDFs |
 | `scripts/` | Bash scripts behind `make` targets and git hooks |
+| `tests/` | `unit/` (Vitest) and `e2e/` (Playwright + axe) |
 | `tools/` | Custom project checks (enforcement layer 3) |
 | `docs/` | System of record |
 | `research/` | Researcher sub-agent summaries |
