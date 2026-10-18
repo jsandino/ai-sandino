@@ -36,3 +36,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0003](0003-lighthouse-ci.md) | Lighthouse CI for the static build, without public upload | 2026-10-08 | Current |
 | [0004](0004-lint-format-typecheck.md) | Formatting, linting and type checking for Astro 7 + Tailwind v4 | 2026-10-11 | Current |
 | [0005](0005-ralph-loop.md) | Huntley's loop ("Ralph") and headless Claude Code | 2026-10-14 | Current |
+| [0006](0006-test-layers.md) | Unit and end-to-end test layers for a static Astro 7 site | 2026-10-16 | Current |

@@ -1,4 +1,4 @@
-.PHONY: help ci install dev-install uninstall dev build format format-check lint lint-fix typecheck linkcheck lighthouse pdf-check pdf clean merged
+.PHONY: help ci install dev-install uninstall dev build format format-check lint lint-fix typecheck linkcheck lighthouse test test-unit test-e2e browsers pdf-check pdf clean merged
 
 help: ## List all targets
 	@bash scripts/make-help.sh Makefile
@@ -47,6 +47,19 @@ linkcheck: ## Check internal links and anchors in dist/ and the repo's Markdown
 
 lighthouse: ## Audit dist/ with Lighthouse CI against the score thresholds
 	@bash scripts/lighthouse.sh
+
+test: ## Run the unit tests, then the end-to-end tests (needs dist/)
+	@bash scripts/test-unit.sh
+	@bash scripts/test-e2e.sh
+
+test-unit: ## Run the Vitest unit tests in tests/unit/
+	@bash scripts/test-unit.sh
+
+test-e2e: ## Run the Playwright + axe tests in tests/e2e/ against dist/
+	@bash scripts/test-e2e.sh
+
+browsers: ## Install the Chromium headless shell the e2e tests use
+	@bash scripts/browsers.sh
 
 pdf-check: ## Fail if guide source changed after the PDF was last rebuilt
 	@bash scripts/check-pdf-fresh.sh
