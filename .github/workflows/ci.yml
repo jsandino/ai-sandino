@@ -42,7 +42,10 @@ jobs:
         with:
           name: lighthouse-reports
           path: .lighthouseci/
-          if-no-files-found: ignore
+          # upload-artifact skips hidden paths by default, and this one
+          # starts with a dot.
+          include-hidden-files: true
+          if-no-files-found: warn
       # No browser cache: Playwright advises against it, and the OS
       # dependencies must be installed on every run anyway (ADR 0013).
       - run: make browsers
@@ -53,7 +56,7 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-          if-no-files-found: ignore
+          if-no-files-found: warn
 
   pdf:
     name: pdf
