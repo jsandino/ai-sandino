@@ -96,6 +96,37 @@ Sizes: hero title `clamp(48px, 8vw, 84px)`; section title
   the edges.
 - **Pixel field:** twinkling accent squares at the foot of the page.
 
+## Brand marks
+
+The brand is typographic: there is no logo. Every mark is built from the
+tokens, fonts and motifs above, and the image assets are committed in
+`public/`.
+
+- **Wordmark:** `ai.sandino.ca` in Geist Mono, 13px, lowercase, with `ai` in
+  `accent-text` and `.sandino.ca` in `text`. Used in the header only
+  (it links home).
+- **Favicon:** a single accent square (9 of 16 units, radius 2) centred on
+  a `bg` tile (radius 3), echoing the pixel field.
+  - `public/favicon.svg` switches with an internal `prefers-color-scheme`
+    query: emerald on dark, `accent-strong` (amber-600) on light, since
+    amber-500 is too faint at 16px on white.
+  - `public/apple-touch-icon.png`: 180px, dark, full-bleed (iOS adds its own
+    rounded corners).
+- **Social card:** `public/og.png`, 1200×630 PNG, under 300 KB, dark theme
+  only (link previews ignore the visitor's theme).
+  - Background `bg` with the 30px hero grid in `grid-line`, radially masked.
+  - Inset 80px. Top left: the wordmark at 28px.
+  - Bottom left: "Practical AI **engineering**", Inter 700, 96px,
+    letter-spacing `-0.035em`, line-height 1.05, `text` with "engineering"
+    in `accent-strong`.
+  - Bottom right: a static cluster of six accent squares (a frozen pixel
+    field).
+  - Alt text: "Practical AI engineering — ai.sandino.ca".
+  - A changed image gets a new filename: platforms cache previews by URL.
+- **Topic cards (later):** the same frame, with the page title in place of
+  the hero title and a mono label such as `TOPIC 03 / FEEDBACK LOOPS` above
+  it. Not built until topic pages exist.
+
 ## Motion
 
 All motion uses vanilla Motion. **Everything respects

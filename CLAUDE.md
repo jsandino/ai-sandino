@@ -76,8 +76,9 @@ explicitly starts a run on a named, Ready brief.
 Start a run only with `<<loop>> <brief>`, e.g. `<<loop>> shell.md`, which
 means `docs/briefs/shell.md`. No other wording switches mode. On receiving it:
 
-1. Check the brief exists and is Ready (no open questions). If not, refuse
-   and say what's missing.
+1. Check the brief exists and is Ready, as defined in
+   [`docs/README.md`](docs/README.md#documentation-conventions). If not,
+   refuse and say what's missing.
 2. Post the run branch and the plan in one message, then proceed without
    waiting.
 3. The run ends when `/pr` reports the PR, or when it stops (see below);

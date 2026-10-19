@@ -9,7 +9,7 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 4 — Brief readiness (see the phase file)
+- **Next step:** 5 — Stage 1 trial: `<<loop>> shell.md` (see the phase file)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:
@@ -73,6 +73,9 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
   is **Draft** (open questions remain), **Ready** (none remain, and every
   criterion maps to a check or "human review"; a `<<loop>>` may start), or
   **Done (PR #N)**. A brief is a work order, not a living doc:
+  - Each acceptance criterion ends with what verifies it:
+    `→ check: <make target or CI>` or `→ human review`. One without either
+    keeps the brief in Draft.
   - Write it just in time, as its own step and PR (not inside a build PR).
   - Answer its open questions in the brief ("Decided: …") before building;
     add an ADR if an answer is non-obvious and spans pages.
