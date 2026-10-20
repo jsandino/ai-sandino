@@ -31,7 +31,7 @@ re-create any of it.
    `coming-soon` topic has one, with a remediation-grade message. Built as
    a Vitest unit test in `tests/unit/`, so `make test-unit` runs it in
    pre-commit and CI without editing gate files.
-6. **404 page:** on-brand, links home.
+6. **404 page:** on-brand, links home; text and illustration in *Decided* #5.
 7. **Placeholder home replaced:** `src/pages/index.astro` uses the shell
    (hero title only) until the landing brief is built.
 
@@ -79,7 +79,8 @@ The shell links them; it does not redraw them.
 10. [ ] `topics.ts` lists all five topics; the live ⇔ page test passes and
         is shown to fail correctly in both directions → check:
         `make test-unit` (fixtures for both failures)
-11. [ ] The 404 page builds and links home → check: `make test-e2e`
+11. [ ] The 404 page builds, shows the text and illustration from *Decided*
+        #5, and links home → check: `make test-e2e`
 12. [ ] CI passes: format, lint, types, unit, build, link check,
         Lighthouse, e2e (axe included) → check: CI
 
@@ -95,6 +96,25 @@ The shell links them; it does not redraw them.
    `public/og.png`, built to the design system's *Brand marks* spec and
    committed before the shell run. Per-topic cards wait until topic pages
    exist ([research 0007](../../research/0007-social-preview-image.md)).
+4. **Topic blurbs.** Decided: placeholder OK. The shell doesn't display
+   them, so each `blurb` in `topics.ts` is `Placeholder blurb: <title>.`
+   The real copy is written in the landing brief, where blurbs first appear.
+5. **User-facing text.** Decided: exactly this wording.
+
+   | Where | Text |
+   |---|---|
+   | Home meta description | Practical AI engineering, explained through interactive pages, companion PDF guides and working code. |
+   | 404 heading | Page not found |
+   | 404 line | This page escaped the harness. We're writing a check so it never happens again. |
+   | 404 link (to `/`) | Back to the home page |
+   | 404 title | Page not found — ai.sandino.ca |
+   | 404 meta description | This page doesn't exist on ai.sandino.ca. |
+   | Footer author | Javier Sandino |
+   | Footer repo link | Source on GitHub |
+
+   The 404 page shows `public/404-escaped-node.svg` above the heading, as
+   an `<img>` with `alt=""` (decorative). It is committed already; the run
+   places it and does not redraw it.
 
 ## Out of scope
 

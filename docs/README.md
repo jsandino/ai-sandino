@@ -70,17 +70,21 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
   README.
 - **`briefs/`** holds one brief per page (plus the shared shell): purpose,
   required content, acceptance criteria and open questions. Its **Status**
-  is **Draft** (open questions remain), **Ready** (none remain, and every
-  criterion maps to a check or "human review"; a `<<loop>>` may start), or
-  **Done (PR #N)**. A brief is a work order, not a living doc:
+  is **Draft** (open questions remain), **Ready** (none remain, every
+  criterion maps to a check or "human review", and all user-facing text is
+  either in the brief or explicitly marked "placeholder OK"; a `<<loop>>`
+  may start), or **Done**. A brief is a work order, not a living doc:
   - Each acceptance criterion ends with what verifies it:
     `→ check: <make target or CI>` or `→ human review`. One without either
     keeps the brief in Draft.
   - Write it just in time, as its own step and PR (not inside a build PR).
   - Answer its open questions in the brief ("Decided: …") before building;
     add an ADR if an answer is non-obvious and spans pages.
-  - The PR that builds the page sets its **Status** to `Done (PR #N)`; it is
-    then frozen. A later redesign gets a new brief.
+  - The PR that builds the page sets its **Status** to `Done`; it is then
+    frozen. A later redesign gets a new brief. Never write a PR's own number
+    into it: the number doesn't exist until the PR is opened. `git log`
+    finds the PR, and a phase's closing PR can list them (as `phase-001.md`
+    does).
   - **A phase step that builds a page links a Ready brief before it
     starts.** If none exists, writing it comes first, as its own step.
 - **`design/`** holds visual references. `style-sample.html` is a frozen

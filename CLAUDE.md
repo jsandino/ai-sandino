@@ -79,8 +79,9 @@ means `docs/briefs/shell.md`. No other wording switches mode. On receiving it:
 1. Check the brief exists and is Ready, as defined in
    [`docs/README.md`](docs/README.md#documentation-conventions). If not,
    refuse and say what's missing.
-2. Post the run branch and the plan in one message, then proceed without
-   waiting.
+2. **Before any tool call that changes anything**, post one message with
+   the run branch and a numbered plan (one line per brief requirement).
+   Then proceed without waiting; Javier interrupts if the plan is wrong.
 3. The run ends when `/pr` reports the PR, or when it stops (see below);
    the session then returns to gated mode.
 
@@ -90,7 +91,8 @@ means `docs/briefs/shell.md`. No other wording switches mode. On receiving it:
   gate files (`.github/`, `lefthook.yml`, `lighthouserc.json`, `tools/`,
   test config), or deleting or weakening a test.
 - Stop and report after three failed attempts at the same item, or when
-  blocked by anything the brief doesn't answer.
+  blocked by anything the brief doesn't answer. Never write user-facing
+  text the brief doesn't supply or mark "placeholder OK".
 
 ## Git workflow
 
