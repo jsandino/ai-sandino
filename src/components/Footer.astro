@@ -1,0 +1,78 @@
+---
+// Footer: author, repo link and the pixel field
+// (docs/briefs/shell.md, Decided #2). The field's squares are placed at
+// build time with a fixed hash, so every page and build gets the same
+// pattern; a small Motion script makes them twinkle unless the visitor
+// prefers reduced motion.
+const REPO_URL = 'https://github.com/jsandino/ai-sandino';
+
+const COLS = 96;
+const ROWS = 20;
+
+// Deterministic pseudo-random value in [0, 1) for a grid cell.
+const hash = (x: number, y: number) => {
+  const v = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+  return v - Math.floor(v);
+};
+
+// Squares thin out from the bottom centre, as in the design system's
+// reference footer.
+const squares: { left: number; top: number; base: number }[] = [];
+for (let x = 0; x < COLS; x++) {
+  for (let y = 0; y < ROWS; y++) {
+    const dx = (x - COLS / 2) / (COLS / 2);
+    const dy = (y - ROWS) / ROWS;
+    const fall = Math.max(0, 1 - Math.hypot(dx * 1.05, dy * 1.4));
+    if (hash(x, y) < fall * 0.35) {
+      squares.push({
+        left: (x / COLS) * 100,
+        top: (y / ROWS) * 100,
+        base: Number((fall * 0.6 + 0.15).toFixed(2)),
+      });
+    }
+  }
+}
+---
+
+<footer class="mx-auto w-full max-w-[1100px] px-6 pt-16">
+  <div class="flex flex-wrap justify-between gap-3 font-mono text-xs tracking-widest uppercase">
+    <span class="text-text-2">Javier Sandino</span>
+    <a href={REPO_URL} class="text-accent-text hover:underline">
+      Source on GitHub
+    </a>
+  </div>
+  <div class="pixel-field relative mt-10 h-[190px]" aria-hidden="true">
+    {squares.map((s) => (
+      <span
+        class="pixel bg-accent-strong absolute size-1"
+        style={`left:${s.left}%;top:${s.top}%;opacity:${s.base}`}
+        data-base={s.base}
+      />
+    ))}
+  </div>
+</footer>
+
+<script>
+  import { animate } from 'motion/mini';
+
+  // Twinkle: each square pulses between its base opacity and a dimmer
+  // value, on its own period and phase. Skipped entirely under reduced
+  // motion, so the field stays static.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('.pixel').forEach((el, i) => {
+      const base = Number(el.dataset.base);
+      const phase = (Math.sin(i * 7.31) + 1) / 2;
+      animate(
+        el,
+        { opacity: [base, base * 0.25] },
+        {
+          duration: 1.8 + phase * 1.8,
+          delay: phase * 2,
+          repeat: Infinity,
+          repeatType: 'reverse',
+          ease: 'easeInOut',
+        },
+      );
+    });
+  }
+</script>

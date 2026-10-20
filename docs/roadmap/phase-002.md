@@ -20,8 +20,8 @@ and the Harness Engineering page.
 | 2 | Header formatting: one field per line (bullets) in every ADR, research summary, phase file and brief, and in both templates; allow formatting-only fixes to ADRs and research | — | Done |
 | 3 | Test layers: Vitest and Playwright (with axe), `make` targets, hooks and CI; one smoke test each | — | Done |
 | 4 | Brief readiness: the rule (no open questions; every criterion maps to a check or "human review"); settle the shell brief's open questions | [shell](../briefs/shell.md) | Done |
-| 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Next |
-| 6 | Tune the harness from the shell run | — | Planned |
+| 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Done |
+| 6 | Tune the harness from the shell run | — | Next |
 | 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | Planned |
 | 8 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Planned |
 | 9 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | Planned |

@@ -1,19 +1,12 @@
 ---
+// Placeholder home: the shell with the hero title only, until the landing
+// brief is built (docs/briefs/shell.md, piece 7).
+import Base from '../layouts/Base.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="Practical AI engineering, explained through interactive pages, companion PDF guides and working code."
-    />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Base
+  title="Practical AI engineering"
+  description="Practical AI engineering, explained through interactive pages, companion PDF guides and working code."
+>
+  <h1 class="py-24 text-[clamp(48px,8vw,84px)]">Practical AI engineering</h1>
+</Base>
