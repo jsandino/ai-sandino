@@ -1,1 +1,80 @@
+/*
+ * Global styles: the one place colour tokens are defined
+ * (docs/design-system.md#colour-tokens). Everything else in src/ uses the
+ * Tailwind utilities these generate (bg-bg, text-text-2, ...) or the CSS
+ * variables, never a colour literal; tests/unit/colour-literals.test.ts
+ * enforces it. Dark is the default; light follows the system setting.
+ */
+
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/geist-mono';
+
+@theme {
+  /* Drop Tailwind's default palette so only the design tokens exist. */
+  --color-*: initial;
+
+  --color-bg: #13131a;
+  --color-bg-alt: #1b1b24;
+  --color-surface: #20202b;
+  --color-border: #2c2c38;
+  --color-border-strong: #38383d;
+  --color-text: #f5f5f7;
+  --color-text-2: #9a9aa5;
+  --color-text-3: #6b6b78;
+  --color-accent: #10b981;
+  --color-accent-strong: #10b981;
+  --color-accent-text: #10b981;
+  --color-accent-ink: #0a0b10;
+  --color-accent-tint: rgba(16, 185, 129, 0.12);
+  --color-accent-line: rgba(16, 185, 129, 0.45);
+  --color-grid-line: rgba(245, 245, 247, 0.045);
+  --color-violet: #6e63ff;
+  --color-coral: #f65b66;
+  --color-transparent: transparent;
+
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #fafafa;
+    --color-bg-alt: #f1f1f4;
+    --color-surface: #ffffff;
+    --color-border: #e2e2e7;
+    --color-border-strong: #cfcfd6;
+    --color-text: #13131a;
+    --color-text-2: #5c5c68;
+    --color-text-3: #8a8a96;
+    --color-accent: #f59e0b;
+    --color-accent-strong: #d97706;
+    --color-accent-text: #b45309;
+    --color-accent-ink: #13131a;
+    --color-accent-tint: rgba(245, 158, 11, 0.1);
+    --color-accent-line: rgba(217, 119, 6, 0.4);
+    --color-grid-line: rgba(19, 19, 26, 0.06);
+    --color-violet: #5b4fe5;
+    --color-coral: #e5484d;
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark light;
+  }
+
+  body {
+    @apply bg-bg font-sans leading-[1.6] text-text antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply leading-[1.05] font-bold tracking-[-0.035em];
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}

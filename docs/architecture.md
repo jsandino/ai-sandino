@@ -38,9 +38,10 @@ type Topic = {
 ```
 
 Taking a topic live is one change: its `status` goes from `"coming-soon"` to
-`"live"`, in the same PR that adds its page. A build-time check enforces
-**live ⇔ page exists**, so the graph can never link to a missing page or hide
-a finished one.
+`"live"`, in the same PR that adds its page. A unit test
+(`tests/unit/topics.test.ts`, run by `make test-unit` in pre-commit and CI)
+enforces **live ⇔ page exists**, so the graph can never link to a missing
+page or hide a finished one.
 
 ## Pages and interactivity
 

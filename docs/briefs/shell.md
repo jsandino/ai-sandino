@@ -1,6 +1,6 @@
 # Brief — Shared shell
 
-- **Status:** Ready
+- **Status:** Done
 - **Roadmap:** [phase 002](../roadmap/phase-002.md), steps 4–5
 - **Source:** `design-system.md` (tokens, type, components, motion, brand
   marks); `architecture.md` (routes, `topics.ts`, live ⇔ page check);
