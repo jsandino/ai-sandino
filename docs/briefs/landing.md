@@ -56,6 +56,8 @@ The node graph is the site's primary navigation.
    designed)?
 2. **Edges:** what does a line between two topics mean, or are there none?
 3. **Mobile:** same graph scaled down, or a different arrangement?
+4. **Topic blurbs:** final copy for all five (the shell shipped
+   placeholders in `topics.ts`).
 
 ## Out of scope
 

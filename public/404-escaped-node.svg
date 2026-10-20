@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" width="320" height="220" fill="none" role="presentation">
+  <!-- 404 illustration: a node escaping the harness. Decorative (alt="").
+       Colours follow design-system.md: accent-strong for the graph, text-3
+       for the escaped (coming-soon style) node. Lines draw in once; static
+       under prefers-reduced-motion. -->
+  <style>
+    .g { stroke: #10b981; }
+    .core { fill: #10b981; }
+    .m { stroke: #6b6b78; }
+    .mt { fill: #6b6b78; }
+    @media (prefers-color-scheme: light) {
+      .g { stroke: #d97706; }
+      .core { fill: #d97706; }
+      .m { stroke: #8a8a96; }
+      .mt { fill: #8a8a96; }
+    }
+    .draw { stroke-dasharray: 120; stroke-dashoffset: 120; animation: draw 1.1s ease-in-out forwards; }
+    .d2 { animation-delay: .25s; } .d3 { animation-delay: .5s; } .d4 { animation-delay: .75s; }
+    .pop { opacity: 0; animation: pop .5s ease-out 1.1s forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes pop { to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .draw { animation: none; stroke-dashoffset: 0; }
+      .pop { animation: none; opacity: 1; }
+    }
+  </style>
+
+  <g stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- the harness: a small graph that stayed put -->
+    <line class="g draw" x1="98" y1="122" x2="56" y2="78" />
+    <line class="g draw d2" x1="100" y1="144" x2="66" y2="178" />
+    <line class="g draw d3" x1="124" y1="142" x2="166" y2="182" />
+    <line class="g draw" x1="56" y1="78" x2="66" y2="178" stroke-dasharray="0" opacity=".35" />
+    <circle class="g" cx="110" cy="132" r="17" />
+    <circle class="core" cx="110" cy="132" r="4.5" />
+    <circle class="g" cx="52" cy="72" r="8" />
+    <circle class="g" cx="62" cy="184" r="8" />
+    <circle class="g" cx="172" cy="188" r="8" />
+
+    <!-- the link that snapped -->
+    <line class="g draw d4" x1="126" y1="124" x2="174" y2="100" />
+    <path class="g pop" d="M178 92 l6 -6 M181 102 l8 -1 M172 90 l1 -8" />
+    <line class="m pop" x1="198" y1="88" x2="216" y2="79" />
+
+    <!-- the escaped node, running off in coming-soon style -->
+    <circle class="m pop" cx="252" cy="58" r="20" stroke-dasharray="4 4" />
+    <path class="m pop" d="M246 52 q6 -8 12 0 q0 6 -6 8 v4" />
+    <circle class="mt pop" cx="252" cy="70" r="1.6" stroke="none" />
+    <!-- speed lines -->
+    <path class="m pop" d="M220 52 h10 M224 62 h8 M222 42 h7" opacity=".7" />
+  </g>
+</svg>
