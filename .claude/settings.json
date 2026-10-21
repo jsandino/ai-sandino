@@ -1,5 +1,14 @@
 {
   "permissions": {
-    "deny": ["Bash(npm *)", "Bash(npx *)", "Bash(pnpm *)", "Bash(yarn *)"]
+    "deny": [
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(pnpm *)",
+      "Bash(yarn *)",
+      "Bash(node_modules/.bin/*)",
+      "Bash(./node_modules/.bin/*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)"
+    ]
   }
 }

@@ -29,7 +29,7 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make linkcheck` | Internal links and anchors in `dist/` and the repo's Markdown |
 | `make lighthouse` | Lighthouse audit of `dist/` against the score thresholds |
 | `make test-unit` | Vitest unit tests in `tests/unit/` |
-| `make test-e2e` | Playwright + axe tests in `tests/e2e/`, against `astro preview` of `dist/` (build first) |
+| `make test-e2e` | Playwright + axe tests in `tests/e2e/`, against `astro preview` of `dist/` (build first); `GREP=<pattern>` runs only matching tests |
 | `make test` | `test-unit`, then `test-e2e` |
 | `make browsers` | Install the Chromium headless shell the e2e tests use (once per Playwright version) |
 | `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
@@ -100,7 +100,7 @@ Each layer catches a different class of mistake, as early as possible.
 | L4: tests | Vitest (unit, Astro Container API) and Playwright with axe (end to end, WCAG 2.2 AA) ([ADR 0013](decisions/0013-test-layers.md)) | Unit: pre-commit + CI. End to end: CI only (needs a build and a browser) | available |
 | CI gates | format, lint, types, unit tests, build, links, Lighthouse, end-to-end tests, PDF freshness (see [CI](#ci)) | Every PR | available |
 | PDF freshness | `scripts/precommit-build-pdf.sh` | Pre-commit | available |
-| Agent commands | `.claude/settings.json` denies direct `npm`/`npx`/`pnpm`/`yarn`, so agents go through `make`; a guard rail, not a security boundary | Every agent session | available |
+| Agent commands | `.claude/settings.json` denies direct `npm`/`npx`/`pnpm`/`yarn` and `node_modules/.bin/*` calls, so agents go through `make`, plus `git reset --hard` and `git clean -f`, which destroy uncommitted work; a guard rail, not a security boundary | Every agent session | available |
 
 Hooks are defined in `lefthook.yml` and installed automatically when the
 project's dependencies are installed (`make ci`). That relies on

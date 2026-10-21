@@ -19,7 +19,12 @@ const fullTitle = `${title} — ${SITE_NAME}`;
 // `site` comes from astro.config.mjs. The unit tests' Container API
 // renders without it, so fall back to the request URL there.
 const origin = Astro.site ?? Astro.url;
-const canonical = new URL(Astro.url.pathname, origin).href;
+// build.format 'file' gives Astro.url a .html suffix ("/index.html",
+// "/404.html"); the served URL has none (docs/decisions/0014).
+const path = Astro.url.pathname
+  .replace(/\/index\.html$/, '/')
+  .replace(/\.html$/, '');
+const canonical = new URL(path, origin).href;
 const imageUrl = new URL(image, origin).href;
 ---
 

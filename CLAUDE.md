@@ -69,7 +69,9 @@ explicitly starts a run on a named, Ready brief.
 - Javier pushes and opens PRs with `/pr`. When a branch is ready, say so and
   stop.
 - Experiments with side effects (throwaway commits, branch juggling) run in
-  a separate `git worktree`, never on the working branch.
+  a separate `git worktree`, never on the working branch, and need approval
+  first. Never `git reset --hard` or `git stash` where there's uncommitted
+  work.
 
 **Autonomous (Stage 1 and later, one Ready brief per run)**
 
@@ -88,11 +90,13 @@ means `docs/briefs/shell.md`. No other wording switches mode. On receiving it:
 - Pre-approved: changes within the brief's scope, `make` targets, commits on
   the run branch, and `/pr` once every check passes.
 - Never: anything in *Inviolable constraints*, plus force-push, editing
-  gate files (`.github/`, `lefthook.yml`, `lighthouserc.json`, `tools/`,
-  test config), or deleting or weakening a test.
+  gate files (`.github/`, `.claude/`, `lefthook.yml`, `lighthouserc.json`,
+  `tools/`, `vitest.config.ts`, `playwright.config.ts`), or deleting or
+  weakening a test.
 - Stop and report after three failed attempts at the same item, or when
   blocked by anything the brief doesn't answer. Never write user-facing
-  text the brief doesn't supply or mark "placeholder OK".
+  text or data the brief doesn't supply, cite a source for, or mark
+  "placeholder OK".
 
 ## Git workflow
 

@@ -23,9 +23,9 @@ const PAGES = [
   },
   {
     path: MISSING,
-    // Astro's default directory build format gives the 404 route a
-    // trailing slash.
-    canonicalPath: '/404/',
+    // Built as 404.html and served at /404, with no trailing slash
+    // (docs/decisions/0014).
+    canonicalPath: '/404',
     title: 'Page not found — ai.sandino.ca',
     description: "This page doesn't exist on ai.sandino.ca.",
   },
