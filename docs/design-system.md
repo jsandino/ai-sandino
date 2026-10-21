@@ -92,8 +92,15 @@ Sizes: hero title `clamp(48px, 8vw, 84px)`; section title
 - **Quote:** 3px `violet` left bar.
 - **Accordion:** `surface` rows, with an accent `+` that rotates to `×`.
 - **Section bands:** alternate `bg` and `bg-alt`.
-- **Hero background grid:** 30px grid in `grid-line`, radial mask fading to
-  the edges.
+- **Background grid:** 30px grid in `grid-line`, radial mask fading to the
+  edges. On the landing page it runs behind the whole page, with the falling
+  beams; on other pages, behind the hero only.
+- **Feathered panel:** a borderless `bg` panel (radius 12px) whose edge
+  feathers into the grid over ~40px (`box-shadow: 0 0 40px 28px var(--bg)`),
+  so the grid dissolves around content rather than ending at a box. Used
+  behind the landing graph so beams never cross it.
+- **Topic graph:** see `docs/briefs/landing.md`; references in
+  `docs/design/graph-layouts.html` (panel A) and `docs/design/graph-edges.html`.
 - **Pixel field:** twinkling accent squares at the foot of the page.
 
 ## Brand marks
@@ -129,7 +136,8 @@ tokens, fonts and motifs above, and the image assets are committed in
 
 ## Motion
 
-All motion uses vanilla Motion. **Everything respects
+All motion uses vanilla Motion, except the topic graph's, which uses D3 (it
+animates SVG driven by the layout). **Everything respects
 `prefers-reduced-motion`:** when it is set, elements appear in their final
 state with no movement.
 
@@ -141,9 +149,13 @@ state with no movement.
 | Line draw | stroke-dashoffset length→0, 1.4s ease-in-out, staggered | Line art, diagram edges |
 | Count up | 0→value, 1.6s ease-out | Numeric stats |
 | Word highlight | words go from 0.28 to 1 opacity as you scroll | One key statement per page at most |
-| Falling beams | 1px accent gradient lines, 7–9s linear loop | Hero background only |
-| Grid fade | opacity 0→1, 1.5s | Hero grid on load |
+| Falling beams | 1px accent gradient lines, 7–9s linear loop | Behind the whole landing page; elsewhere, hero background only |
+| Grid fade | opacity 0→1, 1.5s | Background grid on load |
+| Graph glide | layout computed off-screen; each node eases out (cubic) from the centre to its place over 1.6s, 260ms stagger, while fading, growing (0.3→1) and sharpening (blur 8→0px) | Topic graph entrance |
+| Graph breathing | tiny sinusoidal drift per node (≤ ~2px), heavily damped | Topic graph at rest (loop) |
+| Hub spark | jagged accent arc sweeping ~half a lap round the hub in 0.7s, every 2.5–5s, after the entrance | Topic graph hub (loop) |
 | Sticky header | backdrop blur 10px with a gradient mask | Always |
 
 Entrances trigger once, when an element scrolls into view. Nothing loops
-except the hero beams and the pixel field.
+except the falling beams, the pixel field, and the topic graph's breathing
+and hub spark.

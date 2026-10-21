@@ -1,0 +1,861 @@
+<!doctype html>
+<!--
+  DESIGN EXPLORATION: landing brief, open question "Edges".
+  Both panels use the decided force-directed behaviour (docs/design/
+  graph-layouts.html, panel A). Left: hub-and-spoke only. Right: the same
+  spokes plus faint "related" cross-links for four suggested topic pairs,
+  revealed on hover (no labels). The hub is labelled "AI" and periodically sparks: a jagged electric arc races around it. One node is shown live only to show
+  its look. Not a source of truth: docs/briefs/landing.md and
+  docs/design-system.md are. D3 loads from a CDN so the file opens standalone.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Graph edges — hub vs hub + related</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource-variable/inter/index.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono/index.css"
+    />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --border: #e2e2e7;
+        --border-strong: #cfcfd6;
+        --text: #13131a;
+        --text-2: #5c5c68;
+        --text-3: #8a8a96;
+        --accent: #f59e0b;
+        --accent-strong: #d97706;
+        --accent-text: #b45309;
+        --accent-tint: rgba(245, 158, 11, 0.1);
+        --accent-line: rgba(217, 119, 6, 0.4);
+      }
+      :root.dark {
+        --bg: #13131a;
+        --surface: #20202b;
+        --border: #2c2c38;
+        --border-strong: #38383d;
+        --text: #f5f5f7;
+        --text-2: #9a9aa5;
+        --text-3: #6b6b78;
+        --accent: #10b981;
+        --accent-strong: #10b981;
+        --accent-text: #10b981;
+        --accent-tint: rgba(16, 185, 129, 0.12);
+        --accent-line: rgba(16, 185, 129, 0.45);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter Variable', system-ui, sans-serif;
+      }
+      button,
+      .label {
+        font-family: 'Geist Mono Variable', ui-monospace, monospace;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: var(--surface);
+        color: var(--text-2);
+        border: 1px solid var(--border-strong);
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+      }
+      @media (max-width: 900px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+      section {
+        background: var(--bg);
+        padding: 20px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .label {
+        align-self: stretch;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-text);
+      }
+      .note {
+        align-self: stretch;
+        color: var(--text-2);
+        font-size: 14px;
+        margin: 6px 0 14px;
+      }
+      .frame {
+        width: 100%;
+        max-width: 640px;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .link {
+        stroke: var(--border-strong);
+        stroke-width: 1.5;
+      }
+      .link.related {
+        stroke-dasharray: 3 5;
+        opacity: 0.55;
+      }
+      .node circle.ring {
+        fill: var(--surface);
+        stroke: var(--text-3);
+        stroke-width: 1.5;
+        stroke-dasharray: 4 4;
+      }
+      .node.live circle.ring {
+        fill: var(--accent-tint);
+        stroke: var(--accent-strong);
+        stroke-width: 2;
+        stroke-dasharray: none;
+      }
+      .node .core {
+        display: none;
+      }
+      .node.live .core {
+        display: block;
+        fill: var(--accent-strong);
+        stroke: none;
+      }
+      .node.hub circle.ring {
+        fill: none;
+        stroke: var(--border-strong);
+        stroke-dasharray: none;
+      }
+      .node.related-on circle.ring {
+        stroke: var(--accent-strong);
+        stroke-dasharray: none;
+      }
+      .node text {
+        font-size: 13px;
+        fill: var(--text-2);
+        text-anchor: middle;
+      }
+      .node.live text {
+        fill: var(--text);
+        font-weight: 600;
+      }
+      .node .tag {
+        font-size: 10px;
+        fill: var(--text-3);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-family: 'Geist Mono Variable', monospace;
+      }
+      .node.live .tag {
+        fill: var(--accent-text);
+      }
+      .glow {
+        filter: drop-shadow(0 0 10px var(--accent));
+      }
+      .spark {
+        fill: none;
+        stroke: var(--accent-strong);
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 4px var(--accent))
+          drop-shadow(0 0 10px var(--accent));
+        pointer-events: none;
+      }
+      .node.hub .hub-label {
+        font-family: 'Geist Mono Variable', monospace;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        fill: var(--text-2);
+      }
+      footer {
+        padding: 16px 24px;
+        color: var(--text-3);
+        font-size: 13px;
+      }
+      .phone-wrap {
+        border-top: 1px solid var(--border);
+      }
+      .card {
+        width: 100%;
+        max-width: 640px;
+        min-height: 112px;
+        margin-top: 16px;
+        padding: 18px 20px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        transition: border-color 0.25s;
+      }
+      .card:not(.empty) {
+        border-color: var(--border-strong);
+      }
+      .device .card {
+        max-width: 360px;
+        margin: 12px 0 0;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+      .card-blurb {
+        margin: 8px 0 0;
+        color: var(--text-2);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      .card-prompt {
+        margin: 0;
+        color: var(--text-3);
+        font-size: 14px;
+      }
+      .badge {
+        font-family: 'Geist Mono Variable', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: var(--text-3);
+        border: 1px solid var(--border-strong);
+      }
+      .badge.live {
+        color: var(--accent-text);
+        border-color: var(--accent-line);
+        background: var(--accent-tint);
+      }
+      .card-link {
+        display: inline-block;
+        margin-top: 12px;
+        font-family: 'Geist Mono Variable', monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-text);
+        text-decoration: none;
+      }
+      .card-link:hover {
+        text-decoration: underline;
+      }
+      .node:focus {
+        outline: none;
+      }
+      .node:focus-visible circle.ring {
+        stroke: var(--accent-strong);
+        stroke-width: 2.5;
+      }
+      .device {
+        width: 384px;
+        padding: 12px;
+        border: 1px solid var(--border-strong);
+        border-radius: 32px;
+        background: var(--bg);
+      }
+      .device svg {
+        width: 360px;
+        height: 560px;
+      }
+    </style>
+    <script>
+      if (matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.add('dark');
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Topic graph edges: hub vs hub + related</h1>
+      <div class="controls">
+        <button id="replay">Replay entrance</button>
+        <button id="theme">Switch theme</button>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="label">A · Hub and spokes</div>
+        <p class="note">
+          Every topic joins the "AI" hub: "five topics of one discipline". Hover
+          highlights a topic and its spoke.
+        </p>
+        <div class="frame">
+          <svg
+            id="hub"
+            viewBox="0 0 640 440"
+            role="img"
+            aria-label="Topic graph, hub and spokes"
+          ></svg>
+        </div>
+      </section>
+      <section>
+        <div class="label">A + B · Hub and spokes + related</div>
+        <p class="note">
+          Same spokes, plus faint dashed links between related topics. Hover or
+          focus a topic: its related topics light up and the card below
+          describes it. Click a live topic to open it.
+        </p>
+        <div class="frame">
+          <svg
+            id="mix"
+            viewBox="0 0 640 440"
+            role="img"
+            aria-label="Topic graph, hub and spokes plus related links"
+          ></svg>
+        </div>
+        <div class="card" id="mix-card" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <section class="phone-wrap">
+      <div class="label">A + B · Phone (360px wide, real size)</div>
+      <p class="note">
+        The same graph, laid out in a portrait frame instead of shrunk: shorter
+        spokes, labels at full size. No hover on touch screens: tap a topic to
+        highlight it and fill the card; the card's link opens a live topic.
+      </p>
+      <div class="device">
+        <svg
+          id="phone"
+          viewBox="0 0 360 560"
+          role="img"
+          aria-label="Topic graph on a phone, hub and spokes plus related links"
+        ></svg>
+        <div class="card" id="phone-card" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <footer>
+      Design exploration for the landing brief's "Edges" question. Suggested
+      pairs: Transformers ↔ RAG (embeddings &amp; attention), RAG ↔ LLM gateways
+      (serving LLMs in production), LLM gateways ↔ Agents (many model calls,
+      quotas), Agents ↔ Harness Engineering (making code agents reliable).
+    </footer>
+
+    <script type="module">
+      import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Layout settings per frame. The phone runs the same force layout in a
+      // portrait frame at real size, so labels stay readable.
+      const DESKTOP = {
+        W: 640,
+        H: 440,
+        spoke: 150,
+        rel: 200,
+        charge: -500,
+        collide: 60,
+        fx: 0.05,
+        fy: 0.08,
+      };
+      const PHONE = {
+        tap: true,
+        W: 360,
+        H: 560,
+        spoke: 190,
+        rel: 230,
+        charge: -450,
+        collide: 70,
+        fx: 0.4,
+        fy: 0.015,
+      };
+      const topics = [
+        { id: 'hub', title: '', hub: true },
+        {
+          id: 'harness-engineering',
+          title: 'Harness Engineering',
+          blurb:
+            'Placeholder blurb: Harness Engineering. The final copy is settled in the landing brief.',
+          live: true,
+        },
+        {
+          id: 'rag-in-production',
+          title: 'RAG in production',
+          blurb:
+            'Placeholder blurb: RAG in production. The final copy is settled in the landing brief.',
+        },
+        {
+          id: 'llm-gateway',
+          title: 'LLM gateways',
+          blurb:
+            'Placeholder blurb: LLM gateways. The final copy is settled in the landing brief.',
+        },
+        {
+          id: 'transformer-architecture',
+          title: 'Transformers',
+          blurb:
+            'Placeholder blurb: Transformers. The final copy is settled in the landing brief.',
+        },
+        {
+          id: 'agents-with-adk',
+          title: 'Agents with ADK',
+          blurb:
+            'Placeholder blurb: Agents with ADK. The final copy is settled in the landing brief.',
+        },
+      ];
+      const spokes = topics
+        .filter((t) => !t.hub)
+        .map((t) => ({ source: 'hub', target: t.id, kind: 'spoke' }));
+      const related = [
+        {
+          source: 'transformer-architecture',
+          target: 'rag-in-production',
+          reason: 'embeddings & attention',
+        },
+        {
+          source: 'rag-in-production',
+          target: 'llm-gateway',
+          reason: 'serving LLMs in production',
+        },
+        {
+          source: 'llm-gateway',
+          target: 'agents-with-adk',
+          reason: 'many model calls, quotas',
+        },
+        {
+          source: 'agents-with-adk',
+          target: 'harness-engineering',
+          reason: 'making code agents reliable',
+        },
+      ].map((l) => ({ ...l, kind: 'related' }));
+
+      const sims = {};
+      const sparkTimers = {};
+
+      // "The centre is charged": every few seconds a jagged electric arc races
+      // part-way around the hub, crackling (re-jagged every few frames), then
+      // fades. Starts after the entrance; never runs under reduced motion.
+      function jaggedArc(r, from, span, steps = 16) {
+        let d = '';
+        for (let i = 0; i <= steps; i++) {
+          const a = from + (span * i) / steps;
+          const rr =
+            r + (i === 0 || i === steps ? 0 : (Math.random() - 0.5) * 7);
+          d +=
+            (i ? 'L' : 'M') +
+            (Math.cos(a) * rr).toFixed(1) +
+            ',' +
+            (Math.sin(a) * rr).toFixed(1);
+        }
+        return d;
+      }
+      function startSparks(svgId, hubBody, r) {
+        clearTimeout(sparkTimers[svgId]);
+        const fire = () => {
+          const arc = hubBody
+            .append('path')
+            .attr('class', 'spark')
+            .style('opacity', 0);
+          const start = Math.random() * Math.PI * 2,
+            span = Math.PI * (0.45 + Math.random() * 0.35);
+          const DUR = 700,
+            t0 = performance.now();
+          const tick = d3.timer(() => {
+            const t = Math.min(1, (performance.now() - t0) / DUR);
+            // Travel around the circle, flare in quickly, fade out at the end.
+            arc
+              .attr('d', jaggedArc(r + 4, start + t * Math.PI * 1.1, span))
+              .style(
+                'opacity',
+                t < 0.15 ? t / 0.15 : t > 0.7 ? (1 - t) / 0.3 : 1,
+              );
+            if (t >= 1) {
+              tick.stop();
+              arc.remove();
+            }
+          });
+          sparkTimers[svgId] = setTimeout(fire, 2500 + Math.random() * 2500);
+        };
+        sparkTimers[svgId] = setTimeout(fire, 600);
+      }
+
+      function draw(svgId, withRelated, o = DESKTOP) {
+        const { W, H } = o,
+          CX = W / 2,
+          CY = H / 2;
+        if (sims[svgId]) sims[svgId].stop();
+        clearTimeout(sparkTimers[svgId]);
+        const svg = d3.select('#' + svgId);
+        svg.selectAll('*').remove();
+        const nodes = topics.map((t) => ({ ...t }));
+        const ls = [...spokes, ...(withRelated ? related : [])].map((l) => ({
+          ...l,
+        }));
+        const radius = (d) => (d.hub ? 22 : d.live ? 26 : 20);
+
+        const gLinks = svg.append('g'),
+          gNodes = svg.append('g');
+        const link = gLinks
+          .selectAll('line')
+          .data(ls)
+          .join('line')
+          .attr('class', (d) => 'link ' + d.kind);
+        const node = gNodes
+          .selectAll('g.node')
+          .data(nodes)
+          .join('g')
+          .attr(
+            'class',
+            (d) => 'node' + (d.live ? ' live' : '') + (d.hub ? ' hub' : ''),
+          );
+        const body = node.append('g').attr('class', 'body');
+        body
+          .append('circle')
+          .attr('class', (d) => 'ring' + (d.live ? ' glow' : ''))
+          .attr('r', radius);
+        body.append('circle').attr('class', 'core').attr('r', 6);
+        body
+          .filter((d) => d.hub)
+          .append('text')
+          .attr('class', 'hub-label')
+          .attr('dy', '0.35em')
+          .text('AI');
+        body
+          .filter((d) => !d.hub)
+          .append('text')
+          .attr('y', (d) => radius(d) + 18)
+          .text((d) => d.title);
+        body
+          .filter((d) => d.live)
+          .append('text')
+          .attr('class', 'tag')
+          .attr('y', (d) => radius(d) + 33)
+          .text('live');
+
+        const place = () => {
+          link
+            .attr('x1', (d) => d.source.x)
+            .attr('y1', (d) => d.source.y)
+            .attr('x2', (d) => d.target.x)
+            .attr('y2', (d) => d.target.y);
+          node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+        };
+
+        const touches = (l, d) => l.source === d || l.target === d;
+        let selected = null;
+
+        // Topic card under the graph: title, blurb, status, and a link if live.
+        const card = d3.select('#' + svgId + '-card');
+        const showCard = (d) => {
+          if (card.empty()) return;
+          if (!d) {
+            card
+              .classed('empty', true)
+              .html(
+                '<p class="card-prompt">Pick a topic to see what it covers.</p>',
+              );
+            return;
+          }
+          card
+            .classed('empty', false)
+            .html(
+              `<div class="card-head"><h3>${d.title}</h3>` +
+                `<span class="badge ${d.live ? 'live' : ''}">${d.live ? 'Live' : 'Coming soon'}</span></div>` +
+                `<p class="card-blurb">${d.blurb}</p>` +
+                (d.live
+                  ? `<a class="card-link" href="#${d.id}">Read the topic →</a>`
+                  : ''),
+            );
+        };
+        showCard(null);
+
+        const highlight = (d) => {
+          const rel = new Set(
+            ls
+              .filter((l) => l.kind === 'related' && touches(l, d))
+              .flatMap((l) => [l.source, l.target]),
+          );
+          node.classed('related-on', (n) => n !== d && rel.has(n));
+          node
+            .transition()
+            .duration(250)
+            .style('opacity', (n) =>
+              n === d || n.hub || rel.has(n) ? 1 : 0.3,
+            );
+          node
+            .select('.body')
+            .transition()
+            .duration(250)
+            .attr('transform', (n) => (n === d ? 'scale(1.15)' : 'scale(1)'));
+          link
+            .transition()
+            .duration(250)
+            .style('stroke', (l) =>
+              touches(l, d) ? 'var(--accent-strong)' : null,
+            )
+            .style('opacity', (l) => (touches(l, d) ? 1 : 0.2));
+          showCard(d);
+        };
+        const clear = () => {
+          node.classed('related-on', false);
+          node.transition().duration(300).style('opacity', 1);
+          node
+            .select('.body')
+            .transition()
+            .duration(300)
+            .attr('transform', 'scale(1)');
+          link
+            .transition()
+            .duration(300)
+            .style('stroke', null)
+            .style('opacity', null);
+          showCard(null);
+        };
+        const select = (d) => {
+          if (selected === d) {
+            selected = null;
+            clear();
+          } else {
+            selected = d;
+            highlight(d);
+          }
+        };
+        node
+          .filter((d) => !d.hub)
+          .attr('tabindex', 0)
+          .on('mouseenter', (e, d) => {
+            if (!selected) highlight(d);
+          })
+          .on('mouseleave', () => {
+            if (selected) highlight(selected);
+            else clear();
+          })
+          .on('focus', (e, d) => highlight(d))
+          .on('blur', () => {
+            if (selected) highlight(selected);
+            else clear();
+          })
+          .on('click', (e, d) => {
+            // Desktop: a live node opens its page. Phone (o.tap): a tap selects;
+            // the card's link opens the page.
+            if (d.live && !o.tap) {
+              location.hash = d.id;
+              return;
+            }
+            select(d);
+          })
+          .on('keydown', (e, d) => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            if (d.live) location.hash = d.id;
+            else select(d);
+          });
+
+        // Layout computed off-screen, to rest. Related links pull gently.
+        nodes.forEach((n, i) => {
+          const a = (i / nodes.length) * Math.PI * 2;
+          n.x = CX + Math.cos(a) * 40;
+          n.y = CY + Math.sin(a) * 40;
+          n.phase = (i * 2.399) % (Math.PI * 2);
+        });
+        const sim = d3
+          .forceSimulation(nodes)
+          .force(
+            'link',
+            d3
+              .forceLink(ls)
+              .id((d) => d.id)
+              .distance((l) => (l.kind === 'spoke' ? o.spoke : o.rel))
+              .strength((l) => (l.kind === 'spoke' ? 1 : 0.15)),
+          )
+          .force('charge', d3.forceManyBody().strength(o.charge))
+          .force('center', d3.forceCenter(CX, CY))
+          .force('collide', d3.forceCollide(o.collide))
+          .force('x', d3.forceX(CX).strength(o.fx))
+          .force('y', d3.forceY(CY).strength(o.fy))
+          .stop();
+        for (let i = 0; i < 500; i++) sim.tick();
+        nodes.forEach((n) => {
+          n.tx = n.x;
+          n.ty = n.y;
+          n.vx = 0;
+          n.vy = 0;
+        });
+        sims[svgId] = sim;
+
+        const breathe = () => {
+          const t = performance.now() / 1000;
+          for (const n of nodes) {
+            n.vx += Math.cos(t * 0.6 + n.phase) * 0.01;
+            n.vy += Math.sin(t * 0.8 + n.phase) * 0.01;
+          }
+        };
+        const goLive = () => {
+          startSparks(
+            svgId,
+            node.filter((d) => d.hub).select('.body'),
+            radius(nodes[0]),
+          );
+          sim
+            .force('breathe', breathe)
+            .velocityDecay(0.6)
+            .alpha(0.02)
+            .alphaTarget(0.02)
+            .on('tick', place)
+            .restart();
+          node.call(
+            d3
+              .drag()
+              .on('start', (e, d) => {
+                if (!e.active) sim.alphaTarget(0.15).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+              })
+              .on('drag', (e, d) => {
+                d.fx = e.x;
+                d.fy = e.y;
+              })
+              .on('end', (e, d) => {
+                if (!e.active) sim.alphaTarget(0.02);
+                d.fx = null;
+                d.fy = null;
+              }),
+          );
+        };
+
+        if (reduce) {
+          place();
+          return;
+        }
+
+        // Entrance: glide from the centre (ease-out), fade/grow/sharpen, then
+        // spokes draw in, then related links.
+        const GLIDE_MS = 1600,
+          STAGGER = 260;
+        nodes.forEach((n) => {
+          n.x = CX;
+          n.y = CY;
+        });
+        place();
+        body
+          .attr('transform', 'scale(.3)')
+          .style('opacity', 0)
+          .style('filter', 'blur(8px)')
+          .transition()
+          .delay((d, i) => 150 + i * STAGGER)
+          .duration(1300)
+          .ease(d3.easeCubicOut)
+          .attr('transform', 'scale(1)')
+          .style('opacity', 1)
+          .style('filter', 'blur(0px)');
+        link
+          .attr('stroke-dasharray', 400)
+          .attr('stroke-dashoffset', 400)
+          .transition()
+          .delay((d, i) =>
+            d.kind === 'spoke' ? 650 + i * STAGGER : 2300 + i * 120,
+          )
+          .duration(1100)
+          .ease(d3.easeCubicInOut)
+          .attr('stroke-dashoffset', 0)
+          .on('end', function (d) {
+            d3.select(this).attr(
+              'stroke-dasharray',
+              d.kind === 'related' ? '3 5' : null,
+            );
+          });
+        node
+          .filter((d) => d.live)
+          .each(function (d) {
+            const i = nodes.indexOf(d);
+            d3.select(this)
+              .insert('circle', ':first-child')
+              .attr('r', radius(d))
+              .attr('fill', 'none')
+              .attr('stroke', 'var(--accent-strong)')
+              .attr('stroke-width', 2)
+              .style('opacity', 0)
+              .transition()
+              .delay(150 + i * STAGGER + 900)
+              .duration(0)
+              .style('opacity', 0.8)
+              .transition()
+              .duration(1400)
+              .ease(d3.easeCubicOut)
+              .attr('r', radius(d) * 3)
+              .style('opacity', 0)
+              .remove();
+          });
+        const timer = d3.timer((elapsed) => {
+          let done = true;
+          nodes.forEach((n, i) => {
+            const t = Math.min(
+              1,
+              Math.max(0, (elapsed - 150 - i * STAGGER) / GLIDE_MS),
+            );
+            if (t < 1) done = false;
+            const k = d3.easeCubicOut(t);
+            n.x = CX + (n.tx - CX) * k;
+            n.y = CY + (n.ty - CY) * k;
+          });
+          place();
+          if (done) {
+            timer.stop();
+            nodes.forEach((n) => {
+              n.x = n.tx;
+              n.y = n.ty;
+            });
+            goLive();
+          }
+        });
+      }
+
+      const render = () => {
+        draw('hub', false);
+        draw('mix', true);
+        draw('phone', true, PHONE);
+      };
+      render();
+      document.getElementById('replay').onclick = render;
+      document.getElementById('theme').onclick = () =>
+        document.documentElement.classList.toggle('dark');
+    </script>
+  </body>
+</html>
