@@ -55,8 +55,8 @@ test: ## Run the unit tests, then the end-to-end tests (needs dist/)
 test-unit: ## Run the Vitest unit tests in tests/unit/
 	@bash scripts/test-unit.sh
 
-test-e2e: ## Run the Playwright + axe tests in tests/e2e/ against dist/
-	@bash scripts/test-e2e.sh
+test-e2e: ## Run the Playwright + axe tests in tests/e2e/ against dist/ [GREP=<pattern>]
+	@GREP="$(GREP)" bash scripts/test-e2e.sh
 
 browsers: ## Install the Chromium headless shell the e2e tests use
 	@bash scripts/browsers.sh

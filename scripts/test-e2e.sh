@@ -4,6 +4,9 @@
 # `astro preview` of the built dist/. Called by `make test-e2e`; CI only,
 # not a hook, because it needs a build and a browser.
 # Rationale: docs/decisions/0013-test-layers.md.
+#
+# GREP=<pattern> (from `make test-e2e GREP=…`) runs only the tests whose
+# title matches, via Playwright's -g. Empty: the whole suite.
 
 set -euo pipefail
 
@@ -21,7 +24,12 @@ MSG
   exit 1
 fi
 
-if ! "$BIN/playwright" test; then
+args=(test)
+if [[ -n "${GREP:-}" ]]; then
+  args+=(-g "$GREP")
+fi
+
+if ! "$BIN/playwright" "${args[@]}"; then
   cat >&2 <<'MSG'
 
 E2E TESTS FAILED

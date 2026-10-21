@@ -18,6 +18,11 @@ Flat slugs, one per topic, plus the landing page ([ADR 0008](decisions/0008-flat
 | `/transformer-architecture` | Topic 4 (coming soon) |
 | `/agents-with-adk` | Topic 5 (coming soon) |
 
+Every route is slash-less except `/`. Pages are built as `<slug>.html`,
+which Cloudflare Pages serves at `/<slug>` with no redirect
+([ADR 0014](decisions/0014-file-format-no-trailing-slash.md)); the 404 page
+is `404.html` at the root. `tests/e2e/urls.spec.ts` enforces this.
+
 A coming-soon topic has **no page**. Its node is shown on the landing graph,
 styled as unfinished, and is not a link.
 

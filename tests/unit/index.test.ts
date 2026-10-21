@@ -11,5 +11,9 @@ test('index renders a full page with an <h1>', async () => {
   const html = await container.renderToString(Index, { partial: false });
 
   expect(html).toMatch(/^<!DOCTYPE html>/i);
-  expect(html).toMatch(/<h1[^>]*>[^<]+<\/h1>/);
+  // The heading may contain markup (e.g. an accent <span>); what matters is
+  // that it exists and has visible text once tags are removed.
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+  expect(h1, 'expected an <h1> element').not.toBeNull();
+  expect(h1![1].replace(/<[^>]+>/g, '').trim()).not.toBe('');
 });

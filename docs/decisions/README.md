@@ -44,3 +44,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0011](0011-pin-typescript-6.md) | Pin TypeScript to 6.x while `astro check` needs it | Accepted |
 | [0012](0012-staged-agent-autonomy.md) | Adopt agent autonomy in stages | Accepted |
 | [0013](0013-test-layers.md) | Test layers: Vitest for units, Playwright with axe end to end | Accepted |
+| [0014](0014-file-format-no-trailing-slash.md) | Build pages as files, with no trailing slash | Accepted |
