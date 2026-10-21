@@ -1,0 +1,580 @@
+<!doctype html>
+<!--
+  DESIGN REFERENCE: landing brief, "Layout" (decided 2026-10-20: A).
+  Panel A (force-directed) is the reference for the topic graph's motion and
+  interaction: layout computed off-screen by a force simulation, then each
+  topic glides from the centre (ease-out, staggered) while fading, growing
+  and sharpening in; links draw in after their nodes; one ripple from a live
+  node; gentle breathing at rest; hover highlight; drag after the entrance;
+  fully static under reduced motion. Panel B is the rejected alternative,
+  kept for comparison. The links here are placeholders (hub-and-spoke) and
+  one node is shown live only to show its look: docs/briefs/landing.md and
+  docs/design-system.md are the source of truth for everything else.
+  D3 loads from a CDN so the file opens standalone.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Graph layouts — force vs fixed</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource-variable/inter/index.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono/index.css"
+    />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --border: #e2e2e7;
+        --border-strong: #cfcfd6;
+        --text: #13131a;
+        --text-2: #5c5c68;
+        --text-3: #8a8a96;
+        --accent: #f59e0b;
+        --accent-strong: #d97706;
+        --accent-text: #b45309;
+        --accent-tint: rgba(245, 158, 11, 0.1);
+        --accent-line: rgba(217, 119, 6, 0.4);
+      }
+      :root.dark {
+        --bg: #13131a;
+        --surface: #20202b;
+        --border: #2c2c38;
+        --border-strong: #38383d;
+        --text: #f5f5f7;
+        --text-2: #9a9aa5;
+        --text-3: #6b6b78;
+        --accent: #10b981;
+        --accent-strong: #10b981;
+        --accent-text: #10b981;
+        --accent-tint: rgba(16, 185, 129, 0.12);
+        --accent-line: rgba(16, 185, 129, 0.45);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter Variable', system-ui, sans-serif;
+      }
+      .mono,
+      button,
+      .label {
+        font-family: 'Geist Mono Variable', ui-monospace, monospace;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: var(--surface);
+        color: var(--text-2);
+        border: 1px solid var(--border-strong);
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      button[aria-pressed='true'] {
+        color: var(--accent-text);
+        border-color: var(--accent-line);
+        background: var(--accent-tint);
+      }
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+      }
+      @media (max-width: 900px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+      section {
+        background: var(--bg);
+        padding: 20px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .label {
+        align-self: stretch;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-text);
+      }
+      .note {
+        align-self: stretch;
+        color: var(--text-2);
+        font-size: 14px;
+        margin: 6px 0 14px;
+      }
+      .frame {
+        width: 100%;
+        max-width: 640px;
+        transition: max-width 0.4s;
+      }
+      body.phone .frame {
+        max-width: 360px;
+        outline: 1px dashed var(--border-strong);
+        outline-offset: 6px;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .link {
+        stroke: var(--border-strong);
+        stroke-width: 1.5;
+      }
+      .node circle {
+        fill: var(--surface);
+        stroke: var(--text-3);
+        stroke-width: 1.5;
+        stroke-dasharray: 4 4;
+      }
+      .node.live circle {
+        fill: var(--accent-tint);
+        stroke: var(--accent-strong);
+        stroke-width: 2;
+        stroke-dasharray: none;
+      }
+      .node .core {
+        display: none;
+      }
+      .node.live .core {
+        display: block;
+        fill: var(--accent-strong);
+        stroke: none;
+      }
+      .node.hub circle {
+        fill: none;
+        stroke: var(--border-strong);
+        stroke-dasharray: none;
+      }
+      .node text {
+        font-size: 13px;
+        fill: var(--text-2);
+        text-anchor: middle;
+      }
+      .node.live text {
+        fill: var(--text);
+        font-weight: 600;
+      }
+      .node .tag {
+        font-size: 10px;
+        fill: var(--text-3);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-family: 'Geist Mono Variable', monospace;
+      }
+      .node.live .tag {
+        fill: var(--accent-text);
+      }
+      .glow {
+        filter: drop-shadow(0 0 10px var(--accent));
+      }
+      footer {
+        padding: 16px 24px;
+        color: var(--text-3);
+        font-size: 13px;
+      }
+    </style>
+    <script>
+      if (matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.add('dark');
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Topic graph layout: force-directed vs fixed</h1>
+      <div class="controls">
+        <button id="replay">Replay entrance</button>
+        <button id="phone" aria-pressed="false">Phone width (360px)</button>
+        <button id="theme">Switch theme</button>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="label">A · Force-directed</div>
+        <p class="note">
+          The layout is computed by a force simulation; each topic then glides
+          out from the centre to its place, and the graph keeps breathing
+          gently. Hover a node, or drag one and watch the rest react.
+        </p>
+        <div class="frame">
+          <svg
+            id="force"
+            viewBox="0 0 640 440"
+            role="img"
+            aria-label="Force-directed topic graph"
+          ></svg>
+        </div>
+      </section>
+      <section>
+        <div class="label">B · Fixed positions</div>
+        <p class="note">
+          Each node has a designed position, identical on every load and screen.
+          The same motion plays: nodes fade in, links draw in.
+        </p>
+        <div class="frame">
+          <svg
+            id="fixed"
+            viewBox="0 0 640 440"
+            role="img"
+            aria-label="Fixed-position topic graph"
+          ></svg>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Design exploration for the landing brief's "Layout" question. Links are
+      placeholders (every topic joined to a hub) until "Edges" is decided. One
+      topic is shown live only to show its look.
+    </footer>
+
+    <script type="module">
+      import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const W = 640,
+        H = 440;
+      const topics = [
+        { id: 'hub', title: '', hub: true },
+        { id: 'harness-engineering', title: 'Harness Engineering', live: true },
+        { id: 'rag-in-production', title: 'RAG in production' },
+        { id: 'llm-gateway', title: 'LLM gateways' },
+        { id: 'transformer-architecture', title: 'Transformers' },
+        { id: 'agents-with-adk', title: 'Agents with ADK' },
+      ];
+      const links = topics
+        .filter((t) => !t.hub)
+        .map((t) => ({ source: 'hub', target: t.id }));
+
+      // Designed positions for B (a pentagon-ish composition around the hub).
+      const fixedPos = {
+        hub: [320, 215],
+        'harness-engineering': [320, 70],
+        'rag-in-production': [520, 165],
+        'llm-gateway': [455, 360],
+        'transformer-architecture': [185, 360],
+        'agents-with-adk': [120, 165],
+      };
+
+      const sims = {};
+
+      function draw(svgId, layout) {
+        if (sims[svgId]) sims[svgId].stop();
+        const svg = d3.select('#' + svgId);
+        svg.selectAll('*').remove();
+        const nodes = topics.map((t) => ({ ...t }));
+        const ls = links.map((l) => ({ ...l }));
+        const gLinks = svg.append('g');
+        const gNodes = svg.append('g');
+        const radius = (d) => (d.hub ? 8 : d.live ? 26 : 20);
+
+        const link = gLinks
+          .selectAll('line')
+          .data(ls)
+          .join('line')
+          .attr('class', 'link');
+        // Outer <g> is positioned by the layout; inner <g> carries the entrance
+        // and hover scale, so the two never fight.
+        const node = gNodes
+          .selectAll('g.node')
+          .data(nodes)
+          .join('g')
+          .attr(
+            'class',
+            (d) => 'node' + (d.live ? ' live' : '') + (d.hub ? ' hub' : ''),
+          );
+        const body = node.append('g').attr('class', 'body');
+        body
+          .append('circle')
+          .attr('r', radius)
+          .attr('class', (d) => (d.live ? 'glow' : null));
+        body.append('circle').attr('class', 'core').attr('r', 6);
+        body
+          .filter((d) => !d.hub)
+          .append('text')
+          .attr('y', (d) => radius(d) + 18)
+          .text((d) => d.title);
+        body
+          .filter((d) => !d.hub)
+          .append('text')
+          .attr('class', 'tag')
+          .attr('y', (d) => radius(d) + 33)
+          .text((d) => (d.live ? 'live' : 'coming soon'));
+
+        const place = () => {
+          link
+            .attr('x1', (d) => d.source.x)
+            .attr('y1', (d) => d.source.y)
+            .attr('x2', (d) => d.target.x)
+            .attr('y2', (d) => d.target.y);
+          node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+        };
+
+        // Hover: the node grows, its links light up, everything else dims.
+        node
+          .filter((d) => !d.hub)
+          .on('mouseenter', (e, d) => {
+            node
+              .transition()
+              .duration(250)
+              .style('opacity', (n) => (n === d || n.hub ? 1 : 0.35));
+            d3.select(e.currentTarget)
+              .select('.body')
+              .transition()
+              .duration(250)
+              .attr('transform', 'scale(1.15)');
+            link
+              .transition()
+              .duration(250)
+              .style('stroke', (l) =>
+                l.target === d || l.source === d
+                  ? 'var(--accent-strong)'
+                  : null,
+              )
+              .style('opacity', (l) =>
+                l.target === d || l.source === d ? 1 : 0.3,
+              );
+          })
+          .on('mouseleave', (e) => {
+            node.transition().duration(300).style('opacity', 1);
+            d3.select(e.currentTarget)
+              .select('.body')
+              .transition()
+              .duration(300)
+              .attr('transform', 'scale(1)');
+            link
+              .transition()
+              .duration(300)
+              .style('stroke', null)
+              .style('opacity', 1);
+          });
+
+        if (layout === 'fixed') {
+          nodes.forEach((n) => {
+            [n.x, n.y] = fixedPos[n.id];
+          });
+          const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+          ls.forEach((l) => {
+            l.source = byId[l.source];
+            l.target = byId[l.target];
+          });
+          place();
+        } else {
+          // 1. Compute the force layout off-screen, to rest, before drawing.
+          nodes.forEach((n, i) => {
+            const a = (i / nodes.length) * Math.PI * 2;
+            n.x = W / 2 + Math.cos(a) * 40;
+            n.y = H / 2 + Math.sin(a) * 40;
+            n.phase = (i * 2.399) % (Math.PI * 2); // deterministic, evenly spread
+          });
+          const sim = d3
+            .forceSimulation(nodes)
+            .force(
+              'link',
+              d3
+                .forceLink(ls)
+                .id((d) => d.id)
+                .distance(150),
+            )
+            .force('charge', d3.forceManyBody().strength(-500))
+            .force('center', d3.forceCenter(W / 2, H / 2))
+            .force('collide', d3.forceCollide(60))
+            .force('x', d3.forceX(W / 2).strength(0.05))
+            .force('y', d3.forceY(H / 2).strength(0.08))
+            .stop();
+          for (let i = 0; i < 500; i++) sim.tick();
+          nodes.forEach((n) => {
+            n.tx = n.x;
+            n.ty = n.y;
+            n.vx = 0;
+            n.vy = 0;
+          });
+          sims[svgId] = sim;
+
+          // Gentle breathing at rest: a tiny sinusoidal nudge, heavily damped.
+          const breathe = () => {
+            const t = performance.now() / 1000;
+            for (const n of nodes) {
+              n.vx += Math.cos(t * 0.6 + n.phase) * 0.01;
+              n.vy += Math.sin(t * 0.8 + n.phase) * 0.01;
+            }
+          };
+          const goLive = () => {
+            sim
+              .force('breathe', breathe)
+              .velocityDecay(0.6)
+              .alpha(0.02)
+              .alphaTarget(0.02)
+              .on('tick', place)
+              .restart();
+            node.call(
+              d3
+                .drag()
+                .on('start', (e, d) => {
+                  if (!e.active) sim.alphaTarget(0.15).restart();
+                  d.fx = d.x;
+                  d.fy = d.y;
+                })
+                .on('drag', (e, d) => {
+                  d.fx = e.x;
+                  d.fy = e.y;
+                })
+                .on('end', (e, d) => {
+                  if (!e.active) sim.alphaTarget(0.02);
+                  d.fx = null;
+                  d.fy = null;
+                }),
+            );
+          };
+
+          if (reduce) {
+            place();
+            goLiveStatic();
+          } else {
+            // 2. Choreographed entrance: each topic glides from the centre to its
+            //    computed place on an ease-out curve. No physics, no bounce.
+            const GLIDE_MS = 1600,
+              STAGGER = 260;
+            const ease = d3.easeCubicOut;
+            nodes.forEach((n) => {
+              n.x = W / 2;
+              n.y = H / 2;
+            });
+            place();
+            const timer = d3.timer((elapsed) => {
+              let done = true;
+              nodes.forEach((n, i) => {
+                const t = Math.min(
+                  1,
+                  Math.max(0, (elapsed - 150 - i * STAGGER) / GLIDE_MS),
+                );
+                if (t < 1) done = false;
+                const k = ease(t);
+                n.x = W / 2 + (n.tx - W / 2) * k;
+                n.y = H / 2 + (n.ty - H / 2) * k;
+              });
+              place();
+              // 3. Hand over to the live simulation from exactly these positions.
+              if (done) {
+                timer.stop();
+                nodes.forEach((n) => {
+                  n.x = n.tx;
+                  n.y = n.ty;
+                });
+                goLive();
+              }
+            });
+          }
+          function goLiveStatic() {
+            node.call(
+              d3.drag().on('drag', (e, d) => {
+                d.x = e.x;
+                d.y = e.y;
+                place();
+              }),
+            );
+          }
+        }
+
+        if (reduce) return;
+        // Entrance: each node fades in, grows and sharpens out of a blur, one
+        // after another; each link draws in once its node has arrived.
+        const STAGGER = 260,
+          NODE_MS = 1300;
+        body
+          .attr('transform', 'scale(.3)')
+          .style('opacity', 0)
+          .style('filter', 'blur(8px)')
+          .transition()
+          .delay((d, i) => 150 + i * STAGGER)
+          .duration(NODE_MS)
+          .ease(d3.easeCubicOut)
+          .attr('transform', 'scale(1)')
+          .style('opacity', 1)
+          .style('filter', 'blur(0px)');
+        link
+          .attr('stroke-dasharray', 300)
+          .attr('stroke-dashoffset', 300)
+          .transition()
+          .delay((d, i) => 150 + (i + 1) * STAGGER + 500)
+          .duration(1100)
+          .ease(d3.easeCubicInOut)
+          .attr('stroke-dashoffset', 0)
+          .on('end', function () {
+            d3.select(this).attr('stroke-dasharray', null);
+          });
+        // One ripple from the live node when it lands.
+        node
+          .filter((d) => d.live)
+          .each(function (d) {
+            const i = nodes.indexOf(d);
+            d3.select(this)
+              .insert('circle', ':first-child')
+              .attr('r', radius(d))
+              .attr('fill', 'none')
+              .attr('stroke', 'var(--accent-strong)')
+              .attr('stroke-width', 2)
+              .style('opacity', 0)
+              .transition()
+              .delay(150 + i * STAGGER + NODE_MS * 0.7)
+              .duration(0)
+              .style('opacity', 0.8)
+              .transition()
+              .duration(1400)
+              .ease(d3.easeCubicOut)
+              .attr('r', radius(d) * 3)
+              .style('opacity', 0)
+              .remove();
+          });
+      }
+
+      const render = () => {
+        draw('force', 'force');
+        draw('fixed', 'fixed');
+      };
+      render();
+      document.getElementById('replay').onclick = render;
+      document.getElementById('theme').onclick = () =>
+        document.documentElement.classList.toggle('dark');
+      const phone = document.getElementById('phone');
+      phone.onclick = () => {
+        const on = document.body.classList.toggle('phone');
+        phone.setAttribute('aria-pressed', String(on));
+      };
+    </script>
+  </body>
+</html>

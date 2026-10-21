@@ -9,7 +9,7 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 7 — Stage 1: `<<loop>> landing.md` (settle its open questions first; see the phase file)
+- **Next step:** 7 — Stage 1: `<<loop>> landing.md` (the brief is Ready; see the phase file)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:
@@ -52,6 +52,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 | Colours, fonts, components, animation | [`design-system.md`](design-system.md) |
 | What work is planned, in what order, and what's done | [`roadmap/`](roadmap/README.md) |
 | Building a page or the shared shell: what it must contain, acceptance criteria, open questions | [`briefs/`](briefs/) (`shell.md`, `landing.md`, `harness-engineering.md`) |
+| Site copy waiting to be used: topic teasers and blurbs | [`content/topic-blurbs.md`](content/topic-blurbs.md) |
 | Running, building, checking; `make`; git workflow; hooks and CI | [`development.md`](development.md) |
 | Tools to install locally (PDF toolchain, Node) | [`prerequisites.md`](prerequisites.md) |
 | Why something is the way it is | [`decisions/`](decisions/README.md) |
@@ -87,8 +88,11 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
     does).
   - **A phase step that builds a page links a Ready brief before it
     starts.** If none exists, writing it comes first, as its own step.
-- **`design/`** holds visual references. `style-sample.html` is a frozen
-  mood board; `design-system.md` is the source of truth.
+- **`content/`** holds site copy that pages draw from (topic teasers and blurbs),
+  so briefs can cite it rather than restate it.
+- **`design/`** holds visual references: the frozen `style-sample.html` mood
+  board, and design references briefs point to (e.g. the landing graph).
+  `design-system.md` and the briefs are the source of truth.
 - **`/research/`** at the repo root holds summaries from the researcher
   sub-agent.
 

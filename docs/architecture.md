@@ -35,8 +35,9 @@ graph, the topic pages and any navigation all read from it.
 type Topic = {
   slug: string;                       // URL path, e.g. "harness-engineering"
   title: string;
-  blurb: string;                      // one or two sentences
+  blurb: string;                      // teaser or full blurb, from docs/content/topic-blurbs.md
   status: "live" | "coming-soon";
+  related?: string[];                 // slugs of related topics (graph cross-links)
   pdf?: string;                       // e.g. "/harness-guide.pdf"
   github?: string;                    // project repo URL
 };
@@ -47,6 +48,11 @@ Taking a topic live is one change: its `status` goes from `"coming-soon"` to
 (`tests/unit/topics.test.ts`, run by `make test-unit` in pre-commit and CI)
 enforces **live ⇔ page exists**, so the graph can never link to a missing
 page or hide a finished one.
+
+`blurb` comes from [`docs/content/topic-blurbs.md`](content/topic-blurbs.md):
+the teaser while a topic is coming soon, the full blurb once it is live (a
+unit test checks they match). `related` lists the topics a graph cross-link
+joins; each pair is listed on one side only.
 
 ## Pages and interactivity
 
