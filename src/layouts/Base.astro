@@ -31,10 +31,20 @@ const imageUrl = new URL(image, origin).href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Dark by default; restore a saved light choice before first paint
+      // so it doesn't flash (docs/decisions/0015). Storage can be blocked.
+      try {
+        if (localStorage.getItem('theme') === 'light')
+          document.documentElement.dataset.theme = 'light';
+      } catch {
+        // Blocked storage: stay dark.
+      }
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

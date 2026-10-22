@@ -3,7 +3,8 @@
  * (docs/design-system.md#colour-tokens). Everything else in src/ uses the
  * Tailwind utilities these generate (bg-bg, text-text-2, ...) or the CSS
  * variables, never a colour literal; tests/unit/colour-literals.test.ts
- * enforces it. Dark is the default; light follows the system setting.
+ * enforces it. Dark is the default; light applies under data-theme="light",
+ * set by the header toggle (docs/decisions/0015).
  */
 
 @import 'tailwindcss';
@@ -37,31 +38,30 @@
   --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-bg: #fafafa;
-    --color-bg-alt: #f1f1f4;
-    --color-surface: #ffffff;
-    --color-border: #e2e2e7;
-    --color-border-strong: #cfcfd6;
-    --color-text: #13131a;
-    --color-text-2: #5c5c68;
-    --color-text-3: #8a8a96;
-    --color-accent: #f59e0b;
-    --color-accent-strong: #d97706;
-    --color-accent-text: #b45309;
-    --color-accent-ink: #13131a;
-    --color-accent-tint: rgba(245, 158, 11, 0.1);
-    --color-accent-line: rgba(217, 119, 6, 0.4);
-    --color-grid-line: rgba(19, 19, 26, 0.06);
-    --color-violet: #5b4fe5;
-    --color-coral: #e5484d;
-  }
+:root[data-theme='light'] {
+  --color-bg: #fafafa;
+  --color-bg-alt: #f1f1f4;
+  --color-surface: #ffffff;
+  --color-border: #e2e2e7;
+  --color-border-strong: #cfcfd6;
+  --color-text: #13131a;
+  --color-text-2: #5c5c68;
+  --color-text-3: #8a8a96;
+  --color-accent: #f59e0b;
+  --color-accent-strong: #d97706;
+  --color-accent-text: #b45309;
+  --color-accent-ink: #13131a;
+  --color-accent-tint: rgba(245, 158, 11, 0.1);
+  --color-accent-line: rgba(217, 119, 6, 0.4);
+  --color-grid-line: rgba(19, 19, 26, 0.06);
+  --color-violet: #5b4fe5;
+  --color-coral: #e5484d;
+  color-scheme: light;
 }
 
 @layer base {
   :root {
-    color-scheme: dark light;
+    color-scheme: dark;
   }
 
   body {
