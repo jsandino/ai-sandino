@@ -77,7 +77,7 @@ test('defaults to dark even when the system prefers light', async ({
   expect(await bodyBg(page)).toBe(toRgb(bgToken().dark));
 });
 
-test('theme toggle switches theme, names the next action, and is remembered', async ({
+test('theme toggle switches theme and favicon, names the next action, and is remembered', async ({
   page,
 }) => {
   await page.goto('/');
@@ -87,10 +87,23 @@ test('theme toggle switches theme, names the next action, and is remembered', as
   const back = header.getByRole('button', { name: 'Switch to dark theme' });
   await expect(back).toBeVisible();
 
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+    'href',
+    '/favicon-light.svg',
+  );
+
   await page.reload();
   expect(await bodyBg(page)).toBe(toRgb(bgToken().light));
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+    'href',
+    '/favicon-light.svg',
+  );
   await back.click();
   expect(await bodyBg(page)).toBe(toRgb(bgToken().dark));
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+    'href',
+    '/favicon-dark.svg',
+  );
 });
 
 for (const p of PAGES) {
@@ -205,14 +218,15 @@ test('favicon and apple-touch-icon are linked and served', async ({
   await page.goto('/');
   const icon = page.locator('link[rel="icon"]');
   await expect(icon).toHaveAttribute('type', 'image/svg+xml');
-  await expect(icon).toHaveAttribute('href', '/favicon.svg');
+  await expect(icon).toHaveAttribute('href', '/favicon-dark.svg');
   await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
     'href',
     '/apple-touch-icon.png',
   );
 
   for (const [path, type] of [
-    ['/favicon.svg', 'image/svg+xml'],
+    ['/favicon-dark.svg', 'image/svg+xml'],
+    ['/favicon-light.svg', 'image/svg+xml'],
     ['/apple-touch-icon.png', 'image/png'],
     ['/og.png', 'image/png'],
   ]) {

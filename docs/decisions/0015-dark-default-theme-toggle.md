@@ -19,7 +19,8 @@ The site opens in dark for every new visitor, ignoring
 moon while light, with an `aria-label` naming the action) switches theme.
 The choice is stored in `localStorage` and applied by an inline script in
 `<head>` before first paint, via a `data-theme` attribute on `<html>`. The
-favicon keeps following the system setting, since it sits in browser chrome.
+favicon follows the site's theme too: the same script and toggle swap its
+link between a dark and a light icon.
 
 ## Alternatives considered
 
@@ -33,6 +34,7 @@ favicon keeps following the system setting, since it sits in browser chrome.
 - **Positive:** everyone sees the intended dark-first design; light is one
   click away and sticks.
 - **Negative:** a small inline script is now required on every page, and
-  the theme no longer adapts to the system on its own.
+  the theme no longer adapts to the system on its own. Safari may keep
+  showing a cached favicon until reload.
 - **Neutral:** e2e tests select a theme with `data-theme` / `localStorage`
   instead of `emulateMedia({ colorScheme })`.

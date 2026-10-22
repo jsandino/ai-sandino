@@ -66,7 +66,8 @@ const REPO_URL = 'https://github.com/jsandino/ai-sandino';
 </header>
 
 <script>
-  // Flip the theme, remember it, and keep the label naming the action.
+  // Flip the theme and favicon, remember the choice, and keep the label
+  // naming the action.
   const root = document.documentElement;
   const button = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
   const label = () =>
@@ -80,6 +81,8 @@ const REPO_URL = 'https://github.com/jsandino/ai-sandino';
   button.addEventListener('click', () => {
     const next = root.dataset.theme === 'light' ? 'dark' : 'light';
     root.dataset.theme = next;
+    document.querySelector<HTMLLinkElement>('link[rel="icon"]')!.href =
+      `/favicon-${next}.svg`;
     try {
       localStorage.setItem('theme', next);
     } catch {
