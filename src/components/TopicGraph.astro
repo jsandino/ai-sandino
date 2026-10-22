@@ -180,7 +180,8 @@ const topicNodes = graph.nodes.filter((n) => !n.hub);
     filter: drop-shadow(0 0 10px var(--color-accent));
   }
   .topic-graph :global(.node.hub .ring) {
-    fill: none;
+    /* Opaque, so the edges stop at the ring instead of meeting behind "AI". */
+    fill: var(--color-bg);
     stroke: var(--color-border-strong);
     stroke-dasharray: none;
   }
