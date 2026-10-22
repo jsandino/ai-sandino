@@ -167,7 +167,10 @@ test.describe('desktop interaction', () => {
     page,
   }, testInfo) => {
     for (const scheme of ['dark', 'light'] as const) {
-      await page.emulateMedia({ colorScheme: scheme, reducedMotion: 'reduce' });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      // The theme is a saved choice (docs/decisions/0015); a later init
+      // script runs last, so it wins on the second pass.
+      await page.addInitScript((s) => localStorage.setItem('theme', s), scheme);
       await page.goto('/');
       await topicNode(page, topics[0].slug).focus();
       await expect(card(page).locator('h3')).toHaveText(topics[0].title);

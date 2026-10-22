@@ -48,6 +48,14 @@ const toRgb = (hex: string) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
+// Select a theme the way the toggle does: a saved choice, applied before
+// first paint (docs/decisions/0015).
+const useTheme = (page: Page, scheme: 'dark' | 'light') =>
+  page.addInitScript((s) => localStorage.setItem('theme', s), scheme);
+
+const bodyBg = (page: Page) =>
+  page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+
 const meta = (page: Page, attr: 'name' | 'property', key: string) =>
   page.locator(`meta[${attr}="${key}"]`).getAttribute('content');
 
@@ -55,14 +63,35 @@ for (const scheme of ['dark', 'light'] as const) {
   test(`page background is the bg token in ${scheme} mode`, async ({
     page,
   }) => {
-    await page.emulateMedia({ colorScheme: scheme });
+    await useTheme(page, scheme);
     await page.goto('/');
-    const bg = await page.evaluate(
-      () => getComputedStyle(document.body).backgroundColor,
-    );
-    expect(bg).toBe(toRgb(bgToken()[scheme]));
+    expect(await bodyBg(page)).toBe(toRgb(bgToken()[scheme]));
   });
 }
+
+test('defaults to dark even when the system prefers light', async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  expect(await bodyBg(page)).toBe(toRgb(bgToken().dark));
+});
+
+test('theme toggle switches theme, names the next action, and is remembered', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const header = page.getByRole('banner');
+  await header.getByRole('button', { name: 'Switch to light theme' }).click();
+  expect(await bodyBg(page)).toBe(toRgb(bgToken().light));
+  const back = header.getByRole('button', { name: 'Switch to dark theme' });
+  await expect(back).toBeVisible();
+
+  await page.reload();
+  expect(await bodyBg(page)).toBe(toRgb(bgToken().light));
+  await back.click();
+  expect(await bodyBg(page)).toBe(toRgb(bgToken().dark));
+});
 
 for (const p of PAGES) {
   test.describe(`page ${p.path}`, () => {
@@ -154,7 +183,7 @@ for (const p of PAGES) {
       test(`has no accessibility violations in ${scheme} mode`, async ({
         page,
       }, testInfo) => {
-        await page.emulateMedia({ colorScheme: scheme });
+        await useTheme(page, scheme);
         await page.goto(p.path);
         const results = await new AxeBuilder({ page })
           .withTags(WCAG_TAGS)
