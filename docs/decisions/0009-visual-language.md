@@ -1,6 +1,6 @@
 # 0009 — Base the visual language on the AI Dev reference
 
-- **Status:** Accepted
+- **Status:** Accepted; theme clause superseded by [0015](0015-dark-default-theme-toggle.md)
 - **Date:** 2026-10-07
 
 ---
