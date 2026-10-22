@@ -15,9 +15,12 @@ topic page sets its own content density inside it. Mobile-first.
 
 ## Themes
 
-Dark and light, **following the visitor's system setting**
-(`prefers-color-scheme`). There is no toggle. The design is dark-first.
-The accent differs by theme: **emerald on dark, amber on light**.
+Dark and light. **Every visitor starts in dark**, whatever their system
+setting. A sun/moon icon button in the header switches theme, and the
+choice is remembered in `localStorage`. The design is dark-first. The
+accent differs by theme: **emerald on dark, amber on light**. The favicon
+still follows the system setting (see Brand marks). Rationale:
+[ADR 0015](decisions/0015-dark-default-theme-toggle.md).
 
 ## Colour tokens
 

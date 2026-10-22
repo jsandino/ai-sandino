@@ -18,7 +18,9 @@ belong in the relevant doc, not here.
 
 - **Superseded, not rewritten.** If a decision changes, write a new ADR that
   supersedes it, and change only the old one's **Status** line to
-  `Superseded by NNNN-slug`.
+  `Superseded by NNNN-slug`. If the new ADR replaces only part of the old
+  one, the old Status line becomes
+  `Accepted; <part> superseded by NNNN-slug` instead.
 - **Indexed.** Every ADR appears in the table below before it is merged.
 - **Numbered.** Four-digit, zero-padded, sequential (`0001`, `0002`, …).
   Numbers are never reused.
@@ -39,9 +41,10 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0006](0006-defer-web-mermaid.md) | Put off rendering Mermaid on the web | Accepted |
 | [0007](0007-hand-written-topic-pages.md) | Write topic pages by hand, using the guide as a reference | Accepted (provisional) |
 | [0008](0008-flat-urls-and-topics-data.md) | Use flat URLs, with `topics.ts` as the single source | Accepted |
-| [0009](0009-visual-language.md) | Base the visual language on the AI Dev reference | Accepted |
+| [0009](0009-visual-language.md) | Base the visual language on the AI Dev reference | Accepted; theme clause superseded by 0015 |
 | [0010](0010-ci-checks-and-gates.md) | CI checks and their gates | Accepted |
 | [0011](0011-pin-typescript-6.md) | Pin TypeScript to 6.x while `astro check` needs it | Accepted |
 | [0012](0012-staged-agent-autonomy.md) | Adopt agent autonomy in stages | Accepted |
 | [0013](0013-test-layers.md) | Test layers: Vitest for units, Playwright with axe end to end | Accepted |
 | [0014](0014-file-format-no-trailing-slash.md) | Build pages as files, with no trailing slash | Accepted |
+| [0015](0015-dark-default-theme-toggle.md) | Default to dark, with a remembered theme toggle | Accepted |
