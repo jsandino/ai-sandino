@@ -35,6 +35,7 @@ graph, the topic pages and any navigation all read from it.
 type Topic = {
   slug: string;                       // URL path, e.g. "harness-engineering"
   title: string;
+  label: string;                      // short name on the landing graph node
   blurb: string;                      // teaser or full blurb, from docs/content/topic-blurbs.md
   status: "live" | "coming-soon";
   related?: string[];                 // slugs of related topics (graph cross-links)
@@ -52,7 +53,9 @@ page or hide a finished one.
 `blurb` comes from [`docs/content/topic-blurbs.md`](content/topic-blurbs.md):
 the teaser while a topic is coming soon, the full blurb once it is live (a
 unit test checks they match). `related` lists the topics a graph cross-link
-joins; each pair is listed on one side only.
+joins; each pair is listed on one side only. `src/lib/topic-graph.ts` turns
+the data into the graph's nodes and links (a hub, one spoke per topic, one
+cross-link per pair), and unit tests feed it fixtures with live topics.
 
 ## Pages and interactivity
 
@@ -113,6 +116,8 @@ Directory roles, not file lists. Docs are listed in the
 | `src/components/` | Astro components, including islands with client scripts |
 | `src/layouts/` | The shared page shell |
 | `src/data/` | Typed data, e.g. `topics.ts` |
+| `src/lib/` | Pure logic shared by pages, scripts and tests (no DOM) |
+| `src/scripts/` | Client-side scripts too large to inline in a component |
 | `src/content/` | Guide source Markdown (PDF only) |
 | `src/styles/` | Global CSS and Tailwind theme tokens |
 | `public/` | Static files served as-is, including committed PDFs |

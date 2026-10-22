@@ -7,7 +7,7 @@ What we use, and why in one line. The full reasoning is in the linked ADRs.
 | Framework | **Astro** (strict TypeScript) | Static by default, file-based routing, islands ship JS only where needed |
 | Styling | **Tailwind CSS 4** (Vite plugin) | Utility classes; theme tokens defined once in CSS |
 | Animation | **Motion**, vanilla API | Scroll-triggered and entrance animations with no framework runtime ([ADR 0003](decisions/0003-vanilla-motion-no-react.md)) |
-| Data-driven graphics | **D3.js** | Landing node graph and data diagrams |
+| Data-driven graphics | **D3.js**, per-module packages (`d3-force`, `d3-selection`, …), never the full bundle | Landing node graph and data diagrams; only the modules a graphic needs, to stay inside the Lighthouse budget |
 | Diagrams | **Mermaid** | Used in the PDF guides; web rendering put off ([ADR 0006](decisions/0006-defer-web-mermaid.md)) |
 | Fonts | **Inter** + **Geist Mono**, via `@fontsource` | Self-hosted, with no third-party font requests ([ADR 0009](decisions/0009-visual-language.md)) |
 | PDF guides | **pandoc + xelatex + mmdc** | Already used to build the guide; runs locally only ([ADR 0002](decisions/0002-commit-pdf-rebuild-in-hook.md)) |

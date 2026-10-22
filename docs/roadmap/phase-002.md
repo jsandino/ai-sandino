@@ -22,8 +22,8 @@ and the Harness Engineering page.
 | 4 | Brief readiness: the rule (no open questions; every criterion maps to a check or "human review"); settle the shell brief's open questions | [shell](../briefs/shell.md) | Done |
 | 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Done |
 | 6 | Tune the harness from the shell run | — | Done |
-| 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | Next |
-| 8 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Planned |
+| 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | Done |
+| 8 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Next |
 | 9 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | Planned |
 | 10 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | Planned |
 

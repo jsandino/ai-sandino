@@ -1,6 +1,8 @@
 ---
 // The shared shell every page uses: metadata, theme, header, footer
-// (docs/briefs/shell.md). Pages put their content in the default slot.
+// (docs/briefs/shell.md). Pages put their content in the default slot, and
+// may put a decorative layer behind it in the "backdrop" slot (the landing
+// page's grid and beams).
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import '../styles/global.css';
@@ -55,9 +57,12 @@ const imageUrl = new URL(image, origin).href;
   </head>
   <body class="flex min-h-screen flex-col">
     <Header />
-    <main class="mx-auto w-full max-w-[1100px] flex-1 px-6">
-      <slot />
-    </main>
+    <div class="relative flex flex-1 flex-col">
+      <slot name="backdrop" />
+      <main class="relative mx-auto w-full max-w-[1100px] flex-1 px-6">
+        <slot />
+      </main>
+    </div>
     <Footer />
   </body>
 </html>

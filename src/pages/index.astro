@@ -1,6 +1,8 @@
 ---
-// Placeholder home: the shell with the hero title only, until the landing
-// brief is built (docs/briefs/shell.md, piece 7).
+// The landing page (docs/briefs/landing.md): the hero, then the topic
+// graph and its card on a feathered panel, over the grid and beams.
+import Backdrop from '../components/Backdrop.astro';
+import TopicGraph from '../components/TopicGraph.astro';
 import Base from '../layouts/Base.astro';
 ---
 
@@ -8,5 +10,15 @@ import Base from '../layouts/Base.astro';
   title="Practical AI engineering"
   description="Practical AI engineering, explained through interactive pages, companion PDF guides and working code."
 >
-  <h1 class="py-24 text-[clamp(48px,8vw,84px)]">Practical AI engineering</h1>
+  <Backdrop slot="backdrop" />
+  <section class="pt-24 pb-14">
+    <h1 class="mb-[18px] text-[clamp(48px,8vw,84px)]">
+      Practical AI <span class="text-accent-strong">engineering</span>
+    </h1>
+    <p class="text-text-2 max-w-[56ch] text-[clamp(17px,2vw,20px)]">
+      Learn how AI systems actually get built — explained visually, backed by
+      real projects.
+    </p>
+  </section>
+  <TopicGraph />
 </Base>

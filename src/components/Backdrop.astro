@@ -1,0 +1,74 @@
+---
+// The landing backdrop (docs/briefs/landing.md, Decided #6): the 30px grid
+// and six falling beams behind the page content, decorative and hidden
+// from assistive tech. Under reduced motion the beams are hidden and the
+// grid is static. Placed in Base's "backdrop" slot.
+const BEAMS = [
+  { left: 7, delay: -2, duration: 8 },
+  { left: 22, delay: -6, duration: 9 },
+  { left: 38, delay: -4, duration: 7.5 },
+  { left: 61, delay: -1, duration: 8.5 },
+  { left: 77, delay: -5, duration: 7 },
+  { left: 93, delay: -3, duration: 9 },
+];
+---
+
+<div
+  class="backdrop pointer-events-none absolute inset-0 overflow-hidden"
+  aria-hidden="true"
+>
+  <div class="grid-bg absolute inset-0"></div>
+  {BEAMS.map((b) => (
+    <div
+      class="beam absolute"
+      style={`left:${b.left}%;animation-delay:${b.delay}s;animation-duration:${b.duration}s`}
+    />
+  ))}
+</div>
+
+<style>
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--color-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center top;
+    /* The mask uses only alpha, so the opaque bg token is the solid stop. */
+    mask-image: radial-gradient(
+      ellipse 90% 85% at 50% 45%,
+      var(--color-bg) 55%,
+      transparent 100%
+    );
+    animation: grid-in 1.5s ease-out both;
+  }
+  @keyframes grid-in {
+    from {
+      opacity: 0;
+    }
+  }
+  .beam {
+    top: -25%;
+    width: 1px;
+    height: 25%;
+    background: linear-gradient(
+      transparent,
+      var(--color-accent-line) 70%,
+      var(--color-accent)
+    );
+    opacity: 0.6;
+    animation: fall 8s linear infinite;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(520%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .beam {
+      display: none;
+    }
+    .grid-bg {
+      animation: none;
+    }
+  }
+</style>
