@@ -1,6 +1,6 @@
 # Brief — Landing page (`/`)
 
-- **Status:** Ready
+- **Status:** Done
 - **Roadmap:** [phase 002](../roadmap/phase-002.md), step 7
 - **Source:** kickoff "Landing page concept"; ADR 0008 (routes,
   `topics.ts`); ADR 0009 + `design-system.md` (look); design references in

@@ -1,0 +1,244 @@
+---
+// The landing topic graph (docs/briefs/landing.md, Decided #1–#6). It
+// renders first as a plain "Topics" list, so search engines, screen
+// readers and no-JS visitors get the same content; the script below hides
+// the list and draws the graph and card from the same data.
+import { topics as allTopics, type Topic } from '../data/topics';
+import { topicsToGraph } from '../lib/topic-graph';
+
+interface Props {
+  /** Defaults to src/data/topics.ts; unit tests pass fixtures. */
+  topics?: Topic[];
+}
+
+const { topics = allTopics } = Astro.props;
+const graph = topicsToGraph(topics);
+const topicNodes = graph.nodes.filter((n) => !n.hub);
+---
+
+<section
+  class="graph-section relative flex flex-col items-center pt-2 pb-18 max-sm:-mx-6"
+  aria-labelledby="topics-heading"
+>
+  <div class="graph-panel flex w-full max-w-[760px] flex-col items-center">
+    <div class="w-full" data-topic-list>
+      <h2 id="topics-heading" class="mb-6 text-[clamp(32px,4.5vw,44px)]">
+        Topics
+      </h2>
+      <ul class="flex flex-col gap-5">
+        {topicNodes.map((n) => (
+          <li>
+            {n.href ? (
+              <a
+                href={n.href}
+                class="text-accent-text text-lg font-semibold hover:underline"
+              >
+                {n.title}
+              </a>
+            ) : (
+              <span class="text-lg font-semibold">{n.title}</span>
+            )}
+            <p class="text-text-2 mt-1 text-[15px]">{n.blurb}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div
+      class="w-full"
+      data-graph-root
+      data-graph={JSON.stringify(graph)}
+      hidden
+    >
+      <div class="frame mx-auto w-full max-w-[720px] max-sm:max-w-[360px]">
+        <svg
+          class="topic-graph block h-auto w-full"
+          viewBox="0 0 640 440"
+          role="group"
+          aria-label="The five topics, as a graph."
+        ></svg>
+      </div>
+      <div
+        class="card bg-surface border-border mx-auto mt-4 min-h-[112px] max-w-[720px] rounded-lg border px-5 py-[18px] max-sm:mx-4 max-sm:max-w-[360px] sm:w-full"
+        aria-live="polite"
+        data-card
+      ></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { mountTopicGraph } from '../scripts/topic-graph';
+
+  document
+    .querySelectorAll<HTMLElement>('[data-graph-root]')
+    .forEach(mountTopicGraph);
+</script>
+
+<style>
+  /* Feathered panel (docs/design-system.md#components): a borderless bg
+     panel whose edge feathers into the grid, so no beam crosses the graph. */
+  .graph-panel {
+    padding: 8px 20px 20px;
+    background: var(--color-bg);
+    border-radius: 12px;
+    box-shadow: 0 0 40px 28px var(--color-bg);
+  }
+  @media (max-width: 639.98px) {
+    .graph-panel {
+      padding: 8px 0 12px;
+    }
+  }
+
+  .card {
+    transition: border-color 0.25s;
+  }
+  .card:global(:not(.empty)) {
+    border-color: var(--color-border-strong);
+  }
+  .card :global(.card-head) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card :global(h3) {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .card :global(.card-blurb) {
+    margin: 8px 0 0;
+    color: var(--color-text-2);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .card :global(.card-prompt) {
+    margin: 0;
+    color: var(--color-text-2);
+    font-size: 14px;
+  }
+  .card :global(.badge) {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--color-text-2);
+    border: 1px solid var(--color-border-strong);
+  }
+  .card :global(.badge.live) {
+    color: var(--color-accent-text);
+    border-color: var(--color-accent-line);
+    background: var(--color-accent-tint);
+  }
+  .card :global(.card-link) {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+    text-decoration: none;
+  }
+  .card :global(.card-link:hover) {
+    text-decoration: underline;
+  }
+
+  /* Graph marks, drawn by src/scripts/topic-graph.ts. */
+  .topic-graph :global(.link) {
+    stroke: var(--color-border-strong);
+    stroke-width: 1.5;
+  }
+  .topic-graph :global(.link.related) {
+    stroke-dasharray: 3 5;
+    opacity: 0.55;
+  }
+  .topic-graph :global(.node) {
+    cursor: pointer;
+  }
+  .topic-graph :global(.node.hub) {
+    cursor: default;
+  }
+  .topic-graph :global(.node:focus) {
+    outline: none;
+  }
+  .topic-graph :global(.ring) {
+    fill: var(--color-surface);
+    stroke: var(--color-text-3);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+  }
+  .topic-graph :global(.node.live .ring) {
+    fill: var(--color-accent-tint);
+    stroke: var(--color-accent-strong);
+    stroke-width: 2;
+    stroke-dasharray: none;
+    filter: drop-shadow(0 0 10px var(--color-accent));
+  }
+  .topic-graph :global(.node.hub .ring) {
+    fill: none;
+    stroke: var(--color-border-strong);
+    stroke-dasharray: none;
+  }
+  .topic-graph :global(.node.related-on .ring) {
+    stroke: var(--color-accent-strong);
+    stroke-dasharray: none;
+  }
+  .topic-graph :global(.node:focus-visible .ring) {
+    stroke: var(--color-accent-strong);
+    stroke-width: 2.5;
+    stroke-dasharray: none;
+  }
+  .topic-graph :global(.core) {
+    fill: var(--color-accent-strong);
+  }
+  .topic-graph :global(.label) {
+    font-size: 13px;
+    fill: var(--color-text-2);
+    text-anchor: middle;
+  }
+  .topic-graph :global(.node.live .label) {
+    fill: var(--color-text);
+    font-weight: 600;
+  }
+  .topic-graph :global(.tag) {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: var(--color-accent-text);
+    text-anchor: middle;
+  }
+  .topic-graph :global(.hub-label) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    fill: var(--color-text-2);
+    text-anchor: middle;
+  }
+  .topic-graph :global(.ripple) {
+    fill: none;
+    stroke: var(--color-accent-strong);
+    stroke-width: 2;
+  }
+  .topic-graph :global(.spark) {
+    fill: none;
+    stroke: var(--color-accent-strong);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px var(--color-accent))
+      drop-shadow(0 0 10px var(--color-accent));
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
+  }
+</style>
