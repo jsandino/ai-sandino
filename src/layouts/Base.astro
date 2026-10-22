@@ -35,12 +35,18 @@ const imageUrl = new URL(image, origin).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script is:inline>
-      // Dark by default; restore a saved light choice before first paint
-      // so it doesn't flash (docs/decisions/0015). Storage can be blocked.
+      // Dark by default; restore a saved light choice, and its favicon,
+      // before first paint so it doesn't flash (docs/decisions/0015).
+      // Runs after the icon link so it can find it. Storage can be blocked.
       try {
-        if (localStorage.getItem('theme') === 'light')
+        if (localStorage.getItem('theme') === 'light') {
           document.documentElement.dataset.theme = 'light';
+          document.querySelector('link[rel="icon"]').href =
+            '/favicon-light.svg';
+        }
       } catch {
         // Blocked storage: stay dark.
       }
@@ -48,8 +54,6 @@ const imageUrl = new URL(image, origin).href;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

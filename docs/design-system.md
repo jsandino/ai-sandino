@@ -19,7 +19,7 @@ Dark and light. **Every visitor starts in dark**, whatever their system
 setting. A sun/moon icon button in the header switches theme, and the
 choice is remembered in `localStorage`. The design is dark-first. The
 accent differs by theme: **emerald on dark, amber on light**. The favicon
-still follows the system setting (see Brand marks). Rationale:
+follows the site's theme (see Brand marks). Rationale:
 [ADR 0015](decisions/0015-dark-default-theme-toggle.md).
 
 ## Colour tokens
@@ -117,9 +117,10 @@ tokens, fonts and motifs above, and the image assets are committed in
   (it links home).
 - **Favicon:** a single accent square (9 of 16 units, radius 2) centred on
   a `bg` tile (radius 3), echoing the pixel field.
-  - `public/favicon.svg` switches with an internal `prefers-color-scheme`
-    query: emerald on dark, `accent-strong` (amber-600) on light, since
-    amber-500 is too faint at 16px on white.
+  - `public/favicon-dark.svg` (emerald on `bg`) and
+    `public/favicon-light.svg` (`accent-strong`, amber-600, on `bg`, since
+    amber-500 is too faint at 16px on white). The page links the one that
+    matches its theme, and the toggle swaps it.
   - `public/apple-touch-icon.png`: 180px, dark, full-bleed (iOS adds its own
     rounded corners).
 - **Social card:** `public/og.png`, 1200×630 PNG, under 300 KB, dark theme
