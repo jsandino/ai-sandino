@@ -49,7 +49,7 @@ test.describe('content', () => {
     });
     expect(color).toBe(token);
     await expect(page.locator('main p').first()).toHaveText(
-      'Learn how AI systems actually get built — explained visually, backed by real projects.',
+      'Learn how AI systems actually get built — from first principles to production.',
     );
   });
 
