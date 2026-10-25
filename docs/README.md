@@ -9,7 +9,7 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 9 — Stage 1: `<<loop>> pdf-pipeline.md`
+- **Next step:** 10 — Guide content conventions (gated)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:
@@ -48,6 +48,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 | If the task involves… | Read… |
 |---|---|
 | How the site is put together: routes, topic data, pages, PDF pipeline, repo layout | [`architecture.md`](architecture.md) |
+| Writing or importing a guide: its folder, `metadata.yml`, chapters, headings | [`guide-format.md`](guide-format.md) |
 | What we use and why | [`tech-stack.md`](tech-stack.md) |
 | Colours, fonts, components, animation | [`design-system.md`](design-system.md) |
 | What work is planned, in what order, and what's done | [`roadmap/`](roadmap/README.md) |

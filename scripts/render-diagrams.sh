@@ -2,11 +2,13 @@
 #
 # render-diagrams.sh — Step 1 of the PDF pipeline.
 #
-# Pre-renders Mermaid diagrams: for every guide-body Markdown file, each
-# ```mermaid fenced block is replaced with a reference to a rendered PDF
-# image. The rewritten Markdown and the image files are written to
-# build/rendered/. Source Markdown files are treated as read-only and are
-# never modified.
+# Usage: render-diagrams.sh <guide>   (called by build-pdf.sh)
+#
+# Pre-renders Mermaid diagrams: for every chapter of src/content/<guide>/,
+# each ```mermaid fenced block is replaced with a reference to a rendered
+# PDF image. The rewritten Markdown and the image files are written to
+# build/<guide>/rendered/. Source Markdown files are treated as read-only
+# and are never modified.
 #
 # Files without any Mermaid blocks are copied verbatim.
 #
@@ -17,23 +19,15 @@ set -euo pipefail
 
 # --- Locations -------------------------------------------------------------
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUT_DIR="$ROOT_DIR/build/rendered"
+GUIDE="${1:?usage: render-diagrams.sh <guide>}"
 
-# --- Guide source location and file order (shared with build-pdf.sh) ---
-# shellcheck source=guide-files.sh
-source "$ROOT_DIR/scripts/guide-files.sh"
-SRC_DIR="$GUIDE_SRC_DIR"
-FILES=("${GUIDE_FILES[@]}")
-
-if [[ ! -d "$SRC_DIR" ]]; then
-  cat >&2 <<EOF
-ERROR: guide source directory not found: $SRC_DIR
-  The PDF is built from the guide's Markdown chapters, which live there.
-  Copy the chapter files (cover.md, 00-intro.md, ...) into that directory,
-  then re-run 'make pdf'. The file order is defined in scripts/guide-files.sh.
-EOF
-  exit 1
-fi
+# --- Guide source location and chapter order (shared with build-pdf.sh) --
+# shellcheck source=pdf/guides.sh
+source "$ROOT_DIR/scripts/pdf/guides.sh"
+SRC_DIR="$CONTENT_DIR/$GUIDE"
+OUT_DIR="$ROOT_DIR/build/$GUIDE/rendered"
+FILES=()
+while IFS= read -r name; do FILES+=("$name"); done < <(guide_chapters "$GUIDE")
 
 # --- Dependency check ----------------------------------------------------
 if ! command -v mmdc >/dev/null 2>&1; then
@@ -52,8 +46,7 @@ EOF
 fi
 
 # --- Cross-file link map ----------------------------------------------
-# The table of contents (and a stray link in the intro) points at sibling
-# Markdown files: ./NN-name.md and ./NN-name.md#section. Pandoc turns those
+# Chapters may link to sibling Markdown files: ./NN-name.md and ./NN-name.md#section. Pandoc turns those
 # into "open external file" actions when it concatenates everything into one
 # PDF, so every entry is a dead link. Below, the per-file perl pass rewrites
 # them to in-document anchors on the build copy:

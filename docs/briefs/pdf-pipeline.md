@@ -1,6 +1,6 @@
 # Brief — Generic PDF pipeline (guide structure)
 
-- **Status:** Ready
+- **Status:** Done
 - **Roadmap:** [phase 002](../roadmap/phase-002.md), step 9
 - **Source:** [ADR 0016](../decisions/0016-guide-format-and-generic-pdf-pipeline.md)
   (the guide format); ADR 0002 (committed PDF, pre-commit rebuild);

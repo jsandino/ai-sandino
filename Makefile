@@ -61,14 +61,13 @@ test-e2e: ## Run the Playwright + axe tests in tests/e2e/ against dist/ [GREP=<p
 browsers: ## Install the Chromium headless shell the e2e tests use
 	@bash scripts/browsers.sh
 
-pdf-check: ## Fail if guide source changed after the PDF was last rebuilt
+pdf-check: ## Fail if any guide's source changed after its PDF was last rebuilt
 	@bash scripts/check-pdf-fresh.sh
 
 # --- PDF guide --------------------------------------------------------------
 
-pdf: ## Rebuild public/harness-guide.pdf (Mermaid pre-render, then pandoc)
-	bash scripts/render-diagrams.sh
-	bash scripts/build-pdf.sh
+pdf: ## Rebuild every guide's public/<guide>.pdf [GUIDE=<guide>]
+	@bash scripts/build-pdf.sh $(GUIDE)
 
 clean: ## Remove build/ intermediates (keeps the committed PDF)
 	rm -rf build

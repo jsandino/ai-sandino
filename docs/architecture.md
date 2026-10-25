@@ -81,21 +81,39 @@ cross-link per pair), and unit tests feed it fixtures with live topics.
 
 ## PDF pipeline
 
+Every guide follows one format
+([`guide-format.md`](guide-format.md),
+[ADR 0016](decisions/0016-guide-format-and-generic-pdf-pipeline.md)), so one
+pipeline builds them all. For each guide:
+
 ```
-src/content/harness-guide/*.md
-   │  scripts/render-diagrams.sh   (Mermaid → cropped PDF images, build/rendered/)
+src/content/<guide>/[0-9][0-9]-*.md, metadata.yml
+   │  scripts/render-diagrams.sh   (Mermaid → cropped PDF images, link rewrite, glyphs)
    ▼
-build/rendered/
-   │  scripts/build-pdf.sh         (pandoc + xelatex, one pass)
+build/<guide>/rendered/
+   │  scripts/build-pdf.sh         (cover from metadata.yml; pandoc + xelatex, one pass)
    ▼
-public/harness-guide.pdf           (committed; served as a static file)
+public/<guide>.pdf                 (committed; served as a static file)
 ```
 
-`make pdf` runs both steps. The chapter order lives in
-`scripts/guide-files.sh`, shared by both scripts. The pre-commit hook rebuilds
-the PDF when guide source is staged
-([ADR 0002](decisions/0002-commit-pdf-rebuild-in-hook.md)); see
-[`development.md`](development.md#the-pdf-hook).
+`scripts/build-pdf.sh` drives both steps; `make pdf` runs it for every guide,
+`make pdf GUIDE=<guide>` for one. `scripts/pdf/guides.sh` finds the guides
+and their chapters for every PDF script. In `scripts/pdf/`:
+
+- `fields.txt`: a pandoc template that prints `metadata.yml`'s fields for
+  the shell, so no YAML parser is needed.
+- `cover.tex`: the cover template, filled by pandoc from `metadata.yml`
+  and passed to the main conversion with `--include-before-body`. The main
+  conversion gets only `title-meta`/`author-meta`, never `title`/`author`,
+  which would add a second title block.
+- `contents-filter.mjs`: a pandoc filter that marks the headings the
+  contents must not list. The pipeline puts `\tableofcontents` after the
+  first chapter and a page break before every chapter.
+
+Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
+by every guide. The pre-commit hook rebuilds the PDF of each guide whose
+source is staged ([ADR 0002](decisions/0002-commit-pdf-rebuild-in-hook.md));
+see [`development.md`](development.md#the-pdf-hook).
 
 ## Build and deploy
 

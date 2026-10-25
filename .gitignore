@@ -1,6 +1,6 @@
 # build output
 dist/
-# PDF pipeline intermediates (scripts/render-diagrams.sh, build-pdf.sh)
+# PDF pipeline intermediates and logs, per guide (scripts/build-pdf.sh)
 build/
 # generated types
 .astro/
@@ -24,7 +24,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-build-pdf.log
 # Lighthouse CI reports (make lighthouse)
 .lighthouseci/
 # Playwright output (make test-e2e)
