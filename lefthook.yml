@@ -27,7 +27,8 @@ pre-commit:
       glob: '*.{astro,ts,js,mjs,cjs}'
       run: bash scripts/test-unit.sh
     - name: build-pdf
-      # Only runs when guide source is staged; the script decides whether
-      # the staged PDF is already current or needs a rebuild.
-      glob: 'src/content/harness-guide/**'
+      # Only runs when guide source is staged, for any guide (ADR 0016);
+      # the script decides whether a staged PDF is current or needs a
+      # rebuild.
+      glob: 'src/content/**'
       run: bash scripts/precommit-build-pdf.sh
