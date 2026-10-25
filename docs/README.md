@@ -9,7 +9,7 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 8 — Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first; see the phase file)
+- **Next step:** 9 — Stage 1: `<<loop>> pdf-pipeline.md`
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:
@@ -51,7 +51,7 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
 | What we use and why | [`tech-stack.md`](tech-stack.md) |
 | Colours, fonts, components, animation | [`design-system.md`](design-system.md) |
 | What work is planned, in what order, and what's done | [`roadmap/`](roadmap/README.md) |
-| Building a page or the shared shell: what it must contain, acceptance criteria, open questions | [`briefs/`](briefs/) (`shell.md`, `landing.md`, `harness-engineering.md`) |
+| Building a page, the shared shell or the PDF pipeline: what it must contain, acceptance criteria, open questions | [`briefs/`](briefs/) (`shell.md`, `landing.md`, `harness-engineering.md`, `pdf-pipeline.md`) |
 | Site copy waiting to be used: topic teasers and blurbs | [`content/topic-blurbs.md`](content/topic-blurbs.md) |
 | Running, building, checking; `make`; git workflow; hooks and CI | [`development.md`](development.md) |
 | Tools to install locally (PDF toolchain, Node) | [`prerequisites.md`](prerequisites.md) |

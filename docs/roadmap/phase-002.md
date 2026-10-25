@@ -10,7 +10,9 @@
 Make the agent able to implement a brief on its own (Stage 1 of
 [ADR 0012](../decisions/0012-staged-agent-autonomy.md)), and use those runs
 to build the first version of the site: the shared shell, the landing page
-and the Harness Engineering page.
+and the Harness Engineering page. Along the way, make the PDF pipeline build
+any guide ([ADR 0016](../decisions/0016-guide-format-and-generic-pdf-pipeline.md)),
+so the next guides can be imported from their PDFs.
 
 ## Steps
 
@@ -23,12 +25,16 @@ and the Harness Engineering page.
 | 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Done |
 | 6 | Tune the harness from the shell run | — | Done |
 | 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | Done |
-| 8 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Next |
-| 9 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | Planned |
-| 10 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | Planned |
+| 8 | Guide format: ADR 0016, the pipeline brief, the PDF hook triggered by any guide | [pdf-pipeline](../briefs/pdf-pipeline.md) | Done |
+| 9 | Stage 1: `<<loop>> pdf-pipeline.md` (guide structure; harness PDF unchanged apart from its contents page) | [pdf-pipeline](../briefs/pdf-pipeline.md) | Next |
+| 10 | Guide content conventions, gated: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | Planned |
+| 11 | Import the first guide from its PDF, gated: a faithful extraction, then a refinement pass | — | Planned |
+| 12 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Planned |
+| 13 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | Planned |
+| 14 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | Planned |
 
 ## Exit criterion
 
-All ten steps are Done: the three briefs are Done, Stage 1's exit
+All fourteen steps are Done: the four briefs are Done, Stage 1's exit
 criterion is met (2–3 briefs landed without serious rework), and the first
 watched Stage 2 run has completed.
