@@ -32,8 +32,8 @@ machine is the command CI runs ([ADR 0005](decisions/0005-make-command-interface
 | `make test-e2e` | Playwright + axe tests in `tests/e2e/`, against `astro preview` of `dist/` (build first); `GREP=<pattern>` runs only matching tests |
 | `make test` | `test-unit`, then `test-e2e` |
 | `make browsers` | Install the Chromium headless shell the e2e tests use (once per Playwright version) |
-| `make pdf-check` | Fail if guide source changed after the last PDF rebuild |
-| `make pdf` | Rebuild `public/harness-guide.pdf` |
+| `make pdf-check` | Fail if any guide's source changed after its PDF was last rebuilt |
+| `make pdf` | Rebuild every guide's `public/<guide>.pdf`; `GUIDE=<guide>` rebuilds only that one (see [`guide-format.md`](guide-format.md)) |
 | `make clean` | Remove `build/` intermediates (keeps the committed PDF) |
 | `make merged` | After a PR merges: switch to `main`, pull, delete the branch (see [Git workflow](#git-workflow)) |
 | `make help` | List targets |
@@ -120,17 +120,23 @@ commit again.
 
 ### The PDF hook
 
-When files under `src/content/harness-guide/` are staged, the hook:
+For each guide with files staged under `src/content/<guide>/`, and only
+those, the hook:
 
 | Situation | Action |
 |---|---|
-| PDF not staged | Rebuilds and stages `public/harness-guide.pdf` |
-| PDF staged and newer than every staged source file | Skips; you already built it |
-| PDF staged but older than a staged source file | Rebuilds and stages it |
+| PDF not staged | Rebuilds and stages `public/<guide>.pdf` |
+| PDF staged and newer than every staged source file of that guide | Skips; you already built it |
+| PDF staged but older than a staged source file of that guide | Rebuilds and stages it |
 
-A build failure blocks the commit, naming the failing chapter. Changing the
-chapter order in `scripts/guide-files.sh` does **not** trigger the hook; run
-`make pdf` yourself.
+A build failure blocks the commit, naming the guide and the failing chapter;
+the full log is in `build/<guide>/build-pdf.log`. A change to the pipeline
+itself (`scripts/build-pdf.sh`, `scripts/pdf/`) does **not** trigger the
+hook; run `make pdf` yourself and commit the PDFs.
+
+`make pdf-check` (the CI `pdf` job) is the backstop: for every guide, it
+fails if a commit touching `src/content/<guide>/` comes after the last
+commit that changed `public/<guide>.pdf`.
 
 ---
 

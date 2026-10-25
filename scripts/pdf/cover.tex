@@ -1,4 +1,6 @@
-```{=latex}
+% cover.tex — the cover page every guide's PDF shares (docs/guide-format.md).
+% A pandoc template: scripts/build-pdf.sh renders it from the guide's
+% metadata.yml, plus `modified` (the date, already written out in words).
 \definecolor{titleblue}{HTML}{1a2f5a}
 \definecolor{rulegrey}{HTML}{cccccc}
 \definecolor{dategrey}{HTML}{888888}
@@ -9,14 +11,16 @@
 \vspace*{6cm}
 
 {\fontsize{36}{42}\selectfont\sffamily\bfseries\color{titleblue}
-Harness Engineering%
+$title$%
 }
+$if(subtitle)$
 
 \vspace{0.4cm}
 
 {\fontsize{16}{20}\selectfont\sffamily\color{titleblue}
-A Practical Guide%
+$subtitle$%
 }
+$endif$
 
 \vspace{1.4cm}
 
@@ -25,22 +29,23 @@ A Practical Guide%
 \vspace{1.4cm}
 
 {\fontsize{13}{16}\selectfont\rmfamily
-Javier Sandino%
+$author$%
 }
+$if(coauthor)$
 
 \vspace{0.4cm}
 
 {\fontsize{10}{13}\selectfont\rmfamily\color{dategrey}
-Co-authored with Claude Sonnet~4.6%
+Co-authored with $coauthor$%
 }
+$endif$
 
 \vspace{0.9cm}
 
 {\fontsize{9}{11}\selectfont\rmfamily\itshape\color{dategrey}
-Last modified: September 7, 2026%
+Last modified: $modified$%
 }
 
 \end{center}
 \newpage
 \setcounter{page}{1}
-```
