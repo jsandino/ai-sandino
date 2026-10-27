@@ -37,11 +37,11 @@ flowchart LR
     QUESTION --> IS --> DOCS
     QUESTION --> DO --> SKILLS
 
-    style DOCS fill:#e8f0ff,stroke:#36c,color:#000000
-    style SKILLS fill:#f0e8ff,stroke:#93c,color:#000000
-    style QUESTION fill:#f4f4f4,stroke:#888,color:#000000
-    style IS fill:#f4f4f4,stroke:#888,color:#000000
-    style DO fill:#f4f4f4,stroke:#888,color:#000000
+    class DOCS sky
+    class SKILLS violet
+    class QUESTION neutral
+    class IS neutral
+    class DO neutral
 ```
 
 ### The operative test

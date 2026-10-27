@@ -43,8 +43,8 @@ flowchart LR
     AGENT --> HARNESS
     HARNESS --> AGENT
 
-    style AGENT fill:#f4f4f4,stroke:#888,color:#000000
-    style HARNESS fill:#e8f0ff,stroke:#3a6,color:#000000
+    class AGENT neutral
+    class HARNESS sky
 ```
 
 The arrow goes both ways for a reason. The harness *delivers* context to the agent and *receives* the agent's actions. Every part of the harness is something you build, maintain, and improve. None of it is part of the model.
@@ -71,10 +71,10 @@ flowchart LR
     CAPABILITIES --> CONTEXT
     LOOPS --> CONTEXT
 
-    style CONTEXT fill:#e8f0ff,stroke:#3a6,color:#000000
-    style CONSTRAINTS fill:#fff4e8,stroke:#c63,color:#000000
-    style CAPABILITIES fill:#f0e8ff,stroke:#63c,color:#000000
-    style LOOPS fill:#e8ffe8,stroke:#363,color:#000000
+    class CONTEXT sky
+    class CONSTRAINTS amber
+    class CAPABILITIES violet
+    class LOOPS emerald
 ```
 
 ### Context architecture

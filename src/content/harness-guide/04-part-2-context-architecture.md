@@ -57,8 +57,8 @@ flowchart LR
     %% keep the two panels side by side rather than stacked
     BAD ~~~ GOOD
 
-    style BAD fill:#ffe8e8,stroke:#c33,color:#000000
-    style GOOD fill:#e8ffe8,stroke:#3a3,color:#000000
+    class BAD coral
+    class GOOD emerald
 ```
 
 ### Practical effect

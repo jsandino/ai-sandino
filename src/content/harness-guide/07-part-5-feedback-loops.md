@@ -26,10 +26,10 @@ flowchart LR
     R --> P --> E --> V
     V -->|"failure or new information"| R
 
-    style R fill:#e8f0ff,stroke:#36c,color:#000000
-    style P fill:#f0e8ff,stroke:#93c,color:#000000
-    style E fill:#fff4e8,stroke:#c63,color:#000000
-    style V fill:#e8ffe8,stroke:#3a3,color:#000000
+    class R sky
+    class P violet
+    class E amber
+    class V emerald
 ```
 
 ### Research
@@ -101,10 +101,10 @@ flowchart LR
     RWORK --> SUMMARY
     SUMMARY --> IMPL
 
-    style IMPL fill:#e8f0ff,stroke:#36c,color:#000000
-    style RES fill:#f0e8ff,stroke:#93c,color:#000000
-    style QUESTION fill:#f4f4f4,stroke:#888,color:#000000
-    style SUMMARY fill:#f4f4f4,stroke:#888,color:#000000
+    class IMPL sky
+    class RES violet
+    class QUESTION neutral
+    class SUMMARY neutral
 ```
 
 ### What sub-agents isolate
@@ -239,10 +239,10 @@ flowchart LR
 
     M --> G --> H --> A
 
-    style M fill:#e8ffe8,stroke:#3a3,color:#000000
-    style G fill:#e8f0ff,stroke:#36c,color:#000000
-    style H fill:#fff4e8,stroke:#c63,color:#000000
-    style A fill:#ffe8e8,stroke:#c33,color:#000000
+    class M emerald
+    class G sky
+    class H amber
+    class A coral
 ```
 
 ### The four levels

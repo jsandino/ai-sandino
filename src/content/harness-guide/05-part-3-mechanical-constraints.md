@@ -59,10 +59,10 @@ flowchart LR
 
     L1 --> L2 --> L3 --> L4
 
-    style L1 fill:#e8f0ff,stroke:#36c,color:#000000
-    style L2 fill:#f0e8ff,stroke:#93c,color:#000000
-    style L3 fill:#fff4e8,stroke:#c63,color:#000000
-    style L4 fill:#e8ffe8,stroke:#3a3,color:#000000
+    class L1 sky
+    class L2 violet
+    class L3 amber
+    class L4 emerald
 ```
 
 Each layer is independent. A violation caught at Layer 1 never reaches Layer 4. A violation missed at Layer 3 may or may not be caught at Layer 4 (tests catch behavioral problems, not structural ones). The layers are complementary, not redundant.
