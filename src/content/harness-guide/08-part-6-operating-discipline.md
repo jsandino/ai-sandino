@@ -142,14 +142,14 @@ flowchart LR
     Q3 -->|"Artifact-level<br/>(what files contain)"| CHECK
     Q3 -->|"Behavior-level<br/>(how agent acts)"| RULE
 
-    style FAILURE fill:#ffe8e8,stroke:#c33,color:#000000
-    style CHECK fill:#e8ffe8,stroke:#3a3,color:#000000
-    style RULE fill:#e8f0ff,stroke:#36c,color:#000000
-    style ADR fill:#f0e8ff,stroke:#93c,color:#000000
-    style ACCEPT fill:#f4f4f4,stroke:#888,color:#000000
-    style Q1 fill:#fff4e8,stroke:#c63,color:#000000
-    style Q2 fill:#fff4e8,stroke:#c63,color:#000000
-    style Q3 fill:#fff4e8,stroke:#c63,color:#000000
+    class FAILURE coral
+    class CHECK emerald
+    class RULE sky
+    class ADR violet
+    class ACCEPT neutral
+    class Q1 amber
+    class Q2 amber
+    class Q3 amber
 ```
 
 ### The decision tree in plain language
