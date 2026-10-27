@@ -61,7 +61,7 @@ test-e2e: ## Run the Playwright + axe tests in tests/e2e/ against dist/ [GREP=<p
 browsers: ## Install the Chromium headless shell the e2e tests use
 	@bash scripts/browsers.sh
 
-pdf-check: ## Fail if any guide's source changed after its PDF was last rebuilt
+pdf-check: ## Fail if any guide breaks the content rules or changed after its PDF was rebuilt
 	@bash scripts/check-pdf-fresh.sh
 
 # --- PDF guide --------------------------------------------------------------

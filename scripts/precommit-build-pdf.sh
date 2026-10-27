@@ -37,6 +37,10 @@ check_guide() {
     return 0
   fi
 
+  # The content rules come first, so a commit whose staged PDF is already
+  # current can't skip them (docs/guide-format.md#content-rules).
+  node scripts/pdf/content-check.mjs "$src_rel" || exit 1
+
   if git diff --cached --name-only -- "$pdf_rel" | grep -q .; then
     local stale_source=""
     for f in "${staged_sources[@]}"; do

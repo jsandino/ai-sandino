@@ -137,6 +137,8 @@ validate_guide() {
       "name the chapters 00-intro.md, 01-..., (docs/guide-format.md)."
     exit 1
   fi
+  # No raw LaTeX, no diagram styling (docs/guide-format.md#content-rules).
+  node "$PDF_DIR/content-check.mjs" "$CONTENT_DIR/$g" || exit 1
 }
 
 # Sets DATE (YYYY-MM-DD) and DATE_WHY for a guide: metadata.yml's date if
