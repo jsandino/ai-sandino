@@ -60,6 +60,22 @@ Two modes ([ADR 0012](docs/decisions/0012-staged-agent-autonomy.md)).
 **Gated is the default.** Autonomous mode applies only when Javier
 explicitly starts a run on a named, Ready brief.
 
+**Next step (`<<next>>`)**
+
+`<<next>>` means: find the next step (Current status in
+[`docs/README.md`](docs/README.md), then its phase file), name it, and act
+on the step's **Mode** column:
+
+- `gated`: start it in gated mode. Propose its first piece and wait for
+  `<<go>>`.
+- `loop`: don't start it. If its brief is Ready, reply with the exact
+  `<<loop>> <brief>` to send. If not, propose settling what keeps it in
+  Draft, gated.
+
+If git or open PRs show unfinished work (uncommitted changes, a branch not
+yet merged), report it and propose finishing it first. `<<next>>` never
+starts autonomous mode.
+
 **Gated (default)**
 
 - A `<<go>>` approves only the step that was proposed. Committing and

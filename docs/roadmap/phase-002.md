@@ -16,22 +16,22 @@ so the next guides can be imported from their PDFs.
 
 ## Steps
 
-| # | Step | Brief | Status |
-|---|---|---|---|
-| 1 | Staged autonomy: ADR 0012, the CLAUDE.md Approvals section (`<<loop>>`), this roadmap | — | Done |
-| 2 | Header formatting: one field per line (bullets) in every ADR, research summary, phase file and brief, and in both templates; allow formatting-only fixes to ADRs and research | — | Done |
-| 3 | Test layers: Vitest and Playwright (with axe), `make` targets, hooks and CI; one smoke test each | — | Done |
-| 4 | Brief readiness: the rule (no open questions; every criterion maps to a check or "human review"); settle the shell brief's open questions | [shell](../briefs/shell.md) | Done |
-| 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | Done |
-| 6 | Tune the harness from the shell run | — | Done |
-| 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | Done |
-| 8 | Guide format: ADR 0016, the pipeline brief, the PDF hook triggered by any guide | [pdf-pipeline](../briefs/pdf-pipeline.md) | Done |
-| 9 | Stage 1: `<<loop>> pdf-pipeline.md` (guide structure; harness PDF unchanged apart from its contents page) | [pdf-pipeline](../briefs/pdf-pipeline.md) | Done |
-| 10 | Guide content conventions, gated: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | Next |
-| 11 | Import the first guide from its PDF, gated: a faithful extraction, then a refinement pass | — | Planned |
-| 12 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | Planned |
-| 13 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | Planned |
-| 14 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | Planned |
+| # | Step | Brief | Mode | Status |
+|---|---|---|---|---|
+| 1 | Staged autonomy: ADR 0012, the CLAUDE.md Approvals section (`<<loop>>`), this roadmap | — | gated | Done |
+| 2 | Header formatting: one field per line (bullets) in every ADR, research summary, phase file and brief, and in both templates; allow formatting-only fixes to ADRs and research | — | gated | Done |
+| 3 | Test layers: Vitest and Playwright (with axe), `make` targets, hooks and CI; one smoke test each | — | gated | Done |
+| 4 | Brief readiness: the rule (no open questions; every criterion maps to a check or "human review"); settle the shell brief's open questions | [shell](../briefs/shell.md) | gated | Done |
+| 5 | Stage 1 trial: `<<loop>> shell.md` | [shell](../briefs/shell.md) | loop | Done |
+| 6 | Tune the harness from the shell run | — | gated | Done |
+| 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | loop | Done |
+| 8 | Guide format: ADR 0016, the pipeline brief, the PDF hook triggered by any guide | [pdf-pipeline](../briefs/pdf-pipeline.md) | gated | Done |
+| 9 | Stage 1: `<<loop>> pdf-pipeline.md` (guide structure; harness PDF unchanged apart from its contents page) | [pdf-pipeline](../briefs/pdf-pipeline.md) | loop | Done |
+| 10 | Guide content conventions: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | gated | Next |
+| 11 | Import the first guide from its PDF: a faithful extraction, then a refinement pass | — | gated | Planned |
+| 12 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | loop | Planned |
+| 13 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | gated | Planned |
+| 14 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | loop | Planned |
 
 ## Exit criterion
 

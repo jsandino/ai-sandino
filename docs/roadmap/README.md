@@ -11,6 +11,9 @@ briefs it uses.
   phase never breaks links.
 - Each PR updates its step's status in the phase file, describing the state
   after it merges.
+- Each step has a **Mode**: `gated` (Javier approves each piece) or `loop`
+  (an autonomous run on its Ready brief, started only by `<<loop>>`).
+  `<<next>>` in [`CLAUDE.md`](../../CLAUDE.md) acts on it.
 - The PR that completes a phase's last step marks the phase Done here and in
   its file; the file then stays as the record.
 - If no next phase exists, the next step is planning one.
