@@ -77,6 +77,25 @@ So number main sections `1.`, `2.`, … across the guide, appendix sections
 `A.1`, `A.2`, …, and leave bridging or grouping headings unnumbered.
 Headings left out of the contents are also left out of the PDF's bookmarks.
 
+## Named blocks
+
+Layout effects use named blocks, never raw LaTeX
+([ADR 0016](decisions/0016-guide-format-and-generic-pdf-pipeline.md)):
+
+| Block | Effect in the PDF |
+|---|---|
+| `::: spread` … `:::` | Spaces its blocks evenly down the rest of the page (`scripts/pdf/spread-filter.mjs`) |
+
+```markdown
+::: spread
+**1. First idea** — …
+
+**2. Second idea** — …
+:::
+```
+
+Outside the PDF, a named block's contents simply follow one another.
+
 ## Links between chapters
 
 Link to another chapter by its file, `[Heuristics](./02-heuristics.md)`, or
