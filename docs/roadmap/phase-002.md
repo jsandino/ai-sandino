@@ -27,8 +27,8 @@ so the next guides can be imported from their PDFs.
 | 7 | Stage 1: `<<loop>> landing.md` (settle its open questions first) | [landing](../briefs/landing.md) | loop | Done |
 | 8 | Guide format: ADR 0016, the pipeline brief, the PDF hook triggered by any guide | [pdf-pipeline](../briefs/pdf-pipeline.md) | gated | Done |
 | 9 | Stage 1: `<<loop>> pdf-pipeline.md` (guide structure; harness PDF unchanged apart from its contents page) | [pdf-pipeline](../briefs/pdf-pipeline.md) | loop | Done |
-| 10 | Guide content conventions: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | gated | Next |
-| 11 | Import the first guide from its PDF: a faithful extraction, then a refinement pass | — | gated | Planned |
+| 10 | Guide content conventions: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | gated | Done |
+| 11 | Import the first guide from its PDF: a faithful extraction, then a refinement pass | — | gated | Next |
 | 12 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | loop | Planned |
 | 13 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | gated | Planned |
 | 14 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | loop | Planned |
