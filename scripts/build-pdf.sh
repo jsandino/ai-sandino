@@ -197,15 +197,18 @@ build_guide() {
   #                       body fonts lack (source has no literal $)
   #   +raw_attribute    : honour the ```{=latex} page-break and contents
   #                       blocks (gfm disables this extension by default)
+  #   +fenced_divs      : read ::: blocks such as ::: spread, which
+  #                       spread-filter.mjs lays out (also off in gfm)
   #
   # metadata.yml is not passed here: its title/author would trigger the
   # template's \maketitle and print a second title block under the cover.
   # title-meta/author-meta set only the PDF's /Title and /Author (via
   # hyperref's pdftitle/pdfauthor).
   (cd "$rendered" && pandoc "${files[@]}" \
-    --from=gfm+smart+tex_math_dollars+raw_attribute \
+    --from=gfm+smart+tex_math_dollars+raw_attribute+fenced_divs \
     --pdf-engine=xelatex \
     --filter="$PDF_DIR/contents-filter.mjs" \
+    --filter="$PDF_DIR/spread-filter.mjs" \
     --include-before-body="$build_dir/cover.tex" \
     -V title-meta="$title_meta" \
     -V author-meta="$META_author" \
