@@ -71,6 +71,11 @@ FRAG_SUB='s{\]\((?:\./)?[0-9]{2}-[a-z0-9-]+\.md(?=#[a-z0-9-]+\))}{](}g;'
 # --- Rebuild output directory from scratch ------------------------------
 rm -rf "$OUT_DIR"
 mkdir -p "$OUT_DIR"
+# Chapter copies with the colour names defined, read by mmdc only.
+CLASSES_DIR="$ROOT_DIR/build/$GUIDE/diagram-src"
+rm -rf "$CLASSES_DIR"
+mkdir -p "$CLASSES_DIR"
+CLASSES="$(cat "$ROOT_DIR/scripts/pdf/diagram-classes.mmd")"$'\n'
 
 echo "Rendering diagrams -> $OUT_DIR"
 
@@ -84,13 +89,19 @@ for name in "${FILES[@]}"; do
 
   if grep -q '^```mermaid' "$src"; then
     echo "  mermaid  $name"
+    # Define the diagram colour names (scripts/pdf/diagram-classes.mmd) in
+    # every diagram, on a copy: after each block's first line, which
+    # declares the diagram type (docs/guide-format.md#diagram-colours).
+    mmd_src="$CLASSES_DIR/$name"
+    perl -spe '$_ .= $classes if $fence; $fence = /^```mermaid/;' \
+      -- -classes="$CLASSES" "$src" >"$mmd_src"
     # Markdown-input mode: rewrites each ```mermaid block to an image
     # reference and writes the images (as cropped PDFs) alongside the
     # output .md, so relative paths resolve when Pandoc runs from $OUT_DIR.
     #   -e pdf : vector images, embedded sharply by XeLaTeX
     #   -f     : crop the PDF to the diagram bounding box
     #   -q     : quiet
-    mmdc -i "$src" -o "$OUT_DIR/$name" -e pdf -f -q
+    mmdc -i "$mmd_src" -o "$OUT_DIR/$name" -e pdf -f -q
   else
     echo "  copy     $name"
     cp "$src" "$OUT_DIR/$name"

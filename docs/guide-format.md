@@ -96,6 +96,24 @@ Layout effects use named blocks, never raw LaTeX
 
 Outside the PDF, a named block's contents simply follow one another.
 
+## Diagram colours
+
+Diagrams colour nodes by name, never by value
+([ADR 0016](decisions/0016-guide-format-and-generic-pdf-pipeline.md)):
+`class A,B sky`, not `style` or `fill:`. The pipeline defines each name in
+every diagram (`scripts/pdf/diagram-classes.mmd`); in print:
+
+| Name | Fill | Stroke |
+|---|---|---|
+| `sky` | `#e8f0ff` | `#36c` |
+| `violet` | `#f0e8ff` | `#93c` |
+| `emerald` | `#e8ffe8` | `#3a3` |
+| `coral` | `#ffe8e8` | `#c33` |
+| `amber` | `#fff4e8` | `#c63` |
+| `neutral` | `#f4f4f4` | `#888` |
+
+Text is black on every colour.
+
 ## Links between chapters
 
 Link to another chapter by its file, `[Heuristics](./02-heuristics.md)`, or
