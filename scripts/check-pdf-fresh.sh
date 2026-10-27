@@ -4,7 +4,8 @@
 # `make pdf-check`. For every guide (scripts/pdf/guides.sh), fails if a
 # commit touching src/content/<guide>/ comes after the last commit that
 # changed public/<guide>.pdf, e.g. a source change committed with
-# --no-verify.
+# --no-verify. Also checks every guide against the content rules
+# (scripts/pdf/content-check.mjs), so CI enforces them on every PR.
 #
 # Compares commit ORDER (ancestry), not timestamps: rebase merges rewrite
 # commit dates, and git does not track file mtimes.
@@ -64,6 +65,7 @@ MSG
 
 failed=0
 while IFS= read -r g; do
+  node scripts/pdf/content-check.mjs "src/content/$g" || failed=1
   check_guide "$g" || failed=1
 done < <(pdf_guides)
 exit "$failed"

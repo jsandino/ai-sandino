@@ -114,6 +114,22 @@ every diagram (`scripts/pdf/diagram-classes.mmd`); in print:
 
 Text is black on every colour.
 
+## Content rules
+
+`scripts/pdf/content-check.mjs` rejects, in every chapter:
+
+- **Raw LaTeX:** a `{=latex}` or `{=tex}` block or inline span. Use a
+  [named block](#named-blocks) or plain Markdown. (LaTeX shown inside
+  another code block is fine.)
+- **Diagram styling:** a `style`, `linkStyle` or `classDef` statement, or
+  an `%%{init}%%` directive, in a Mermaid block. Use a
+  [colour name](#diagram-colours).
+- **Unknown colour names:** `class A <name>` or `A:::<name>` with a name
+  not in the table above.
+
+It runs before every `make pdf`, in the pre-commit hook whenever guide
+source is staged, and in CI through `make pdf-check`.
+
 ## Links between chapters
 
 Link to another chapter by its file, `[Heuristics](./02-heuristics.md)`, or
