@@ -17,6 +17,12 @@ everything else lives in the phase file and its briefs. A long-lived branch
 adds its own phase's block below this one, on that branch only
 ([ADR 0017](decisions/0017-parallel-phases.md)).
 
+**On this branch (`feat/transformers-guide`):** phase 003 only. The
+phase 002 block above is `main`'s stream.
+
+- **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
+- **Next step:** 2 — Notation and conventions (gated)
+
 ---
 
 ## Overview

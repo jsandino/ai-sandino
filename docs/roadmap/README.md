@@ -28,3 +28,4 @@ briefs it uses.
 |---|---|---|---|
 | [001](phase-001.md) | Harness foundation | Context layer, PDF pipeline, CI gates, L1–L2 checks | Done |
 | [002](phase-002.md) | Autonomy foundations and Site v1 | Staged autonomy up to Stage 1, and the shell, landing and topic 1 pages | Current |
+| [003](phase-003.md) | Transformers guide | Import the transformers guide from its source PDF, on `feat/transformers-guide` | Current |
