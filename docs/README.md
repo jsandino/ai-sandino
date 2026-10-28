@@ -9,11 +9,13 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 11 — Import the first guide from its PDF (gated)
+- **Next step:** 12 — Stage 1: `<<loop>> harness-engineering.md` (loop)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:
-everything else lives in the phase file and its briefs.
+everything else lives in the phase file and its briefs. A long-lived branch
+adds its own phase's block below this one, on that branch only
+([ADR 0017](decisions/0017-parallel-phases.md)).
 
 ---
 

@@ -49,3 +49,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0014](0014-file-format-no-trailing-slash.md) | Build pages as files, with no trailing slash | Accepted |
 | [0015](0015-dark-default-theme-toggle.md) | Default to dark, with a remembered theme toggle | Accepted |
 | [0016](0016-guide-format-and-generic-pdf-pipeline.md) | Define one guide format, and build every guide's PDF from it | Accepted |
+| [0017](0017-parallel-phases.md) | Run parallel streams of work as separate phases | Accepted |

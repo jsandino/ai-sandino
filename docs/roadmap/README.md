@@ -17,6 +17,10 @@ briefs it uses.
 - The PR that completes a phase's last step marks the phase Done here and in
   its file; the file then stays as the record.
 - If no next phase exists, the next step is planning one.
+- A stream of work on a long-lived branch is its own phase, and lives only
+  on that branch: its phase file, its row here and its block in Current
+  status are added there and reach `main` when it merges
+  ([ADR 0017](../decisions/0017-parallel-phases.md)).
 
 ## Phases
 
