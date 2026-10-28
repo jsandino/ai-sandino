@@ -64,7 +64,8 @@ explicitly starts a run on a named, Ready brief.
 
 `<<next>>` means: find the next step (Current status in
 [`docs/README.md`](docs/README.md), then its phase file), name it, and act
-on the step's **Mode** column:
+on the step's **Mode** column. If Current status lists more than one
+phase, act on the one owned by the current branch.
 
 - `gated`: start it in gated mode. Propose its first piece and wait for
   `<<go>>`.
