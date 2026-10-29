@@ -21,7 +21,7 @@ adds its own phase's block below this one, on that branch only
 phase 002 block above is `main`'s stream.
 
 - **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
-- **Next step:** 2 — Notation and conventions (gated)
+- **Next step:** 3 — Part I — Foundations (gated)
 
 ---
 

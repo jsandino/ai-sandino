@@ -23,8 +23,8 @@ Moved here from phase 002, step 11.
 | # | Step | Brief | Mode | Status |
 |---|---|---|---|---|
 | 1 | Metadata and intro (`00-intro.md`) | — | gated | Done |
-| 2 | Notation and conventions | — | gated | Next |
-| 3 | Part I — Foundations | — | gated | Planned |
+| 2 | Notation and conventions | — | gated | Done |
+| 3 | Part I — Foundations | — | gated | Next |
 | 4 | Part II — Input processing | — | gated | Planned |
 | 5 | Part III — Scaled dot-product attention | — | gated | Planned |
 | 6 | Part IV — Multi-head attention | — | gated | Planned |
