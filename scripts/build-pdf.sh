@@ -200,13 +200,14 @@ build_guide() {
   # Run from the rendered dir so the ./<name>-N.pdf diagram paths resolve.
   #   +smart            : straighten quotes/dashes into typographic forms
   #                       (a raw " in LaTeX renders as a closing quote)
-  #   +tex_math_dollars : render the $\rightarrow$ / $\leftarrow$ that
-  #                       render-diagrams.sh substituted for glyphs the
-  #                       body fonts lack (source has no literal $)
+  #   +tex_math_dollars : render $...$ math: the guides' own, and the
+  #                       $\rightarrow$ / $\leftarrow$ that render-diagrams.sh
+  #                       substituted for glyphs the body fonts lack
   #   +raw_attribute    : honour the ```{=latex} page-break and contents
   #                       blocks (gfm disables this extension by default)
-  #   +fenced_divs      : read ::: blocks such as ::: spread, which
-  #                       spread-filter.mjs lays out (also off in gfm)
+  #   +fenced_divs      : read ::: named blocks (spread, relaxed, grid),
+  #                       which the *-filter.mjs filters lay out (also off
+  #                       in gfm)
   #
   # metadata.yml is not passed here: its title/author would trigger the
   # template's \maketitle and print a second title block under the cover.
@@ -217,6 +218,8 @@ build_guide() {
     --pdf-engine=xelatex \
     --filter="$PDF_DIR/contents-filter.mjs" \
     --filter="$PDF_DIR/spread-filter.mjs" \
+    --filter="$PDF_DIR/relaxed-filter.mjs" \
+    --filter="$PDF_DIR/grid-filter.mjs" \
     --filter="$PDF_DIR/heading-sizes.mjs" \
     --filter="$PDF_DIR/table-widths.mjs" \
     --include-before-body="$build_dir/cover.tex" \

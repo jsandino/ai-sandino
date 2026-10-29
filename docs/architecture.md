@@ -114,6 +114,11 @@ and their chapters for every PDF script. In `scripts/pdf/`:
   column widths, so its text wraps inside the page. The guides are read as
   GitHub-flavoured Markdown, which carries no widths, so pandoc would
   otherwise set each column on one line and run it off the page.
+- `spread-filter.mjs`, `relaxed-filter.mjs`, `grid-filter.mjs`: pandoc
+  filters for the named blocks in
+  [`guide-format.md`](guide-format.md#named-blocks). Each acts only inside
+  its own block; `grid-filter.mjs` adds its LaTeX packages to the preamble
+  only for a guide that has a grid.
 
 Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
 by every guide. The fonts are bundled in `scripts/pdf/fonts/`, and the

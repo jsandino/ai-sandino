@@ -27,10 +27,10 @@ follows the site's theme (see Brand marks). Rationale:
 | Token | Dark | Light | Use |
 |---|---|---|---|
 | `bg` | `#13131a` | `#fafafa` | Page background |
-| `bg-alt` | `#1b1b24` | `#f1f1f4` | Alternating section bands |
+| `bg-alt` | `#1b1b24` | `#f1f1f4` | Alternating section bands; PDF grid table header (light) |
 | `surface` | `#20202b` | `#ffffff` | Cards, code blocks, accordions |
 | `border` | `#2c2c38` | `#e2e2e7` | Default borders, dividers |
-| `border-strong` | `#38383d` | `#cfcfd6` | Hero card, ghost buttons |
+| `border-strong` | `#38383d` | `#cfcfd6` | Hero card, ghost buttons; PDF grid table rules (light) |
 | `text` | `#f5f5f7` | `#13131a` | Primary text |
 | `text-2` | `#9a9aa5` | `#5c5c68` | Secondary text, body copy in cards |
 | `text-3` | `#6b6b78` | `#8a8a96` | Tertiary labels, coming-soon nodes |
@@ -43,6 +43,11 @@ follows the site's theme (see Brand marks). Rationale:
 | `grid-line` | `rgba(245,245,247,.045)` | `rgba(19,19,26,.06)` | Hero background grid |
 | `violet` | `#6e63ff` | `#5b4fe5` | Secondary accent: quote bars, FAQ label |
 | `coral` | `#f65b66` | `#e5484d` | Secondary accent: urgent or attention labels |
+
+The guide PDFs read `bg-alt` and `border-strong`'s light values from
+`global.css` for `::: grid` tables
+([`guide-format.md`](guide-format.md#named-blocks)). A guide's PDF only
+picks up a changed value when it is next rebuilt (`make pdf`).
 
 Light mode uses three amber shades because amber is light. `amber-500` fills
 carry near-black text; `amber-600` is used only for large elements; small

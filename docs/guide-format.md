@@ -86,6 +86,8 @@ Layout effects use named blocks, never raw LaTeX
 | Block | Effect in the PDF |
 |---|---|
 | `::: spread` … `:::` | Spaces its blocks evenly down the rest of the page (`scripts/pdf/spread-filter.mjs`) |
+| `::: relaxed` … `:::` | Sets its blocks with wider line spacing (1.25×) and space between list items (`scripts/pdf/relaxed-filter.mjs`) |
+| `::: grid` … `:::` | Draws the tables in it with a full grid of rules, a shaded header row and padded cells, in the light theme's `border-strong` and `bg-alt` colours ([design tokens](design-system.md#colour-tokens)) (`scripts/pdf/grid-filter.mjs`) |
 
 ```markdown
 ::: spread
@@ -95,7 +97,41 @@ Layout effects use named blocks, never raw LaTeX
 :::
 ```
 
+Named blocks nest. `spread` spaces its direct children, so to space whole
+sections apart, wrap each section in its own block:
+
+```markdown
+::: spread
+::: relaxed
+## Dimensions and shapes
+
+::: grid
+| Symbol | Meaning |
+|---|---|
+| $h$ | Number of attention heads |
+:::
+:::
+
+::: relaxed
+## Indices
+…
+:::
+:::
+```
+
 Outside the PDF, a named block's contents simply follow one another.
+
+## Math
+
+Write math in TeX between dollar signs: `$d_k$` inline, `$$…$$` for a
+display equation. Pandoc reads it (`tex_math_dollars`) and xelatex typesets
+it, so `$\mathbf{X} \in \mathbb{R}^{n \times d}$` prints as a formula, not
+as code. Math is not raw LaTeX: the content check allows it. A literal
+dollar sign in prose needs escaping as `\$`.
+
+The web pages don't render guide content yet. When they do, math will need
+a renderer such as KaTeX, as diagrams will need Mermaid
+([ADR 0006](decisions/0006-defer-web-mermaid.md)).
 
 ## Diagram colours
 
