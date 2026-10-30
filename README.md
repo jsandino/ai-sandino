@@ -56,3 +56,8 @@ project. Harness Engineering is first; the rest are on the way.
 | LLM gateways: managing token quotas | Coming soon |
 | RAG in production | Coming soon |
 | Building an autonomous agent with Google's ADK | Coming soon |
+
+## License
+
+[MIT](LICENSE) © 2026 Javier Sandino. Use it freely, but keep the copyright
+notice and credit the source.
