@@ -71,11 +71,11 @@ cross-link per pair), and unit tests feed it fixtures with live topics.
 
 ## Topic content and the companion guide
 
-- Each topic page is **written by hand** for the web, using its guide as a
-  reference ([ADR 0007](decisions/0007-hand-written-topic-pages.md),
-  provisional).
+- A topic page's content may be written by hand, taken from its guide, or
+  generated from it ([ADR 0018](decisions/0018-topic-page-content-sources.md)).
+  Today pages are authored as Astro pages.
 - Guide source Markdown lives in `src/content/<guide>/` and is used **only**
-  to build the PDF. The site does not render it.
+  to build the PDF. The build does not read it for the site.
 - Mermaid diagrams are rendered for the PDF only. Web rendering is put off
   until a page needs it ([ADR 0006](decisions/0006-defer-web-mermaid.md)).
 
