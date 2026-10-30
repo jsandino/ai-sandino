@@ -22,7 +22,9 @@ export const topics: Topic[] = [
     label: 'Harness Engineering',
     blurb:
       'Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses.',
-    status: 'coming-soon',
+    status: 'live',
+    pdf: '/harness-guide.pdf',
+    github: 'https://github.com/jsandino/ai-sandino',
   },
   {
     slug: 'rag-in-production',

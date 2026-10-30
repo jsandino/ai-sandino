@@ -53,7 +53,7 @@ test.describe('content', () => {
     );
   });
 
-  test('graph shows all five topics and the AI hub, and no node is a link', async ({
+  test('graph shows all five topics and the AI hub, and only live topics are links and tagged', async ({
     page,
   }) => {
     await page.goto('/');
@@ -66,8 +66,12 @@ test.describe('content', () => {
       .evaluateAll((gs) => gs.map((g) => (g as SVGGElement).dataset.id));
     expect(ids).toEqual(topics.map((t) => t.slug));
     await expect(graph(page).locator('g.node.hub text')).toHaveText('AI');
-    expect(await graph(page).locator('a, [role="link"]').count()).toBe(0);
-    expect(await graph(page).locator('.tag').count()).toBe(0);
+    expect(await graph(page).locator('a, [role="link"]').count()).toBe(
+      topics.filter((t) => t.status === 'live').length,
+    );
+    expect(await graph(page).locator('.tag').count()).toBe(
+      topics.filter((t) => t.status === 'live').length,
+    );
   });
 
   test('the Topics heading stays for screen readers and the list is replaced', async ({
@@ -100,7 +104,7 @@ test.describe('content', () => {
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('the Topics list shows every topic with its blurb, and no links', async ({
+  test('the Topics list shows every topic with its blurb, and links only for live topics', async ({
     page,
   }) => {
     await page.goto('/');
@@ -111,7 +115,9 @@ test.describe('without JavaScript', () => {
       await expect(items.nth(i)).toContainText(t.title);
       await expect(items.nth(i)).toContainText(t.blurb);
     }
-    expect(await page.locator('[data-topic-list] a').count()).toBe(0);
+    expect(await page.locator('[data-topic-list] a').count()).toBe(
+      topics.filter((t) => t.status === 'live').length,
+    );
     await expect(graph(page)).toBeHidden();
   });
 });

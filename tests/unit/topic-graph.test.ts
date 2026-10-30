@@ -95,8 +95,12 @@ describe('live and coming-soon topics', () => {
     }
   });
 
-  test('in this build no topic is live and no node is a link', () => {
-    expect(topicsToGraph(topics).nodes.some((n) => n.href)).toBe(false);
+  test('in this build only harness-engineering is live and linked', () => {
+    expect(
+      topicsToGraph(topics)
+        .nodes.filter((n) => n.href)
+        .map((n) => n.id),
+    ).toEqual(['harness-engineering']);
   });
 
   test('the no-JS list links a live topic and not a coming-soon one (fixture)', async () => {
@@ -111,10 +115,13 @@ describe('live and coming-soon topics', () => {
     expect(html).toContain('>Topics</h2>');
   });
 
-  test('the no-JS list has no links in this build', async () => {
+  test('the no-JS list links only the live topic in this build', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(TopicGraph);
-    expect(html).not.toMatch(/<a /);
+    const anchors = [...html.matchAll(/<a [^>]*href="([^"]+)"/g)].map(
+      (m) => m[1],
+    );
+    expect(anchors).toEqual(['/harness-engineering']);
   });
 });
 

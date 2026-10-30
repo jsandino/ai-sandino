@@ -30,8 +30,21 @@ fi
 
 status=0
 
+# The site is built as <slug>.html and served at /<slug> (docs/decisions/0014),
+# but hyperlink resolves /<slug> only to <slug>/index.html. Check a copy where
+# each page is also present at <slug>/index.html, so slash-less links resolve
+# as they do in production.
+SERVED="$(mktemp -d)"
+trap 'rm -rf "$SERVED"' EXIT
+cp -R dist/. "$SERVED"
+while IFS= read -r page; do
+  slug="${page%.html}"
+  mkdir -p "$SERVED/$slug"
+  cp "$SERVED/$page" "$SERVED/$slug/index.html"
+done < <(cd dist && find . -name '*.html' ! -name 'index.html' | sed 's|^\./||')
+
 echo "Checking links and anchors in dist/ ..."
-if ! "$BIN/hyperlink" dist/ --check-anchors; then
+if ! "$BIN/hyperlink" "$SERVED" --check-anchors; then
   status=1
   cat >&2 <<'MSG'
 
