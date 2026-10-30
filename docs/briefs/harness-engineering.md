@@ -1,6 +1,6 @@
 # Brief — Harness Engineering topic page (`/harness-engineering`)
 
-- **Status:** Ready
+- **Status:** Done
 - **Roadmap:** [phase 002](../roadmap/phase-002.md), step 12
 - **Source:** kickoff "Harness Engineering topic page"; ADR 0018 (page
   content drawn from the guide); ADR 0003 (vanilla Motion);

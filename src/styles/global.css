@@ -32,6 +32,10 @@
   --color-grid-line: rgba(245, 245, 247, 0.045);
   --color-violet: #6e63ff;
   --color-coral: #f65b66;
+  --color-context: #38bdf8;
+  --color-constraints: #8b80ff;
+  --color-capabilities: #10b981;
+  --color-feedback: #f65b66;
   --color-transparent: transparent;
 
   --font-sans: 'Inter Variable', system-ui, sans-serif;
@@ -56,6 +60,10 @@
   --color-grid-line: rgba(19, 19, 26, 0.06);
   --color-violet: #5b4fe5;
   --color-coral: #e5484d;
+  --color-context: #0284c7;
+  --color-constraints: #5b4fe5;
+  --color-capabilities: #059669;
+  --color-feedback: #e5484d;
   color-scheme: light;
 }
 

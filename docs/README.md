@@ -9,7 +9,7 @@ about what the project *is* lives here.
 ## Current status
 
 - **Phase:** [002 — Autonomy foundations and Site v1](roadmap/phase-002.md)
-- **Next step:** 12 — Stage 1: `<<loop>> harness-engineering.md` (loop)
+- **Next step:** 13 — Stage 2 tools: prompt template, plan-file convention, `scripts/loop.sh` (gated)
 
 Every PR updates this block to describe the state **after it merges** (not
 while it is open), so `main` is never stale. Two fields, one line each:

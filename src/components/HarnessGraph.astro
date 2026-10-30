@@ -1,0 +1,238 @@
+---
+// The guide at a glance (docs/briefs/harness-engineering.md, *Graph*): six
+// hand-placed nodes and their edges. Nodes are HTML, edges are SVG, both
+// placed in percentages of one box, with a wide and a phone layout swapped
+// by CSS. The graph is hidden from assistive tech; the list below it is the
+// text equivalent. src/scripts/harness-graph.ts animates the entrance.
+import {
+  edgePath,
+  edges,
+  edgeSentence,
+  parts,
+  phone,
+  wide,
+} from '../lib/harness-graph';
+
+const layouts = { wide, phone };
+const pos = (id: string) =>
+  Object.entries(layouts)
+    .map(([k, l]) => {
+      const b = l.boxes[id];
+      return `--${k}-x:${b.x}%;--${k}-y:${b.y}%;--${k}-w:${b.w}%;--${k}-h:${b.h}%`;
+    })
+    .join(';');
+---
+
+<div class="harness-graph" data-harness-graph>
+  <div class="box" aria-hidden="true">
+    {Object.entries(layouts).map(([name, layout]) => (
+      <svg
+        class={`edges edges-${name}`}
+        viewBox={`0 0 ${layout.width} ${layout.height}`}
+      >
+        <defs>
+          {[
+            'neutral',
+            'context',
+            'constraints',
+            'capabilities',
+            'feedback',
+          ].map((c) => (
+            <marker
+              id={`arrow-${name}-${c}`}
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto"
+            >
+              <path d="M0 1 L9 5 L0 9 z" class={`fill-${c}`} />
+            </marker>
+          ))}
+        </defs>
+        {edges.map((e) => (
+          <path
+            class={`edge stroke-${e.colour}`}
+            data-edge={`${e.from}-${e.to}`}
+            data-directed={e.directed ? '' : undefined}
+            d={edgePath(layout, e)}
+            pathLength="1"
+            marker-end={
+              e.directed ? `url(#arrow-${name}-${e.colour})` : undefined
+            }
+          />
+        ))}
+      </svg>
+    ))}
+    {parts.map((p) => (
+      <div class={`node node-${p.colour}`} data-node={p.id} style={pos(p.id)}>
+        <span class="numeral">Part {p.numeral}</span>
+        <span class="label">{p.label}</span>
+        <span class="summary">{p.summary}</span>
+      </div>
+    ))}
+  </div>
+
+  <ul class="sr-only" data-graph-text>
+    {parts.map((p) => (
+      <li>
+        Part {p.numeral}, {p.label}: {p.summary}
+      </li>
+    ))}
+    {edges.map((e) => (
+      <li>{edgeSentence(e)}</li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  import { mountHarnessGraph } from '../scripts/harness-graph';
+  document
+    .querySelectorAll<HTMLElement>('[data-harness-graph]')
+    .forEach(mountHarnessGraph);
+</script>
+
+<style>
+  .box {
+    position: relative;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 1000 / 620;
+  }
+  .edges {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+  }
+  .edges-phone {
+    display: none;
+  }
+  .edge {
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+  .node {
+    position: absolute;
+    left: var(--wide-x);
+    top: var(--wide-y);
+    width: var(--wide-w);
+    height: var(--wide-h);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px 14px;
+    border: 1px solid var(--node-colour, var(--color-border-strong));
+    border-radius: 8px;
+    background: var(--color-surface);
+  }
+  .numeral {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-2);
+  }
+  .label {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.2;
+  }
+  .summary {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--color-text-2);
+  }
+  .node-context {
+    --node-colour: var(--color-context);
+  }
+  .node-constraints {
+    --node-colour: var(--color-constraints);
+  }
+  .node-capabilities {
+    --node-colour: var(--color-capabilities);
+  }
+  .node-feedback {
+    --node-colour: var(--color-feedback);
+  }
+  .stroke-neutral {
+    stroke: var(--color-border-strong);
+  }
+  .stroke-context {
+    stroke: var(--color-context);
+  }
+  .stroke-constraints {
+    stroke: var(--color-constraints);
+  }
+  .stroke-capabilities {
+    stroke: var(--color-capabilities);
+  }
+  .stroke-feedback {
+    stroke: var(--color-feedback);
+  }
+  .fill-neutral {
+    fill: var(--color-border-strong);
+  }
+  .fill-context {
+    fill: var(--color-context);
+  }
+  .fill-constraints {
+    fill: var(--color-constraints);
+  }
+  .fill-capabilities {
+    fill: var(--color-capabilities);
+  }
+  .fill-feedback {
+    fill: var(--color-feedback);
+  }
+
+  @media (max-width: 1023px) {
+    .box {
+      max-width: 420px;
+      aspect-ratio: 360 / 600;
+    }
+    .edges-wide {
+      display: none;
+    }
+    .edges-phone {
+      display: block;
+    }
+    .node {
+      left: var(--phone-x);
+      top: var(--phone-y);
+      width: var(--phone-w);
+      height: var(--phone-h);
+      padding: 8px 6px;
+    }
+    .label {
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    /* Too narrow for the summaries; the text list carries them. */
+    .node-context .summary,
+    .node-constraints .summary,
+    .node-capabilities .summary,
+    .node-feedback .summary {
+      display: none;
+    }
+  }
+
+  /* Entrance: hidden only once the script has taken over, so no-JS and
+     reduced-motion visitors see the settled graph. */
+  [data-harness-graph][data-anim='ready'] .node {
+    opacity: 0;
+  }
+  [data-harness-graph][data-anim='ready'] .edge {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-harness-graph][data-anim='ready'] marker {
+    opacity: 0;
+  }
+</style>
