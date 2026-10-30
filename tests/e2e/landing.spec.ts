@@ -139,6 +139,40 @@ test.describe('desktop interaction', () => {
     await expect(card(page)).toHaveText(PROMPT);
   });
 
+  test('the card link of a live topic stays reachable from the node and opens the page', async ({
+    page,
+  }) => {
+    // Tall enough that the card is on screen without scrolling.
+    await page.setViewportSize({ width: 1280, height: 1300 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const t = topics[0];
+    await topicNode(page, t.slug).locator('.ring').hover();
+    const link = card(page).locator('a.card-link');
+    await expect(link).toHaveText('Read the topic →');
+    // Move across the gap between graph and card, as a real pointer would.
+    const box = (await link.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, {
+      steps: 20,
+    });
+    await expect(link).toBeVisible();
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(`/${t.slug}/?$`));
+  });
+
+  test('moving focus from a live node to the card link keeps the card', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const t = topics[0];
+    await topicNode(page, t.slug).focus();
+    const link = card(page).locator('a.card-link');
+    await link.focus();
+    await expect(link).toBeFocused();
+    await expect(card(page).locator('h3')).toHaveText(t.title);
+  });
+
   test('every topic is reachable by keyboard, with a visible focus style, and focus fills the card', async ({
     page,
   }) => {
@@ -238,6 +272,18 @@ test.describe('phone', () => {
     expect(new URL(page.url()).pathname).toBe('/');
     await ring.tap();
     await expect(card(page)).toHaveText(PROMPT);
+  });
+
+  test('after tapping a live topic, tapping the card link opens its page', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const t = topics[0];
+    await topicNode(page, t.slug).locator('.ring').tap();
+    await expect(card(page).locator('h3')).toHaveText(t.title);
+    await card(page).locator('a.card-link').tap();
+    await expect(page).toHaveURL(new RegExp(`/${t.slug}/?$`));
   });
 });
 

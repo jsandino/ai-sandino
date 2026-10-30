@@ -73,6 +73,7 @@ const REDUCE = '(prefers-reduced-motion: reduce)';
 const GLIDE_MS = 1600;
 const STAGGER = 260;
 const FOCUS_SCALE = 1.15;
+const HOVER_MS = 150; // rest on a node this long to replace the card's topic
 const MARGIN = 4; // px kept clear between a node's marks and the frame edge
 
 const LIVE_TAG = 'live';
@@ -104,6 +105,10 @@ function jaggedArc(r: number, from: number, span: number, steps = 16) {
 }
 
 function fillCard(card: HTMLElement, d: GraphNode | null) {
+  // Already showing this node: keep the DOM, so a link being tapped or
+  // focused is never swapped out from under the user.
+  if (card.dataset.node === (d?.id ?? '')) return;
+  card.dataset.node = d?.id ?? '';
   const el = <K extends keyof HTMLElementTagNameMap>(
     tag: K,
     cls: string,
@@ -249,9 +254,12 @@ function draw(
     node.attr('transform', (d) => `translate(${d.x},${d.y})`);
   };
 
-  // Interaction: hover or focus previews; click, tap or keys act.
+  // Interaction: hover or focus previews; click, tap or keys act. The card
+  // keeps its topic until the pointer or focus leaves the graph and card
+  // together, so its link can be reached.
   const touches = (l: Link, d: Node) => l.source === d || l.target === d;
   let selected: Node | null = null;
+  let hoverTimeout: ReturnType<typeof setTimeout> | undefined;
   const highlight = (d: Node) => {
     const rel = new Set(
       links
@@ -306,11 +314,15 @@ function draw(
     .attr('tabindex', 0)
     .attr('role', (d) => (d.href ? 'link' : 'button'))
     .on('mouseenter', (_e, d) => {
-      if (!selected) highlight(d);
+      if (selected) return;
+      // With a topic already on the card, a pointer sweeping across other
+      // nodes on its way to the card's link must not replace it.
+      clearTimeout(hoverTimeout);
+      if (card.dataset.node) hoverTimeout = setTimeout(highlight, HOVER_MS, d);
+      else highlight(d);
     })
-    .on('mouseleave', restore)
+    .on('mouseleave', () => clearTimeout(hoverTimeout))
     .on('focus', (_e, d) => highlight(d))
-    .on('blur', restore)
     .on('click', (_e, d) => act(clickAction(d, o.tap), d))
     .on('keydown', (e: KeyboardEvent, d) => {
       const action = keyAction(d, e.key);
@@ -318,6 +330,14 @@ function draw(
       e.preventDefault();
       act(action, d);
     });
+
+  const region = svgEl.closest<HTMLElement>('[data-graph-root]')!;
+  const onFocusOut = (e: FocusEvent) => {
+    const to = e.relatedTarget;
+    if (!(to instanceof Element && region.contains(to))) restore();
+  };
+  region.addEventListener('mouseleave', restore);
+  region.addEventListener('focusout', onFocusOut);
 
   // Layout computed off-screen, to rest. Related links pull gently.
   nodes.forEach((n, i) => {
@@ -349,6 +369,9 @@ function draw(
   });
 
   const stopAll = () => {
+    clearTimeout(hoverTimeout);
+    region.removeEventListener('mouseleave', restore);
+    region.removeEventListener('focusout', onFocusOut);
     sim.stop();
     timers.forEach((t) => t.stop());
     clearTimeout(sparkTimeout);
