@@ -86,3 +86,41 @@
     @apply outline-2 outline-offset-2 outline-accent;
   }
 }
+
+/* Page transitions (docs/design-system.md#motion): cross-document View
+   Transitions on every navigation; browsers without support just navigate.
+   What was on screen fades out in place, then the new page fades in in
+   place, with no movement, so landing mid-page never makes content glide.
+   The sticky header stays put. */
+@view-transition {
+  navigation: auto;
+}
+.site-header {
+  view-transition-name: site-header;
+}
+::view-transition-group(site-header),
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-old(root) {
+  animation: page-out 300ms ease-in both;
+}
+::view-transition-new(root) {
+  animation: page-in 500ms ease-out 150ms both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}

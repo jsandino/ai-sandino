@@ -262,6 +262,42 @@ test.describe('motion', () => {
     await page.waitForTimeout(500);
     expect(await shellAnimations(page)).toBe(0);
   });
+
+  // The fade itself is the browser's; headless Chromium doesn't show it. So
+  // check the rule is on, off under reduced motion, and navigation works.
+  const hasViewTransition = (page: Page) =>
+    page.evaluate(() => {
+      // The last matching @view-transition rule wins, as in the cascade.
+      let navigation = 'none';
+      const walk = (rules: CSSRuleList) => {
+        for (const r of rules) {
+          if (r.constructor.name === 'CSSViewTransitionRule') {
+            navigation = (r as CSSRule & { navigation: string }).navigation;
+          } else if (r instanceof CSSMediaRule) {
+            if (matchMedia(r.conditionText).matches) walk(r.cssRules);
+          }
+        }
+      };
+      for (const sheet of document.styleSheets) walk(sheet.cssRules);
+      return navigation === 'auto';
+    });
+
+  test('pages fade into each other when motion is allowed, and still navigate', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/');
+    expect(await hasViewTransition(page)).toBe(true);
+    await page.goto('/harness-engineering');
+    await page.goBack();
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  test('pages do not fade under reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    expect(await hasViewTransition(page)).toBe(false);
+  });
 });
 
 test('404 page shows its text and illustration and links home', async ({
