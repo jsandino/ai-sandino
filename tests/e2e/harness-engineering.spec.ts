@@ -81,7 +81,10 @@ test('the PDF and GitHub links point where the brief says', async ({
   expect(res.status()).toBe(200);
   await expect(
     page.getByRole('link', { name: 'Browse the source on GitHub' }),
-  ).toHaveAttribute('href', 'https://github.com/jsandino/ai-sandino');
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/jsandino/ai-sandino#practical-ai-engineering',
+  );
 });
 
 test('the graph enters on scroll, and is settled under reduced motion', async ({

@@ -24,7 +24,7 @@ export const topics: Topic[] = [
       'Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses.',
     status: 'live',
     pdf: '/harness-guide.pdf',
-    github: 'https://github.com/jsandino/ai-sandino',
+    github: 'https://github.com/jsandino/ai-sandino#practical-ai-engineering',
   },
   {
     slug: 'rag-in-production',

@@ -7,7 +7,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const SITE = 'https://ai.sandino.ca';
-const REPO_URL = 'https://github.com/jsandino/ai-sandino';
+const REPO_URL =
+  'https://github.com/jsandino/ai-sandino#practical-ai-engineering';
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const MISSING = '/this-page-does-not-exist';
 
