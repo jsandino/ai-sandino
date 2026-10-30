@@ -39,7 +39,7 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0004](0004-branch-pr-workflow.md) | Every change goes through a branch, a PR and a protected `main` | Accepted |
 | [0005](0005-make-command-interface.md) | Use make as the only command interface | Accepted |
 | [0006](0006-defer-web-mermaid.md) | Put off rendering Mermaid on the web | Accepted |
-| [0007](0007-hand-written-topic-pages.md) | Write topic pages by hand, using the guide as a reference | Accepted (provisional) |
+| [0007](0007-hand-written-topic-pages.md) | Write topic pages by hand, using the guide as a reference | Superseded by 0018 |
 | [0008](0008-flat-urls-and-topics-data.md) | Use flat URLs, with `topics.ts` as the single source | Accepted |
 | [0009](0009-visual-language.md) | Base the visual language on the AI Dev reference | Accepted; theme clause superseded by 0015 |
 | [0010](0010-ci-checks-and-gates.md) | CI checks and their gates | Accepted |
@@ -50,3 +50,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0015](0015-dark-default-theme-toggle.md) | Default to dark, with a remembered theme toggle | Accepted |
 | [0016](0016-guide-format-and-generic-pdf-pipeline.md) | Define one guide format, and build every guide's PDF from it | Accepted |
 | [0017](0017-parallel-phases.md) | Run parallel streams of work as separate phases | Accepted |
+| [0018](0018-topic-page-content-sources.md) | Let topic pages draw their content from the guide, by any means | Accepted |

@@ -1,6 +1,6 @@
 # 0007 — Write topic pages by hand, using the guide as a reference
 
-- **Status:** Accepted (provisional, see Consequences)
+- **Status:** Superseded by [0018-topic-page-content-sources](0018-topic-page-content-sources.md)
 - **Date:** 2026-10-07
 
 ---
