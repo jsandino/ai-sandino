@@ -30,7 +30,7 @@ nodes show their label and one-line summary and do nothing on click.
 3. **The twelve heuristics:** twelve cards (see *Heuristics*).
 4. **PDF download:** a button linking to `/harness-guide.pdf`.
 5. **GitHub link:** to the companion project, this repo:
-   `https://github.com/jsandino/ai-sandino`.
+   `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
 
 Sections are clearly separated visually (alternating bands, per the design
 system).
@@ -123,7 +123,7 @@ form a grid; on phone width, a single column.
       → check: `make test-e2e` (count and order); wording → human review
 - [ ] The PDF downloads. → check: `make linkcheck`
 - [ ] All text matches the *Copy* table. → human review
-- [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino`.
+- [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
       → human review (`make linkcheck` covers internal links only)
 - [ ] Reduced motion, keyboard and mobile all work.
       → check: `make test-e2e` (axe, reduced motion, 360px)
@@ -134,7 +134,7 @@ form a grid; on phone width, a single column.
 ## Open questions
 
 1. ~~**GitHub project:** which repo?~~ Decided: this repo,
-   `https://github.com/jsandino/ai-sandino`. No placeholder state.
+   `https://github.com/jsandino/ai-sandino#practical-ai-engineering`. No placeholder state.
 2. ~~**The 12 heuristics:** add them as a section?~~ Decided: yes, as twelve
    cards below the graph, with the guide's wording. [ADR 0018](../decisions/0018-topic-page-content-sources.md)
    supersedes ADR 0007's hand-written rule to allow it.
