@@ -1,4 +1,5 @@
-# CI: runs on every PR to main. Every step is a make target, so anything
+# CI: runs on every PR to main and on every push to main (so the README
+# badge reflects main). Every step is a make target, so anything
 # that fails here can be reproduced locally with the same command.
 # Required checks (ruleset protect-main): "site" and "pdf".
 # Rationale: docs/decisions/0010-ci-checks-and-gates.md and
@@ -8,6 +9,8 @@ name: CI
 
 on:
   pull_request:
+    branches: [main]
+  push:
     branches: [main]
 
 permissions:
