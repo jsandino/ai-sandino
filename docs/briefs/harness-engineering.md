@@ -22,8 +22,8 @@ The page is a summary that builds intuition; the guide is the reference.
 3. **Key concepts:** progressive disclosure, ADRs, mechanical enforcement,
    feedback loops. Each one gets a short, visual explanation.
 4. **PDF download:** a button linking to `/harness-guide.pdf`.
-5. **GitHub link:** to the companion project. **Placeholder for now**
-   (repo not chosen yet; see Open questions).
+5. **GitHub link:** to the companion project, this repo:
+   `https://github.com/jsandino/ai-sandino`.
 
 Sections are clearly separated visually (alternating bands, per the design
 system).
@@ -57,13 +57,15 @@ four nodes appear (line-draw animation).
       in the same PR as the page (the live ⇔ page check passes).
 - [ ] All five sections are present, in order, visually separated.
 - [ ] The primitives diagram animates on scroll and has a text equivalent.
-- [ ] The PDF downloads; the GitHub link is a clearly marked placeholder.
+- [ ] The PDF downloads. → check: `make linkcheck`
+- [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino`.
+      → human review (`make linkcheck` covers internal links only)
 - [ ] Reduced motion, keyboard and mobile all work; CI passes.
 
 ## Open questions
 
-1. **GitHub project:** which repo? Until it's decided, should the link be
-   hidden, or shown as "coming soon"?
+1. ~~**GitHub project:** which repo?~~ Decided: this repo,
+   `https://github.com/jsandino/ai-sandino`. No placeholder state.
 2. **The 12 heuristics:** add them as a section, embedded from the guide's
    `02-heuristics.md`? This is ADR 0007's open "option C".
 3. **Key concepts visuals:** a diagram per concept, or a shared card
