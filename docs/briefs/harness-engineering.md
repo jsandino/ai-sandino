@@ -58,7 +58,6 @@ may be reworded later without a new brief.
 - Text is taken from the guide (ADR 0018), as listed below. The page is
   authored as an Astro page; don't render the guide's chapters.
 - Short and visual over long prose; the guide holds the depth.
-- All node text and heuristic text comes from the guide, as listed below.
 
 ## Graph
 
@@ -128,7 +127,9 @@ form a grid; on phone width, a single column.
       → human review (`make linkcheck` covers internal links only)
 - [ ] Reduced motion, keyboard and mobile all work.
       → check: `make test-e2e` (axe, reduced motion, 360px)
-- [ ] CI passes. → check: `make ci`
+- [ ] Every CI check passes. → check: `make format-check`, `make lint`,
+      `make typecheck`, `make test-unit`, `make build`, `make linkcheck`,
+      `make lighthouse`, `make test-e2e`, `make pdf-check`
 
 ## Open questions
 
