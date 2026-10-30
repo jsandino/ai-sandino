@@ -29,7 +29,7 @@ so the next guides can be imported from their PDFs.
 | 9 | Stage 1: `<<loop>> pdf-pipeline.md` (guide structure; harness PDF unchanged apart from its contents page) | [pdf-pipeline](../briefs/pdf-pipeline.md) | loop | Done |
 | 10 | Guide content conventions: the `::: spread` block, diagram colour names and their print palette, the check against raw LaTeX and hard-coded colours; migrate the harness guide's heuristics page and diagrams | — | gated | Done |
 | 11 | Import the first guide from its PDF: moved to its own phase on `feat/transformers-guide` ([ADR 0017](../decisions/0017-parallel-phases.md)) | — | — | Moved |
-| 12 | Stage 1: `<<loop>> harness-engineering.md` (settle its open questions first) | [harness-engineering](../briefs/harness-engineering.md) | loop | Next |
+| 12 | Stage 1: `<<loop>> harness-engineering.md` | [harness-engineering](../briefs/harness-engineering.md) | loop | Next |
 | 13 | Stage 2 tools: prompt template, plan-file convention, iteration logs, `scripts/loop.sh` + `make loop`, worktree handling, permission profile (including deny rules for gate files) | — | gated | Planned |
 | 14 | First Stage 2 run, watched (only once Stage 1's exit criterion is met) | — | loop | Planned |
 

@@ -1,26 +1,33 @@
 # Brief — Harness Engineering topic page (`/harness-engineering`)
 
-- **Status:** Draft
+- **Status:** Ready
 - **Roadmap:** [phase 002](../roadmap/phase-002.md), step 12
-- **Source:** kickoff "Harness Engineering topic page"; ADR 0007 (written
-  by hand from the guide, provisional); ADR 0003 (vanilla Motion);
-  `design-system.md`
+- **Source:** kickoff "Harness Engineering topic page"; ADR 0018 (page
+  content drawn from the guide); ADR 0003 (vanilla Motion);
+  `design-system.md`; the guide (`src/content/harness-guide/`)
 
 ## Purpose
 
-Teach the core ideas of harness engineering in a few minutes of scrolling,
-visually, then hand the reader the full guide (PDF) and a real project.
-The page is a summary that builds intuition; the guide is the reference.
+Show the shape of the whole guide at a glance, then hand the reader the full
+guide (PDF) and a real project. The page is a map that builds intuition: a
+graph of the guide's six parts, and the twelve heuristics worth remembering.
+The guide is the reference.
+
+## Scope of this brief
+
+This brief builds the page frame: the graph and the heuristics cards. What
+happens when a reader selects a node (a bubble, a page, or a visual shown in
+place) is **not decided here**. A follow-up brief settles it. Until then,
+nodes show their label and one-line summary and do nothing on click.
 
 ## Required sections (in order)
 
 1. **Hero:** introduces the topic: what harness engineering is, in one or
    two lines.
-2. **The four primitives:** an animated diagram of context, constraints,
-   capabilities and feedback loops, entering on scroll, built with Motion.
-   Uses the four primitive colours from `design-system.md`.
-3. **Key concepts:** progressive disclosure, ADRs, mechanical enforcement,
-   feedback loops. Each one gets a short, visual explanation.
+2. **The guide at a glance:** a graph of six nodes, one per part of the
+   guide, in a fixed hand-placed layout (see *Graph*), entering on scroll,
+   built with Motion.
+3. **The twelve heuristics:** twelve cards (see *Heuristics*).
 4. **PDF download:** a button linking to `/harness-guide.pdf`.
 5. **GitHub link:** to the companion project, this repo:
    `https://github.com/jsandino/ai-sandino`.
@@ -28,49 +35,115 @@ The page is a summary that builds intuition; the guide is the reference.
 Sections are clearly separated visually (alternating bands, per the design
 system).
 
+## Copy
+
+All user-facing text on the page. "Placeholder OK" marks plain labels that
+may be reworded later without a new brief.
+
+| Where | Text | Source |
+|---|---|---|
+| Hero title | Harness Engineering with Code Agents | `docs/content/topic-blurbs.md` |
+| Hero line | Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses. | `docs/content/topic-blurbs.md` |
+| Graph heading | The guide at a glance | placeholder OK |
+| Graph sub-line | Read Part I to get the mental model. After that, the parts are independent. | guide `00-intro.md`, trimmed |
+| Heuristics heading | Twelve heuristics | placeholder OK |
+| Heuristics sub-line | Harness-engineering ideas worth remembering. | guide `02-heuristics.md` |
+| PDF button | Download the guide (PDF) | placeholder OK |
+| PDF caption | A Practical Guide to Harness Engineering | guide `00-intro.md` |
+| GitHub text | This site was built using these principles. | placeholder OK |
+| GitHub link | Browse the source on GitHub | placeholder OK |
+
 ## Content rules
 
-- Written by hand for the web, using the guide (`src/content/harness-guide/`)
-  as reference. Don't render the guide's Markdown (ADR 0007).
+- Text is taken from the guide (ADR 0018), as listed below. The page is
+  authored as an Astro page; don't render the guide's chapters.
 - Short and visual over long prose; the guide holds the depth.
+- All node text and heuristic text comes from the guide, as listed below.
 
-## Diagram detail _(added, from guide §3)_
+## Graph
 
-The guide shows the primitives reinforcing each other, and the diagram
-should too: context → constraints, constraints → feedback loops,
-capabilities → context, feedback loops → context. Arrows draw in after the
-four nodes appear (line-draw animation).
+Six nodes, one per part. Labels and one-line summaries (each summary is the
+part's epigraph in the guide, except Part I's, which is a quote from §1):
+
+| Part | Label | Summary | Colour |
+|---|---|---|---|
+| I | Foundations | An agent without a harness is a guess generator. An agent with a harness is a force multiplier. | neutral |
+| II | Context architecture | Context is the substrate of every agent task. If it's wrong, nothing downstream can recover. | context |
+| III | Mechanical constraints | If a rule matters, make it mechanical. Prose drifts, checks don't. | constraints |
+| IV | Agent capabilities | Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism. | capabilities |
+| V | Feedback loops | The harness fails where you aren't looking. | feedback loops |
+| VI | Operating discipline | The repo outlives the session, the model, and the conversation. | neutral |
+
+- Colours: Parts II to V use the four primitive colours from
+  `design-system.md`. Parts I and VI use a neutral colour, so they read as
+  the frame around the four primitives.
+- Edges (*Decided*): Foundations connects to each of the four primitives,
+  and Operating discipline connects to each of the four (eight edges, each
+  in the colour of the primitive it touches). Between the primitives, three
+  directed links run in the order capabilities → context → constraints →
+  feedback loops. There is no feedback loops → context arrow: it cluttered
+  the diagram. Edges draw in (line-draw animation) after the nodes appear.
+- Layout (*Decided*): fixed and hand-placed, no force simulation. The four
+  primitives are in the order Part IV, II, III, V, so the directed links
+  join neighbours. Wide screens: horizontal (Part I on the left, Part VI on
+  the right, the primitives stacked in between). Phone width: vertical
+  (Part I on top, Part VI at the bottom, the primitives in a row between).
+  Each node shows its part numeral, so the order is still readable.
+
+## Heuristics
+
+Twelve cards, in the guide's order. Each card shows its number, its name
+(for example "map vs. territory") and its one-sentence statement, taken
+verbatim from `02-heuristics.md`. Cards are not links. On wide screens they
+form a grid; on phone width, a single column.
 
 ## Accessibility, performance, mobile
 
-- The diagram has a text equivalent (the four primitives and their links
-  as readable text), so screen readers and no-JS visitors get the content.
-- Readable and usable at 360px wide; the diagram reflows rather than
-  shrinking to illegible.
+- The graph has a text equivalent (the six parts, their summaries and the
+  links between them as readable text), so screen readers and no-JS visitors
+  get the content.
+- Readable and usable at 360px wide; the graph switches to the phone layout
+  rather than shrinking to illegible.
 - All motion respects `prefers-reduced-motion`.
 - Must pass CI (Lighthouse thresholds, link check; the PDF link is checked).
 
 ## Acceptance criteria
 
 - [ ] The page exists at `/harness-engineering`, using the shared shell.
+      → check: `make test-e2e`
 - [ ] `topics.ts` marks the topic `live`, with `pdf: "/harness-guide.pdf"`,
       in the same PR as the page (the live ⇔ page check passes).
+      → check: `make test-unit`
 - [ ] All five sections are present, in order, visually separated.
-- [ ] The primitives diagram animates on scroll and has a text equivalent.
+      → check: `make test-e2e` (section order); separation → human review
+- [ ] The graph shows six nodes with the labels and summaries above, and the
+      listed edges. → check: `make test-e2e`
+- [ ] The graph animates on scroll and has a text equivalent.
+      → check: `make test-e2e` (text equivalent); animation → human review
+- [ ] Twelve heuristic cards appear in order, with the guide's text.
+      → check: `make test-e2e` (count and order); wording → human review
 - [ ] The PDF downloads. → check: `make linkcheck`
+- [ ] All text matches the *Copy* table. → human review
 - [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino`.
       → human review (`make linkcheck` covers internal links only)
-- [ ] Reduced motion, keyboard and mobile all work; CI passes.
+- [ ] Reduced motion, keyboard and mobile all work.
+      → check: `make test-e2e` (axe, reduced motion, 360px)
+- [ ] CI passes. → check: `make ci`
 
 ## Open questions
 
 1. ~~**GitHub project:** which repo?~~ Decided: this repo,
    `https://github.com/jsandino/ai-sandino`. No placeholder state.
-2. **The 12 heuristics:** add them as a section, embedded from the guide's
-   `02-heuristics.md`? This is ADR 0007's open "option C".
-3. **Key concepts visuals:** a diagram per concept, or a shared card
-   pattern with small illustrations?
+2. ~~**The 12 heuristics:** add them as a section?~~ Decided: yes, as twelve
+   cards below the graph, with the guide's wording. [ADR 0018](../decisions/0018-topic-page-content-sources.md)
+   supersedes ADR 0007's hand-written rule to allow it.
+3. ~~**Key concepts visuals:** a diagram per concept?~~ Decided: dropped. The
+   graph replaces the key-concepts section.
+4. ~~**Graph edges and layout:**~~ Decided: see *Graph*.
+5. ~~**Does ADR 0007 need superseding?**~~ Decided: yes, by ADR 0018.
+6. ~~**Hero copy and section headings**~~ Decided: see *Copy*.
 
 ## Out of scope
 
-Rendering guide chapters on the web, comments, newsletter sign-up.
+Node click behaviour (follow-up brief), rendering guide chapters on the web,
+comments, newsletter sign-up.
