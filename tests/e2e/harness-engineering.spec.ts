@@ -51,7 +51,7 @@ test('the graph has the hub and six parts with labels, and six edges', async ({
 test('the graph has a text equivalent', async ({ page }) => {
   await page.goto('/harness-engineering');
   const items = page.locator('[data-graph-text] li');
-  await expect(items).toHaveCount(6 + 6);
+  await expect(items).toHaveCount(6 + 6 + 1);
   await expect(items.first()).toContainText(
     'An agent without a harness is a guess generator.',
   );
@@ -181,6 +181,29 @@ test('hovering a node dims the rest and lights its edge; leaving restores', asyn
 
   await page.mouse.move(0, 0);
   await expect(node('foundations')).toHaveCSS('opacity', '1');
+});
+
+test('the hub links to the heuristics section, and so does the text list', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/harness-engineering');
+  await expect(page.locator('[data-graph-text] a')).toHaveAttribute(
+    'href',
+    '#heuristics',
+  );
+  await page
+    .locator('[data-harness-graph]')
+    .evaluate((e) => e.scrollIntoView({ block: 'center' }));
+  await page.locator('[data-node="heuristics"]:visible .ring').click();
+  await expect(page).toHaveURL(/#heuristics$/);
+  await expect(page.locator('#heuristics-title')).toBeInViewport();
+  // The heading clears the sticky header.
+  const [head, bar] = await Promise.all([
+    page.locator('#heuristics-title').boundingBox(),
+    page.locator('.site-header').boundingBox(),
+  ]);
+  expect(head!.y).toBeGreaterThanOrEqual(bar!.y + bar!.height);
 });
 
 test('the hub sparks within 10s under motion, and not under reduced motion', async ({

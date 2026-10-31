@@ -46,22 +46,27 @@ const labelY = (id: string, r: number, n: number) =>
             />
           ))}
         </g>
-        <g
-          class="node hub"
-          data-node={hub.id}
-          data-x={centre(layout, hub.id).x}
-          data-y={centre(layout, hub.id).y}
-          transform={`translate(${centre(layout, hub.id).x} ${centre(layout, hub.id).y})`}
-        >
-          <g class="body">
-            <g class="focus">
-              <circle class="ring" r={layout.hubR} />
-              <text class="hub-label" dy="0.35em">
-                {hub.label}
-              </text>
+        {/* Temporary: the heuristics move to their own page later. The anchor
+            is mouse and touch only; the graph is hidden from assistive tech,
+            so the text list carries a real link. */}
+        <a href="#heuristics" tabindex="-1">
+          <g
+            class="node hub"
+            data-node={hub.id}
+            data-x={centre(layout, hub.id).x}
+            data-y={centre(layout, hub.id).y}
+            transform={`translate(${centre(layout, hub.id).x} ${centre(layout, hub.id).y})`}
+          >
+            <g class="body">
+              <g class="focus">
+                <circle class="ring" r={layout.hubR} />
+                <text class="hub-label" dy="0.35em">
+                  {hub.label}
+                </text>
+              </g>
             </g>
           </g>
-        </g>
+        </a>
         {parts.map((p) => {
           const c = centre(layout, p.id);
           const ls = lines(name, p.label);
@@ -103,6 +108,9 @@ const labelY = (id: string, r: number, n: number) =>
     {edges.map((e) => (
       <li>{edgeSentence(e)}</li>
     ))}
+    <li>
+      <a href="#heuristics">Jump to the twelve heuristics</a>
+    </li>
   </ul>
 </div>
 
@@ -146,8 +154,11 @@ const labelY = (id: string, r: number, n: number) =>
   .node {
     transition: opacity 0.25s;
   }
-  .node:not(.hub) {
+  .node {
     cursor: pointer;
+  }
+  .hub:hover .ring {
+    stroke: var(--color-accent-strong);
   }
   .node.dim {
     opacity: 0.3;
