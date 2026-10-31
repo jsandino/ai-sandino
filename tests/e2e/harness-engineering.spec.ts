@@ -29,14 +29,16 @@ test('the graph has six nodes with labels, and eleven edges', async ({
   page,
 }) => {
   await page.goto('/harness-engineering');
-  const nodes = page.locator('[data-node]');
+  const nodes = page.locator('[data-node]:visible');
   await expect(nodes).toHaveCount(6);
   for (const [id, label] of PARTS) {
-    await expect(page.locator(`[data-node="${id}"] .label`)).toHaveText(label);
+    await expect(page.locator(`[data-node="${id}"]:visible .label`)).toHaveText(
+      label,
+    );
   }
   // Each edge is drawn once per layout.
-  await expect(page.locator('.edges-wide .edge')).toHaveCount(11);
-  await expect(page.locator('.edges-wide .edge[data-directed]')).toHaveCount(3);
+  await expect(page.locator('.graph-wide .edge')).toHaveCount(11);
+  await expect(page.locator('.graph-wide .edge[data-directed]')).toHaveCount(3);
   await expect(
     page.locator(
       '[data-edge="feedback-context"], [data-edge="feedback-capabilities"]',
@@ -98,7 +100,7 @@ test('the graph enters on scroll, and is settled under reduced motion', async ({
   await expect
     .poll(() =>
       page
-        .locator('[data-node="feedback"]')
+        .locator('[data-node="feedback"]:visible .body')
         .evaluate((e) => getComputedStyle(e).opacity),
     )
     .toBe('1');
@@ -106,7 +108,7 @@ test('the graph enters on scroll, and is settled under reduced motion', async ({
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/harness-engineering');
   await expect(graph).not.toHaveAttribute('data-anim', 'ready');
-  await expect(page.locator('[data-node="feedback"]')).toHaveCSS(
+  await expect(page.locator('[data-node="feedback"]:visible .body')).toHaveCSS(
     'opacity',
     '1',
   );
@@ -116,20 +118,23 @@ test('at 360px the page does not scroll sideways and the phone edges show', asyn
   page,
 }) => {
   await page.setViewportSize({ width: 360, height: 800 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/harness-engineering');
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await expect(page.locator('.edges-phone')).toBeVisible();
-  await expect(page.locator('.edges-wide')).toBeHidden();
+  await expect(page.locator('.graph-phone')).toBeVisible();
+  await expect(page.locator('.graph-wide')).toBeHidden();
   const [a, b] = await Promise.all(
     ['capabilities', 'feedback'].map((id) =>
-      page.locator(`[data-node="${id}"]`).boundingBox(),
+      page.locator(`[data-node="${id}"]:visible .ring`).boundingBox(),
     ),
   );
-  const top = await page.locator('[data-node="foundations"]').boundingBox();
+  const top = await page
+    .locator('[data-node="foundations"]:visible .ring')
+    .boundingBox();
   expect(top!.y).toBeLessThan(a!.y);
   expect(a!.x).toBeLessThan(b!.x);
 });
@@ -157,20 +162,33 @@ for (const [name, width] of [
   ['tablet', 700],
   ['phone', 360],
 ] as const) {
-  test(`no graph node clips its text at ${name} width`, async ({ page }) => {
+  test(`no graph label leaves the graph or overlaps another at ${name} width`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/harness-engineering');
-    const clipped = await page
-      .locator('[data-node]')
-      .evaluateAll((nodes) =>
-        nodes
-          .filter(
-            (n) =>
-              n.scrollHeight > n.clientHeight || n.scrollWidth > n.clientWidth,
-          )
-          .map((n) => (n as HTMLElement).dataset.node),
+    const box = (await page.locator('.box').boundingBox())!;
+    const labels = await page
+      .locator('[data-node]:visible .label')
+      .evaluateAll((els) =>
+        els.map((e) => {
+          const r = e.getBoundingClientRect();
+          return { x: r.x, y: r.y, w: r.width, h: r.height };
+        }),
       );
-    expect(clipped).toEqual([]);
+    for (const l of labels) {
+      expect(l.x).toBeGreaterThanOrEqual(box.x);
+      expect(l.x + l.w).toBeLessThanOrEqual(box.x + box.width);
+      expect(l.y + l.h).toBeLessThanOrEqual(box.y + box.height + 40);
+    }
+    for (const [i, a] of labels.entries())
+      for (const b of labels.slice(i + 1))
+        expect(
+          a.x < b.x + b.w &&
+            b.x < a.x + a.w &&
+            a.y < b.y + b.h &&
+            b.y < a.y + a.h,
+        ).toBe(false);
   });
 }

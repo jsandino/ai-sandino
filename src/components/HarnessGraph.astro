@@ -1,11 +1,13 @@
 ---
-// The guide at a glance (docs/briefs/harness-engineering.md, *Graph*): six
-// hand-placed nodes and their edges. Nodes are HTML, edges are SVG, both
-// placed in percentages of one box, with a wide and a phone layout swapped
-// by CSS. The graph is hidden from assistive tech; the list below it is the
-// text equivalent. src/scripts/harness-graph.ts animates the entrance.
+// The primary building blocks (docs/briefs/harness-engineering.md, *Graph*):
+// six hand-placed nodes and their edges, drawn like the landing topic graph:
+// SVG rings over centre-to-centre edges, labels below. A wide and a phone
+// layout are swapped by CSS. The graph is hidden from assistive tech; the
+// list below it is the text equivalent. src/scripts/harness-graph.ts
+// animates the entrance and the rest state.
 import {
-  edgePath,
+  centre,
+  edgeD,
   edges,
   edgeSentence,
   parts,
@@ -14,30 +16,28 @@ import {
 } from '../lib/harness-graph';
 
 const layouts = { wide, phone };
-const pos = (id: string) =>
-  Object.entries(layouts)
-    .map(([k, l]) => {
-      const b = l.boxes[id];
-      return `--${k}-x:${b.x}%;--${k}-y:${b.y}%;--${k}-w:${b.w}%;--${k}-h:${b.h}%`;
-    })
-    .join(';');
+const colours = [
+  'neutral',
+  'context',
+  'constraints',
+  'capabilities',
+  'feedback',
+];
+// On a phone the four primitives sit side by side, so their labels wrap.
+const lines = (name: string, p: (typeof parts)[number]) =>
+  name === 'phone' && p.colour !== 'neutral' ? p.label.split(' ') : [p.label];
 ---
 
 <div class="harness-graph" data-harness-graph>
   <div class="box" aria-hidden="true">
     {Object.entries(layouts).map(([name, layout]) => (
       <svg
-        class={`edges edges-${name}`}
+        class={`graph graph-${name}`}
         viewBox={`0 0 ${layout.width} ${layout.height}`}
+        data-r={layout.r}
       >
         <defs>
-          {[
-            'neutral',
-            'context',
-            'constraints',
-            'capabilities',
-            'feedback',
-          ].map((c) => (
+          {colours.map((c) => (
             <marker
               id={`arrow-${name}-${c}`}
               viewBox="0 0 10 10"
@@ -51,26 +51,52 @@ const pos = (id: string) =>
             </marker>
           ))}
         </defs>
-        {edges.map((e) => (
-          <path
-            class={`edge stroke-${e.colour}`}
-            data-edge={`${e.from}-${e.to}`}
-            data-directed={e.directed ? '' : undefined}
-            d={edgePath(layout, e)}
-            pathLength="1"
-            marker-end={
-              e.directed ? `url(#arrow-${name}-${e.colour})` : undefined
-            }
-          />
-        ))}
+        <g class="edges">
+          {edges.map((e) => (
+            <path
+              class={`edge stroke-${e.colour}`}
+              data-edge={`${e.from}-${e.to}`}
+              data-from={e.from}
+              data-to={e.to}
+              data-directed={e.directed ? '' : undefined}
+              d={edgeD(
+                centre(layout, e.from),
+                centre(layout, e.to),
+                layout.r,
+                e.directed,
+              )}
+              pathLength="1"
+              marker-end={
+                e.directed ? `url(#arrow-${name}-${e.colour})` : undefined
+              }
+            />
+          ))}
+        </g>
+        {parts.map((p) => {
+          const c = centre(layout, p.id);
+          return (
+            <g
+              class={`node node-${p.colour}`}
+              data-node={p.id}
+              data-x={c.x}
+              data-y={c.y}
+              transform={`translate(${c.x} ${c.y})`}
+            >
+              <g class="body">
+                <circle class="ring" r={layout.r} />
+                <circle class="core" r={layout.r * 0.23} />
+                <text class="label" y={layout.r + 18}>
+                  {lines(name, p).map((l, i) => (
+                    <tspan x="0" dy={i ? 14 : 0}>
+                      {l}{' '}
+                    </tspan>
+                  ))}
+                </text>
+              </g>
+            </g>
+          );
+        })}
       </svg>
-    ))}
-    {parts.map((p) => (
-      <div class={`node node-${p.colour}`} data-node={p.id} style={pos(p.id)}>
-        <span class="numeral">Part {p.numeral}</span>
-        <span class="label">{p.label}</span>
-        <span class="summary">{p.summary}</span>
-      </div>
     ))}
   </div>
 
@@ -95,59 +121,40 @@ const pos = (id: string) =>
 
 <style>
   .box {
-    position: relative;
     margin-inline: auto;
     width: 100%;
     max-width: 1000px;
-    aspect-ratio: 1000 / 620;
   }
-  .edges {
-    position: absolute;
-    inset: 0;
+  .graph {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     fill: none;
   }
-  .edges-phone {
+  .graph-phone {
     display: none;
   }
   .edge {
     stroke-width: 2;
-    vector-effect: non-scaling-stroke;
   }
-  .node {
-    position: absolute;
-    left: var(--wide-x);
-    top: var(--wide-y);
-    width: var(--wide-w);
-    height: var(--wide-h);
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    justify-content: center;
-    overflow: hidden;
-    padding: 10px 14px;
-    border: 1px solid var(--node-colour, var(--color-border-strong));
-    border-radius: 8px;
-    background: var(--color-surface);
+  /* Opaque, so the edges stop at the ring instead of meeting behind the dot. */
+  .ring {
+    fill: var(--color-surface);
+    stroke: var(--node-colour, var(--color-border-strong));
+    stroke-width: 2;
   }
-  .numeral {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-text-2);
+  .core {
+    fill: var(--node-colour, var(--color-border-strong));
   }
   .label {
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 1.2;
-  }
-  .summary {
-    font-size: 12.5px;
-    line-height: 1.4;
-    color: var(--color-text-2);
+    font-size: 13px;
+    fill: var(--color-text-2);
+    text-anchor: middle;
+    /* A halo keeps the text readable where an edge runs behind it. */
+    stroke: var(--color-bg-alt);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+    paint-order: stroke;
   }
   .node-context {
     --node-colour: var(--color-context);
@@ -195,37 +202,21 @@ const pos = (id: string) =>
   @media (max-width: 1023px) {
     .box {
       max-width: 420px;
-      aspect-ratio: 360 / 600;
     }
-    .edges-wide {
+    .graph-wide {
       display: none;
     }
-    .edges-phone {
+    .graph-phone {
       display: block;
-    }
-    .node {
-      left: var(--phone-x);
-      top: var(--phone-y);
-      width: var(--phone-w);
-      height: var(--phone-h);
-      padding: 8px 6px;
     }
     .label {
       font-size: 12px;
-      overflow-wrap: anywhere;
-    }
-    /* Too narrow for the summaries; the text list carries them. */
-    .node-context .summary,
-    .node-constraints .summary,
-    .node-capabilities .summary,
-    .node-feedback .summary {
-      display: none;
     }
   }
 
   /* Entrance: hidden only once the script has taken over, so no-JS and
      reduced-motion visitors see the settled graph. */
-  [data-harness-graph][data-anim='ready'] .node {
+  [data-harness-graph][data-anim='ready'] .body {
     opacity: 0;
   }
   [data-harness-graph][data-anim='ready'] .edge {
