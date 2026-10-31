@@ -14,3 +14,37 @@ export function parseHeuristics(markdown: string): Heuristic[] {
 export function codeSpans(text: string): string[] {
   return text.split('`');
 }
+
+// Chicago-style: articles, conjunctions and prepositions stay lowercase,
+// except as the first or last word.
+const MINOR = new Set([
+  'a',
+  'an',
+  'and',
+  'as',
+  'at',
+  'but',
+  'by',
+  'for',
+  'in',
+  'nor',
+  'of',
+  'on',
+  'or',
+  'the',
+  'to',
+  'vs.',
+  'with',
+]);
+
+/** A guide name in title case: "map vs. territory" → "Map vs. Territory". */
+export function titleCase(name: string): string {
+  const words = name.split(' ');
+  return words
+    .map((w, i) =>
+      MINOR.has(w) && i > 0 && i < words.length - 1
+        ? w
+        : w.replace(/(^|-)(\p{L})/gu, (_, sep, c) => sep + c.toUpperCase()),
+    )
+    .join(' ');
+}

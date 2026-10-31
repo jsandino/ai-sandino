@@ -26,7 +26,7 @@ the graph and light up their own edge on hover.
 
 1. **Hero:** introduces the topic: what harness engineering is, in one or
    two lines.
-2. **Primary building blocks:** a graph of a centre node and six part
+2. **Primary Building Blocks:** a graph of a centre node and six part
    nodes, one per part of the guide, in a fixed hand-placed layout (see
    *Graph*), entering on scroll.
 3. **The twelve heuristics:** twelve cards (see *Heuristics*).
@@ -46,8 +46,8 @@ may be reworded later without a new brief.
 |---|---|---|
 | Hero title | Harness Engineering with Code Agents | `docs/content/topic-blurbs.md` |
 | Hero line | Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses. | `docs/content/topic-blurbs.md` |
-| Graph heading | Primary building blocks | placeholder OK |
-| Heuristics heading | Twelve heuristics | placeholder OK |
+| Graph heading | Primary Building Blocks | placeholder OK |
+| Heuristics heading | Twelve Heuristics | placeholder OK |
 | Heuristics sub-line | Harness-engineering ideas worth remembering. | guide `02-heuristics.md` |
 | PDF button | Download the guide (PDF) | placeholder OK |
 | PDF caption | A Practical Guide to Harness Engineering | guide `00-intro.md` |
@@ -72,11 +72,11 @@ in the screen-reader text, and the follow-up brief uses it:
 | Part | Label | Summary |
 |---|---|---|
 | I | Foundations | An agent without a harness is a guess generator. An agent with a harness is a force multiplier. |
-| II | Context architecture | Context is the substrate of every agent task. If it's wrong, nothing downstream can recover. |
-| III | Mechanical constraints | If a rule matters, make it mechanical. Prose drifts, checks don't. |
-| IV | Agent capabilities | Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism. |
-| V | Feedback loops | The harness fails where you aren't looking. |
-| VI | Operating discipline | The repo outlives the session, the model, and the conversation. |
+| II | Context Architecture | Context is the substrate of every agent task. If it's wrong, nothing downstream can recover. |
+| III | Mechanical Constraints | If a rule matters, make it mechanical. Prose drifts, checks don't. |
+| IV | Agent Capabilities | Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism. |
+| V | Feedback Loops | The harness fails where you aren't looking. |
+| VI | Operating Discipline | The repo outlives the session, the model, and the conversation. |
 
 - Nodes (*Decided*): small circles with the label outside, and no part
   numeral or summary. All six parts use the landing graph's *live* style
@@ -87,7 +87,7 @@ in the screen-reader text, and the follow-up brief uses it:
   are no other edges: the frame edges from Parts I and VI and the arrows
   between the primitives were dropped, as they crowded the diagram. Edges
   draw in after the nodes appear.
-- Hub link (*Decided*, temporary): the hub links to the *Twelve heuristics*
+- Hub link (*Decided*, temporary): the hub links to the *Twelve Heuristics*
   section on the same page. The link goes away when the heuristics move to
   their own page. It is mouse and touch only (the graph is hidden from
   assistive tech); the text equivalent carries a real link.
@@ -102,7 +102,7 @@ in the screen-reader text, and the follow-up brief uses it:
 ## Heuristics
 
 Twelve cards, in the guide's order. Each card shows its number, its name
-(for example "map vs. territory") and its one-sentence statement, taken
+(for example "Map vs. Territory", the guide's lowercase name shown in title case) and its one-sentence statement, taken
 verbatim from `02-heuristics.md`. Cards are not links. On wide screens they
 form a grid; on phone width, a single column.
 
