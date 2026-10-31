@@ -1,6 +1,5 @@
 // Brings the Heuristics page's graph to life (docs/briefs/harness-engineering.md,
-// *Heuristics*): hides the plain list, shows the graph and heuristic card,
-// fills the card from the node that is hovered, focused or selected, and
+// *Heuristics*): fills the heuristic card from the node that is hovered, focused or selected, and
 // hands the entrance and rest motion to the shared hub-graph script.
 
 import { CARD_PROMPT, codeSpans } from '../lib/heuristics';
@@ -37,13 +36,8 @@ function fillCard(card: HTMLElement, c: CardData | null) {
 
 export function mountHeuristicsGraph(root: HTMLElement): void {
   const cards = JSON.parse(root.dataset.cards ?? '[]') as CardData[];
-  const list = root.querySelector<HTMLElement>('[data-list]')!;
   const graph = root.querySelector<HTMLElement>('[data-graph]')!;
   const card = root.querySelector<HTMLElement>('[data-card]')!;
-
-  list.hidden = true;
-  graph.hidden = false;
-  fillCard(card, null);
 
   wireHubHover(root, (id) =>
     fillCard(card, cards.find((c) => c.id === id) ?? null),
