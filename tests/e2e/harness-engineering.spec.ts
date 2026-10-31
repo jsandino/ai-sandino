@@ -7,11 +7,11 @@ import { expect, test } from '@playwright/test';
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const PARTS = [
   ['foundations', 'Foundations'],
-  ['context', 'Context architecture'],
-  ['constraints', 'Mechanical constraints'],
-  ['capabilities', 'Agent capabilities'],
-  ['feedback', 'Feedback loops'],
-  ['discipline', 'Operating discipline'],
+  ['context', 'Context Architecture'],
+  ['constraints', 'Mechanical Constraints'],
+  ['capabilities', 'Agent Capabilities'],
+  ['feedback', 'Feedback Loops'],
+  ['discipline', 'Operating Discipline'],
 ];
 
 test('the five sections appear in order', async ({ page }) => {
@@ -70,7 +70,7 @@ test('twelve heuristic cards in order', async ({ page }) => {
       c.map((e) => (e as HTMLElement).dataset.heuristic),
     ),
   ).toEqual(Array.from({ length: 12 }, (_, i) => String(i + 1)));
-  await expect(cards.nth(0).locator('h3')).toHaveText('map vs. territory');
+  await expect(cards.nth(0).locator('h3')).toHaveText('Map vs. Territory');
   expect(await cards.locator('a').count()).toBe(0);
 });
 

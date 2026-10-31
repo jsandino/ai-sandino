@@ -4,7 +4,7 @@
 import Backdrop from '../components/Backdrop.astro';
 import HarnessGraph from '../components/HarnessGraph.astro';
 import { topics } from '../data/topics';
-import { codeSpans, parseHeuristics } from '../lib/heuristics';
+import { codeSpans, parseHeuristics, titleCase } from '../lib/heuristics';
 import Base from '../layouts/Base.astro';
 import heuristicsMd from '../content/harness-guide/02-heuristics.md?raw';
 
@@ -28,7 +28,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
 
   <section id="graph" class={`${band} py-16`} aria-labelledby="graph-title">
     <h2 id="graph-title" class={`${title} mb-10`}>
-      Primary building blocks
+      Primary Building Blocks
     </h2>
     <HarnessGraph />
   </section>
@@ -39,7 +39,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
     aria-labelledby="heuristics-title"
   >
     <h2 id="heuristics-title" class={title}>
-      Twelve heuristics
+      Twelve Heuristics
     </h2>
     <p class="text-text-2 mb-10 max-w-[640px]">
       Harness-engineering ideas worth remembering.
@@ -53,7 +53,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
           <span class="text-accent-text font-mono text-xs tracking-[0.1em]">
             {String(h.n).padStart(2, '0')}
           </span>
-          <h3 class="mt-2 mb-2 text-lg tracking-normal">{h.name}</h3>
+          <h3 class="mt-2 mb-2 text-lg tracking-normal">{titleCase(h.name)}</h3>
           <p class="text-text-2 text-[15px]">
             {codeSpans(h.text).map((s, i) =>
               i % 2 ? <code class="font-mono text-[0.9em]">{s}</code> : s,
@@ -66,7 +66,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
 
   <section id="pdf" class={`${band} py-16`} aria-labelledby="pdf-title">
     <h2 id="pdf-title" class="sr-only">
-      The guide as a PDF
+      The Guide as a PDF
     </h2>
     <a
       href={topic.pdf}
@@ -82,7 +82,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
 
   <section id="github" class="py-16" aria-labelledby="github-title">
     <h2 id="github-title" class="sr-only">
-      The companion project
+      The Companion Project
     </h2>
     <p class="text-text-2 mb-3">This site was built using these principles.</p>
     <a

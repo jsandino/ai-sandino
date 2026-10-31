@@ -21,34 +21,34 @@ export const parts: Part[] = [
   {
     id: 'context',
     numeral: 'II',
-    label: 'Context architecture',
+    label: 'Context Architecture',
     summary:
       "Context is the substrate of every agent task. If it's wrong, nothing downstream can recover.",
   },
   {
     id: 'constraints',
     numeral: 'III',
-    label: 'Mechanical constraints',
+    label: 'Mechanical Constraints',
     summary:
       "If a rule matters, make it mechanical. Prose drifts, checks don't.",
   },
   {
     id: 'capabilities',
     numeral: 'IV',
-    label: 'Agent capabilities',
+    label: 'Agent Capabilities',
     summary:
       'Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism.',
   },
   {
     id: 'feedback',
     numeral: 'V',
-    label: 'Feedback loops',
+    label: 'Feedback Loops',
     summary: "The harness fails where you aren't looking.",
   },
   {
     id: 'discipline',
     numeral: 'VI',
-    label: 'Operating discipline',
+    label: 'Operating Discipline',
     summary: 'The repo outlives the session, the model, and the conversation.',
   },
 ];

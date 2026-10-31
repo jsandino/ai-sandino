@@ -3,7 +3,11 @@
 
 import { expect, test } from 'vitest';
 import heuristicsMd from '../../src/content/harness-guide/02-heuristics.md?raw';
-import { codeSpans, parseHeuristics } from '../../src/lib/heuristics';
+import {
+  codeSpans,
+  parseHeuristics,
+  titleCase,
+} from '../../src/lib/heuristics';
 
 test('the guide yields twelve heuristics, numbered 1 to 12', () => {
   expect(parseHeuristics(heuristicsMd).map((h) => h.n)).toEqual(
@@ -21,4 +25,23 @@ test('a heuristic keeps its name and statement verbatim', () => {
 
 test('codeSpans puts code at odd indexes', () => {
   expect(codeSpans('a `b` c')).toEqual(['a ', 'b', ' c']);
+});
+
+test('titleCase capitalises every word but the short connecting ones', () => {
+  expect(parseHeuristics(heuristicsMd).map((h) => titleCase(h.name))).toEqual([
+    'Map vs. Territory',
+    'Progressive Disclosure',
+    'Mechanical Enforcement',
+    'Skills vs. Docs',
+    'Earn the Check',
+    'Errors as Remediation',
+    'Fast Feedback Wins',
+    'Immutable Decisions',
+    'Sub-Agents as Firewalls',
+    'Watch the Loop',
+    'Compound the Fixes',
+    'Project as Source of Truth',
+  ]);
+  // A minor word still opens and closes a name.
+  expect(titleCase('the end of the')).toBe('The End of The');
 });
