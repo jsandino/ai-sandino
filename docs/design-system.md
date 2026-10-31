@@ -158,6 +158,7 @@ state with no movement.
 | Graph glide | layout computed off-screen; each node eases out (cubic) from the centre to its place over 1.6s, 260ms stagger, while fading, growing (0.3→1) and sharpening (blur 8→0px) | Topic graph entrance |
 | Graph breathing | tiny sinusoidal drift per node (≤ ~2px), heavily damped | Topic graph at rest (loop) |
 | Hub spark | jagged accent arc sweeping ~half a lap round the hub in 0.7s, every 2.5–5s, after the entrance | Topic graph hub (loop) |
+| Page fade | the old page fades out in place (300ms ease-in), then the new one fades in (500ms ease-out, after a 150ms delay); no movement; the header stays put; cross-document View Transitions, so unsupported browsers (Firefox) just navigate | Every navigation |
 | Sticky header | backdrop blur 10px with a gradient mask | Always |
 
 Entrances trigger once, when an element scrolls into view. Nothing loops
