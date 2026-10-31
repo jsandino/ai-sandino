@@ -38,6 +38,10 @@ const imageUrl = new URL(image, origin).href;
     <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script is:inline>
+      // Mark the page as scripted before first paint, so a page that swaps
+      // a plain fallback for an enhanced view (the Heuristics list for its
+      // graph) can show the right one from the start, with no layout shift.
+      document.documentElement.classList.add('js');
       // Dark by default; restore a saved light choice, and its favicon,
       // before first paint so it doesn't flash (docs/decisions/0015).
       // Runs after the icon link so it can find it. Storage can be blocked.

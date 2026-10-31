@@ -2,9 +2,10 @@
 // The twelve heuristics as a hub-and-spoke graph, with a heuristic card under
 // it (docs/briefs/harness-engineering.md, *Heuristics*), drawn like the
 // landing topic graph. It renders first as a plain list, so search engines,
-// screen readers and no-JS visitors get the same content; the script below
-// hides the list and shows the graph and card, which are filled from the
-// same data.
+// screen readers and no-JS visitors get the same content. With JavaScript
+// (the `js` class Base.astro sets before first paint) the CSS shows the graph
+// and card instead from the start, so nothing shifts when the script runs;
+// the script fills the card from the same data.
 import '../styles/hub-graph.css';
 import { edgeD } from '../lib/hub-graph';
 import {
@@ -61,7 +62,7 @@ const cards = heuristics.map((h) => ({
     ))}
   </ol>
 
-  <div data-graph hidden>
+  <div data-graph>
     <div class="box">
       {Object.entries(layouts).map(([name, l]) => (
         <svg
@@ -140,11 +141,12 @@ const cards = heuristics.map((h) => ({
       ))}
     </div>
     <div
-      class="card bg-surface border-border mx-auto mt-6 min-h-[132px] max-w-[720px] rounded-lg border p-5"
+      class="card empty bg-surface border-border mx-auto mt-6 min-h-[132px] max-w-[720px] rounded-lg border p-5"
       aria-live="polite"
       data-card
-      data-prompt={CARD_PROMPT}
-    ></div>
+    >
+      <p class="card-prompt">{CARD_PROMPT}</p>
+    </div>
   </div>
 </div>
 
@@ -156,6 +158,16 @@ const cards = heuristics.map((h) => ({
 </script>
 
 <style>
+  /* One view at a time, decided before first paint. */
+  [data-graph] {
+    display: none;
+  }
+  :global(html.js) [data-graph] {
+    display: block;
+  }
+  :global(html.js) [data-list] {
+    display: none;
+  }
   .box {
     margin-inline: auto;
     width: 100%;

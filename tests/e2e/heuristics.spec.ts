@@ -162,6 +162,32 @@ test.describe('without JavaScript', () => {
   });
 });
 
+test('the page does not shift as it loads (the list never shows before the graph)', async ({
+  page,
+}) => {
+  // Mobile-sized, as Lighthouse measures it.
+  await page.setViewportSize({ width: 412, height: 823 });
+  await page.addInitScript(() => {
+    (window as unknown as { shift: number }).shift = 0;
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries() as unknown as {
+        value: number;
+        hadRecentInput: boolean;
+      }[])
+        if (!e.hadRecentInput)
+          (window as unknown as { shift: number }).shift += e.value;
+    }).observe({ type: 'layout-shift', buffered: true });
+  });
+  await page.goto('/heuristics', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(500);
+  await expect(page.locator('html')).toHaveClass(/\bjs\b/);
+  await expect(page.locator('[data-list]')).toBeHidden();
+  const shift = await page.evaluate(
+    () => (window as unknown as { shift: number }).shift,
+  );
+  expect(shift).toBeLessThan(0.05);
+});
+
 test('the graph enters on scroll under motion, and the hub sparks', async ({
   page,
 }) => {
