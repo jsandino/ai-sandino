@@ -76,13 +76,10 @@ const topicNodes = graph.nodes.filter((n) => !n.hub);
 </script>
 
 <style>
-  /* Feathered panel (docs/design-system.md#components): a borderless bg
-     panel whose edge feathers into the grid, so no beam crosses the graph. */
+  /* The graph sits directly on the page's grid and beams, like the graphs on
+     the Harness Engineering and Heuristics pages. */
   .graph-panel {
     padding: 8px 20px 20px;
-    background: var(--color-bg);
-    border-radius: 12px;
-    box-shadow: 0 0 40px 28px var(--color-bg);
   }
   @media (max-width: 639.98px) {
     .graph-panel {

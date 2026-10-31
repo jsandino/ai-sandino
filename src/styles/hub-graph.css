@@ -45,7 +45,7 @@
 /* A part is "live", as on the landing graph: tinted ring, glow, dot. The
    opaque disc under the tint stops the edges at the ring. */
 .hub-graph .under {
-  fill: var(--color-bg-alt);
+  fill: var(--color-bg);
 }
 .hub-graph .ring {
   fill: var(--color-accent-tint);
@@ -58,7 +58,7 @@
 }
 .hub-graph .hub .ring {
   /* Opaque, so the edges stop at the ring instead of meeting behind the label. */
-  fill: var(--color-bg-alt);
+  fill: var(--color-bg);
   stroke: var(--color-border-strong);
   filter: none;
 }
@@ -76,7 +76,7 @@
   font-weight: 600;
   text-anchor: middle;
   /* A halo keeps the text readable where an edge runs behind it. */
-  stroke: var(--color-bg-alt);
+  stroke: var(--color-bg);
   stroke-width: 4px;
   stroke-linejoin: round;
   paint-order: stroke;

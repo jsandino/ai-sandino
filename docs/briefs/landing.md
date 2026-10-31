@@ -84,7 +84,8 @@ bundle, to stay inside the Lighthouse performance budget.
    behind the whole page (`design-system.md`, *Background grid* and *Falling
    beams*), decorative and `aria-hidden`. The graph and card sit on a
    square, borderless feathered panel (*Feathered panel*), so no beam
-   crosses the graph. Under reduced motion the beams are hidden and the grid
+   crosses the graph. *Changed:* the panel was removed, and the graph now
+   sits directly on the grid and beams (*Graphs on the grid*). Under reduced motion the beams are hidden and the grid
    is static.
 7. **Wording.** Exactly this text:
 
