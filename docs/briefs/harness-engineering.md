@@ -24,7 +24,7 @@ nodes show their label and one-line summary and do nothing on click.
 
 1. **Hero:** introduces the topic: what harness engineering is, in one or
    two lines.
-2. **The guide at a glance:** a graph of six nodes, one per part of the
+2. **Primary building blocks:** a graph of six nodes, one per part of the
    guide, in a fixed hand-placed layout (see *Graph*), entering on scroll,
    built with Motion.
 3. **The twelve heuristics:** twelve cards (see *Heuristics*).
@@ -44,8 +44,7 @@ may be reworded later without a new brief.
 |---|---|---|
 | Hero title | Harness Engineering with Code Agents | `docs/content/topic-blurbs.md` |
 | Hero line | Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses. | `docs/content/topic-blurbs.md` |
-| Graph heading | The guide at a glance | placeholder OK |
-| Graph sub-line | Read Part I to get the mental model. After that, the parts are independent. | guide `00-intro.md`, trimmed |
+| Graph heading | Primary building blocks | placeholder OK |
 | Heuristics heading | Twelve heuristics | placeholder OK |
 | Heuristics sub-line | Harness-engineering ideas worth remembering. | guide `02-heuristics.md` |
 | PDF button | Download the guide (PDF) | placeholder OK |
