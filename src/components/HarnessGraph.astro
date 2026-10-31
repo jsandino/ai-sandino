@@ -46,10 +46,9 @@ const labelY = (id: string, r: number, n: number) =>
             />
           ))}
         </g>
-        {/* Temporary: the heuristics move to their own page later. The anchor
-            is mouse and touch only; the graph is hidden from assistive tech,
-            so the text list carries a real link. */}
-        <a href="#heuristics" tabindex="-1">
+        {/* The anchor is mouse and touch only; the graph is hidden from
+            assistive tech, so the text list carries a real link. */}
+        <a href="/heuristics" tabindex="-1">
           <g
             class="node hub"
             data-node={hub.id}
@@ -109,7 +108,7 @@ const labelY = (id: string, r: number, n: number) =>
       <li>{edgeSentence(e)}</li>
     ))}
     <li>
-      <a href="#heuristics">Jump to the twelve heuristics</a>
+      <a href="/heuristics">Read the twelve heuristics</a>
     </li>
   </ul>
 </div>

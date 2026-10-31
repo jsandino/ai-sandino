@@ -14,12 +14,12 @@ const PARTS = [
   ['discipline', 'Operating Discipline'],
 ];
 
-test('the five sections appear in order', async ({ page }) => {
+test('the four sections appear in order', async ({ page }) => {
   await page.goto('/harness-engineering');
   const ids = await page
     .locator('main > section')
     .evaluateAll((s) => s.map((e) => e.id));
-  expect(ids).toEqual(['hero', 'graph', 'heuristics', 'pdf', 'github']);
+  expect(ids).toEqual(['hero', 'graph', 'pdf', 'github']);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Harness Engineering with Code Agents',
   );
@@ -59,19 +59,6 @@ test('the graph has a text equivalent', async ({ page }) => {
     'aria-hidden',
     'true',
   );
-});
-
-test('twelve heuristic cards in order', async ({ page }) => {
-  await page.goto('/harness-engineering');
-  const cards = page.locator('[data-heuristic]');
-  await expect(cards).toHaveCount(12);
-  expect(
-    await cards.evaluateAll((c) =>
-      c.map((e) => (e as HTMLElement).dataset.heuristic),
-    ),
-  ).toEqual(Array.from({ length: 12 }, (_, i) => String(i + 1)));
-  await expect(cards.nth(0).locator('h3')).toHaveText('Map vs. Territory');
-  expect(await cards.locator('a').count()).toBe(0);
 });
 
 test('the PDF and GitHub links point where the brief says', async ({
@@ -183,27 +170,23 @@ test('hovering a node dims the rest and lights its edge; leaving restores', asyn
   await expect(node('foundations')).toHaveCSS('opacity', '1');
 });
 
-test('the hub links to the heuristics section, and so does the text list', async ({
+test('the hub opens the heuristics page, and so does the text list', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/harness-engineering');
   await expect(page.locator('[data-graph-text] a')).toHaveAttribute(
     'href',
-    '#heuristics',
+    '/heuristics',
   );
   await page
     .locator('[data-harness-graph]')
     .evaluate((e) => e.scrollIntoView({ block: 'center' }));
   await page.locator('[data-node="heuristics"]:visible .ring').click();
-  await expect(page).toHaveURL(/#heuristics$/);
-  await expect(page.locator('#heuristics-title')).toBeInViewport();
-  // The heading clears the sticky header.
-  const [head, bar] = await Promise.all([
-    page.locator('#heuristics-title').boundingBox(),
-    page.locator('.site-header').boundingBox(),
-  ]);
-  expect(head!.y).toBeGreaterThanOrEqual(bar!.y + bar!.height);
+  await expect(page).toHaveURL(/\/heuristics$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Twelve Heuristics',
+  );
 });
 
 test('the hub sparks within 10s under motion, and not under reduced motion', async ({

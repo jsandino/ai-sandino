@@ -1,15 +1,12 @@
 ---
 // The Harness Engineering topic page (docs/briefs/harness-engineering.md):
-// hero, the guide at a glance, the twelve heuristics, the PDF, the repo.
+// hero, the graph, the PDF, the repo.
 import Backdrop from '../components/Backdrop.astro';
 import HarnessGraph from '../components/HarnessGraph.astro';
 import { topics } from '../data/topics';
-import { codeSpans, parseHeuristics, titleCase } from '../lib/heuristics';
 import Base from '../layouts/Base.astro';
-import heuristicsMd from '../content/harness-guide/02-heuristics.md?raw';
 
 const topic = topics.find((t) => t.slug === 'harness-engineering')!;
-const heuristics = parseHeuristics(heuristicsMd);
 const band =
   'shadow-[0_0_0_100vmax_var(--color-bg-alt)] [clip-path:inset(0_-100vmax)] bg-bg-alt';
 const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
@@ -31,37 +28,6 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
       Primary Building Blocks
     </h2>
     <HarnessGraph />
-  </section>
-
-  <section
-    id="heuristics"
-    class="scroll-mt-[70px] py-16"
-    aria-labelledby="heuristics-title"
-  >
-    <h2 id="heuristics-title" class={title}>
-      Twelve Heuristics
-    </h2>
-    <p class="text-text-2 mb-10 max-w-[640px]">
-      Harness-engineering ideas worth remembering.
-    </p>
-    <ol class="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {heuristics.map((h) => (
-        <li
-          class="bg-surface border-border rounded-lg border p-5"
-          data-heuristic={h.n}
-        >
-          <span class="text-accent-text font-mono text-xs tracking-[0.1em]">
-            {String(h.n).padStart(2, '0')}
-          </span>
-          <h3 class="mt-2 mb-2 text-lg tracking-normal">{titleCase(h.name)}</h3>
-          <p class="text-text-2 text-[15px]">
-            {codeSpans(h.text).map((s, i) =>
-              i % 2 ? <code class="font-mono text-[0.9em]">{s}</code> : s,
-            )}
-          </p>
-        </li>
-      ))}
-    </ol>
   </section>
 
   <section id="pdf" class={`${band} py-16`} aria-labelledby="pdf-title">
