@@ -87,6 +87,10 @@ in the screen-reader text, and the follow-up brief uses it:
   are no other edges: the frame edges from Parts I and VI and the arrows
   between the primitives were dropped, as they crowded the diagram. Edges
   draw in after the nodes appear.
+- Hub link (*Decided*, temporary): the hub links to the *Twelve heuristics*
+  section on the same page. The link goes away when the heuristics move to
+  their own page. It is mouse and touch only (the graph is hidden from
+  assistive tech); the text equivalent carries a real link.
 - Hover (*Decided*): hovering a part dims the other parts, lights up its
   edge and grows the node. The hub stays lit. A tap selects on touch.
 - Layout (*Decided*): fixed and hand-placed, no force simulation. The hub is
