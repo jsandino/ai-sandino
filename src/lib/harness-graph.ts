@@ -81,33 +81,33 @@ export type Layout = {
 // either side of it, and the four primitives at the corners.
 export const wide: Layout = {
   width: 1000,
-  height: 620,
+  height: 346,
   r: 26,
   hubR: 44,
   boxes: {
     [hub.id]: { x: 50, y: 50 },
-    foundations: { x: 11, y: 50 },
-    capabilities: { x: 30, y: 16 },
-    context: { x: 70, y: 16 },
-    constraints: { x: 70, y: 84 },
-    feedback: { x: 30, y: 84 },
-    discipline: { x: 89, y: 50 },
+    foundations: { x: 35, y: 50 },
+    capabilities: { x: 41, y: 25.7 },
+    context: { x: 59, y: 25.7 },
+    constraints: { x: 59, y: 74.3 },
+    feedback: { x: 41, y: 74.3 },
+    discipline: { x: 65, y: 50 },
   },
 };
 
 export const phone: Layout = {
   width: 360,
-  height: 600,
+  height: 340,
   r: 20,
   hubR: 40,
   boxes: {
     [hub.id]: { x: 50, y: 50 },
-    foundations: { x: 11, y: 50 },
-    capabilities: { x: 25, y: 22 },
-    context: { x: 75, y: 22 },
-    constraints: { x: 75, y: 78 },
-    feedback: { x: 25, y: 78 },
-    discipline: { x: 89, y: 50 },
+    foundations: { x: 26.4, y: 50 },
+    capabilities: { x: 37.5, y: 25.3 },
+    context: { x: 62.5, y: 25.3 },
+    constraints: { x: 62.5, y: 74.7 },
+    feedback: { x: 37.5, y: 74.7 },
+    discipline: { x: 73.6, y: 50 },
   },
 };
 
