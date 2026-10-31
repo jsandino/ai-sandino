@@ -1,17 +1,13 @@
 // The harness page's graph: six parts, their edges and two hand-placed
 // layouts (docs/briefs/harness-engineering.md, *Graph*). Positions are
-// percentages of the graph box, so the HTML nodes and the SVG edges share
-// one coordinate system.
-
-export type Colour =
-  'neutral' | 'context' | 'constraints' | 'capabilities' | 'feedback';
+// percentages of the graph box, so every layout's nodes and edges share one
+// coordinate system.
 
 export type Part = {
   id: string;
   numeral: string;
   label: string;
   summary: string;
-  colour: Colour;
 };
 
 export const parts: Part[] = [
@@ -21,7 +17,6 @@ export const parts: Part[] = [
     label: 'Foundations',
     summary:
       'An agent without a harness is a guess generator. An agent with a harness is a force multiplier.',
-    colour: 'neutral',
   },
   {
     id: 'context',
@@ -29,7 +24,6 @@ export const parts: Part[] = [
     label: 'Context architecture',
     summary:
       "Context is the substrate of every agent task. If it's wrong, nothing downstream can recover.",
-    colour: 'context',
   },
   {
     id: 'constraints',
@@ -37,7 +31,6 @@ export const parts: Part[] = [
     label: 'Mechanical constraints',
     summary:
       "If a rule matters, make it mechanical. Prose drifts, checks don't.",
-    colour: 'constraints',
   },
   {
     id: 'capabilities',
@@ -45,79 +38,58 @@ export const parts: Part[] = [
     label: 'Agent capabilities',
     summary:
       'Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism.',
-    colour: 'capabilities',
   },
   {
     id: 'feedback',
     numeral: 'V',
     label: 'Feedback loops',
     summary: "The harness fails where you aren't looking.",
-    colour: 'feedback',
   },
   {
     id: 'discipline',
     numeral: 'VI',
     label: 'Operating discipline',
     summary: 'The repo outlives the session, the model, and the conversation.',
-    colour: 'neutral',
   },
 ];
 
-const PRIMITIVES = ['capabilities', 'context', 'constraints', 'feedback'];
+/** The centre node: every part connects to it. */
+export const hub = { id: 'heuristics', label: 'Heuristics' };
 
-export type Edge = {
-  from: string;
-  to: string;
-  directed: boolean;
-  colour: Colour;
-};
+export type Edge = { from: string; to: string };
 
-const colourOf = (id: string): Colour => parts.find((p) => p.id === id)!.colour;
+/** The hub connects to every part. */
+export const edges: Edge[] = parts.map((p) => ({ from: hub.id, to: p.id }));
 
-export const edges: Edge[] = [
-  ...PRIMITIVES.map((id) => ({
-    from: 'foundations',
-    to: id,
-    directed: false,
-    colour: colourOf(id),
-  })),
-  ...PRIMITIVES.map((id) => ({
-    from: id,
-    to: 'discipline',
-    directed: false,
-    colour: colourOf(id),
-  })),
-  // capabilities → context → constraints → feedback loops
-  ...PRIMITIVES.slice(0, -1).map((id, i) => ({
-    from: id,
-    to: PRIMITIVES[i + 1],
-    directed: true,
-    colour: colourOf(id),
-  })),
-];
+/** Nodes whose label sits above the ring, away from the edge below it. */
+export const labelAbove = new Set(['capabilities', 'context']);
 
 type Box = { x: number; y: number }; // node centre, % of the graph box
 export type Layout = {
   width: number;
   height: number;
-  /** Node radius, in the layout's units. */
+  /** Radius of a part's node, and of the hub's, in the layout's units. */
   r: number;
+  hubR: number;
   boxes: Record<string, Box>;
 };
 
 // Units are 1 per px at the layout's reference width, so the viewBox and the
-// percentage positions agree.
+// percentage positions agree. The hub is in the middle, Part I and Part VI
+// either side of it, and the four primitives at the corners.
 export const wide: Layout = {
   width: 1000,
   height: 620,
   r: 26,
+  hubR: 44,
   boxes: {
-    foundations: { x: 14, y: 50 },
-    capabilities: { x: 50, y: 11.5 },
-    context: { x: 50, y: 37.2 },
-    constraints: { x: 50, y: 62.8 },
-    feedback: { x: 50, y: 88.5 },
-    discipline: { x: 86, y: 50 },
+    [hub.id]: { x: 50, y: 50 },
+    foundations: { x: 11, y: 50 },
+    capabilities: { x: 30, y: 16 },
+    context: { x: 70, y: 16 },
+    constraints: { x: 70, y: 84 },
+    feedback: { x: 30, y: 84 },
+    discipline: { x: 89, y: 50 },
   },
 };
 
@@ -125,13 +97,15 @@ export const phone: Layout = {
   width: 360,
   height: 600,
   r: 20,
+  hubR: 40,
   boxes: {
-    foundations: { x: 50, y: 12 },
-    capabilities: { x: 12.5, y: 50 },
-    context: { x: 37.5, y: 50 },
-    constraints: { x: 62.5, y: 50 },
-    feedback: { x: 87.5, y: 50 },
-    discipline: { x: 50, y: 82 },
+    [hub.id]: { x: 50, y: 50 },
+    foundations: { x: 11, y: 50 },
+    capabilities: { x: 25, y: 22 },
+    context: { x: 75, y: 22 },
+    constraints: { x: 75, y: 78 },
+    feedback: { x: 25, y: 78 },
+    discipline: { x: 89, y: 50 },
   },
 };
 
@@ -144,25 +118,15 @@ export const centre = (layout: Layout, id: string): Pt => ({
 
 /**
  * SVG path for an edge, from one node centre to the other. Nodes are drawn
- * over the edges, so an undirected edge ends hidden under its ring; a
- * directed one stops at the target's ring so its arrowhead shows.
+ * over the edges, so each end is hidden under its ring.
  */
-export function edgeD(a: Pt, b: Pt, r: number, directed: boolean): string {
+export function edgeD(a: Pt, b: Pt): string {
   const f = (n: number) => Math.round(n * 10) / 10;
-  let end = b;
-  if (directed) {
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const k = (Math.hypot(dx, dy) - r) / Math.hypot(dx, dy);
-    end = { x: a.x + dx * k, y: a.y + dy * k };
-  }
-  return `M${f(a.x)} ${f(a.y)} L${f(end.x)} ${f(end.y)}`;
+  return `M${f(a.x)} ${f(a.y)} L${f(b.x)} ${f(b.y)}`;
 }
 
 /** The graph as readable sentences, for the text equivalent. */
 export function edgeSentence(e: Edge): string {
-  const name = (id: string) => parts.find((p) => p.id === id)!.label;
-  return e.directed
-    ? `${name(e.from)} leads to ${name(e.to)}.`
-    : `${name(e.from)} connects to ${name(e.to)}.`;
+  const name = (id: string) => [...parts, hub].find((p) => p.id === id)!.label;
+  return `${name(e.from)} connects to ${name(e.to)}.`;
 }
