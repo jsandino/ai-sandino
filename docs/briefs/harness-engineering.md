@@ -10,23 +10,25 @@
 
 Show the shape of the whole guide at a glance, then hand the reader the full
 guide (PDF) and a real project. The page is a map that builds intuition: a
-graph of the guide's six parts, and the twelve heuristics worth remembering.
+graph of the guide's six parts around the heuristics, and the twelve
+heuristics worth remembering.
 The guide is the reference.
 
 ## Scope of this brief
 
 This brief builds the page frame: the graph and the heuristics cards. What
-happens when a reader selects a node (a bubble, a page, or a visual shown in
-place) is **not decided here**. A follow-up brief settles it. Until then,
-nodes show their label and one-line summary and do nothing on click.
+happens when a reader hovers or selects a node (a card, a page, or a visual
+shown in place) is **not decided here**. A follow-up brief settles it. Until
+then, nodes show their label and, as on the landing graph, dim the rest of
+the graph and light up their own edge on hover.
 
 ## Required sections (in order)
 
 1. **Hero:** introduces the topic: what harness engineering is, in one or
    two lines.
-2. **Primary building blocks:** a graph of six nodes, one per part of the
-   guide, in a fixed hand-placed layout (see *Graph*), entering on scroll,
-   built with Motion.
+2. **Primary building blocks:** a graph of a centre node and six part
+   nodes, one per part of the guide, in a fixed hand-placed layout (see
+   *Graph*), entering on scroll.
 3. **The twelve heuristics:** twelve cards (see *Heuristics*).
 4. **PDF download:** a button linking to `/harness-guide.pdf`.
 5. **GitHub link:** to the companion project, this repo:
@@ -60,33 +62,38 @@ may be reworded later without a new brief.
 
 ## Graph
 
-Six nodes, one per part. Labels and one-line summaries (each summary is the
-part's epigraph in the guide, except Part I's, which is a quote from §1):
+Drawn like the landing topic graph: an SVG of rings over centre-to-centre
+edges, with the same entrance, rest and hover behaviour
+(`docs/design-system.md#motion`). A centre node, **Heuristics**, connects to
+six part nodes, one per part. Each part's summary (the part's epigraph in
+the guide, except Part I's, which is a quote from §1) is not shown yet; it is
+in the screen-reader text, and the follow-up brief uses it:
 
-| Part | Label | Summary | Colour |
-|---|---|---|---|
-| I | Foundations | An agent without a harness is a guess generator. An agent with a harness is a force multiplier. | neutral |
-| II | Context architecture | Context is the substrate of every agent task. If it's wrong, nothing downstream can recover. | context |
-| III | Mechanical constraints | If a rule matters, make it mechanical. Prose drifts, checks don't. | constraints |
-| IV | Agent capabilities | Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism. | capabilities |
-| V | Feedback loops | The harness fails where you aren't looking. | feedback loops |
-| VI | Operating discipline | The repo outlives the session, the model, and the conversation. | neutral |
+| Part | Label | Summary |
+|---|---|---|
+| I | Foundations | An agent without a harness is a guess generator. An agent with a harness is a force multiplier. |
+| II | Context architecture | Context is the substrate of every agent task. If it's wrong, nothing downstream can recover. |
+| III | Mechanical constraints | If a rule matters, make it mechanical. Prose drifts, checks don't. |
+| IV | Agent capabilities | Skills are for workflows; docs are for knowledge. The wrong mechanism is worse than no mechanism. |
+| V | Feedback loops | The harness fails where you aren't looking. |
+| VI | Operating discipline | The repo outlives the session, the model, and the conversation. |
 
-- Colours: Parts II to V use the four primitive colours from
-  `design-system.md`. Parts I and VI use a neutral colour, so they read as
-  the frame around the four primitives.
-- Edges (*Decided*): Foundations connects to each of the four primitives,
-  and Operating discipline connects to each of the four (eight edges, each
-  in the colour of the primitive it touches). Between the primitives, three
-  directed links run in the order capabilities → context → constraints →
-  feedback loops. There is no feedback loops → context arrow: it cluttered
-  the diagram. Edges draw in (line-draw animation) after the nodes appear.
-- Layout (*Decided*): fixed and hand-placed, no force simulation. The four
-  primitives are in the order Part IV, II, III, V, so the directed links
-  join neighbours. Wide screens: horizontal (Part I on the left, Part VI on
-  the right, the primitives stacked in between). Phone width: vertical
-  (Part I on top, Part VI at the bottom, the primitives in a row between).
-  Each node shows its part numeral, so the order is still readable.
+- Nodes (*Decided*): small circles with the label outside, and no part
+  numeral or summary. All six parts use the landing graph's *live* style
+  (green ring, glow, dot, bold label); the hub is a gray ring with its label
+  inside, and sparks like the landing graph's `AI` node. There are no
+  per-part colours.
+- Edges (*Decided*): the hub connects to each part (six gray edges). There
+  are no other edges: the frame edges from Parts I and VI and the arrows
+  between the primitives were dropped, as they crowded the diagram. Edges
+  draw in after the nodes appear.
+- Hover (*Decided*): hovering a part dims the other parts, lights up its
+  edge and grows the node. The hub stays lit. A tap selects on touch.
+- Layout (*Decided*): fixed and hand-placed, no force simulation. The hub is
+  in the middle, Part I on its left and Part VI on its right, and the four
+  primitives at the corners (Parts IV and II on top, V and III below). The
+  phone layout has the same arrangement in a narrow frame, with labels
+  wrapped.
 
 ## Heuristics
 
@@ -114,9 +121,10 @@ form a grid; on phone width, a single column.
       → check: `make test-unit`
 - [ ] All five sections are present, in order, visually separated.
       → check: `make test-e2e` (section order); separation → human review
-- [ ] The graph shows six nodes with the labels and summaries above, and the
-      listed edges. → check: `make test-e2e`
-- [ ] The graph animates on scroll and has a text equivalent.
+- [ ] The graph shows the hub and six part nodes with the labels above, and
+      the six edges between them. → check: `make test-e2e`
+- [ ] The graph animates on scroll, reacts to hover, and has a text
+      equivalent.
       → check: `make test-e2e` (text equivalent); animation → human review
 - [ ] Twelve heuristic cards appear in order, with the guide's text.
       → check: `make test-e2e` (count and order); wording → human review
@@ -145,5 +153,5 @@ form a grid; on phone width, a single column.
 
 ## Out of scope
 
-Node click behaviour (follow-up brief), rendering guide chapters on the web,
+The card shown when a node is hovered or selected (follow-up brief), rendering guide chapters on the web,
 comments, newsletter sign-up.

@@ -10,22 +10,20 @@ import {
   edgeD,
   edges,
   edgeSentence,
+  hub,
+  labelAbove,
   parts,
   phone,
   wide,
 } from '../lib/harness-graph';
 
 const layouts = { wide, phone };
-const colours = [
-  'neutral',
-  'context',
-  'constraints',
-  'capabilities',
-  'feedback',
-];
-// On a phone the four primitives sit side by side, so their labels wrap.
-const lines = (name: string, p: (typeof parts)[number]) =>
-  name === 'phone' && p.colour !== 'neutral' ? p.label.split(' ') : [p.label];
+// On a phone the nodes are close, so labels wrap word by word.
+const lines = (name: string, label: string) =>
+  name === 'phone' ? label.split(' ') : [label];
+// First baseline: below the ring, or above it with room for every line.
+const labelY = (id: string, r: number, n: number) =>
+  labelAbove.has(id) ? -(r + 10) - 14 * (n - 1) : r + 18;
 ---
 
 <div class="harness-graph" data-harness-graph>
@@ -34,64 +32,60 @@ const lines = (name: string, p: (typeof parts)[number]) =>
       <svg
         class={`graph graph-${name}`}
         viewBox={`0 0 ${layout.width} ${layout.height}`}
-        data-r={layout.r}
+        data-hub-r={layout.hubR}
       >
-        <defs>
-          {colours.map((c) => (
-            <marker
-              id={`arrow-${name}-${c}`}
-              viewBox="0 0 10 10"
-              refX="9"
-              refY="5"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto"
-            >
-              <path d="M0 1 L9 5 L0 9 z" class={`fill-${c}`} />
-            </marker>
-          ))}
-        </defs>
         <g class="edges">
           {edges.map((e) => (
             <path
-              class={`edge stroke-${e.colour}`}
+              class="edge"
               data-edge={`${e.from}-${e.to}`}
               data-from={e.from}
               data-to={e.to}
-              data-directed={e.directed ? '' : undefined}
-              d={edgeD(
-                centre(layout, e.from),
-                centre(layout, e.to),
-                layout.r,
-                e.directed,
-              )}
+              d={edgeD(centre(layout, e.from), centre(layout, e.to))}
               pathLength="1"
-              marker-end={
-                e.directed ? `url(#arrow-${name}-${e.colour})` : undefined
-              }
             />
           ))}
         </g>
+        <g
+          class="node hub"
+          data-node={hub.id}
+          data-x={centre(layout, hub.id).x}
+          data-y={centre(layout, hub.id).y}
+          transform={`translate(${centre(layout, hub.id).x} ${centre(layout, hub.id).y})`}
+        >
+          <g class="body">
+            <g class="focus">
+              <circle class="ring" r={layout.hubR} />
+              <text class="hub-label" dy="0.35em">
+                {hub.label}
+              </text>
+            </g>
+          </g>
+        </g>
         {parts.map((p) => {
           const c = centre(layout, p.id);
+          const ls = lines(name, p.label);
           return (
             <g
-              class={`node node-${p.colour}`}
+              class="node"
               data-node={p.id}
               data-x={c.x}
               data-y={c.y}
               transform={`translate(${c.x} ${c.y})`}
             >
               <g class="body">
-                <circle class="ring" r={layout.r} />
-                <circle class="core" r={layout.r * 0.23} />
-                <text class="label" y={layout.r + 18}>
-                  {lines(name, p).map((l, i) => (
-                    <tspan x="0" dy={i ? 14 : 0}>
-                      {l}{' '}
-                    </tspan>
-                  ))}
-                </text>
+                <g class="focus">
+                  <circle class="under" r={layout.r} />
+                  <circle class="ring" r={layout.r} />
+                  <circle class="core" r={layout.r * 0.23} />
+                  <text class="label" y={labelY(p.id, layout.r, ls.length)}>
+                    {ls.map((l, i) => (
+                      <tspan x="0" dy={i ? 14 : 0}>
+                        {l}{' '}
+                      </tspan>
+                    ))}
+                  </text>
+                </g>
               </g>
             </g>
           );
@@ -135,20 +129,76 @@ const lines = (name: string, p: (typeof parts)[number]) =>
     display: none;
   }
   .edge {
-    stroke-width: 2;
+    stroke: var(--color-border-strong);
+    stroke-width: 1.5;
+    transition:
+      opacity 0.25s,
+      stroke 0.25s;
   }
-  /* Opaque, so the edges stop at the ring instead of meeting behind the dot. */
+  /* Hover (docs/design-system.md#motion): the rest dims, the node's own
+     edges light up, and the node grows. */
+  .edge.hl {
+    stroke: var(--color-accent-strong);
+  }
+  .edge.dim {
+    opacity: 0.2;
+  }
+  .node {
+    transition: opacity 0.25s;
+  }
+  .node:not(.hub) {
+    cursor: pointer;
+  }
+  .node.dim {
+    opacity: 0.3;
+  }
+  .focus {
+    transition: transform 0.25s;
+  }
+  .node.on .focus {
+    transform: scale(1.15);
+  }
+  /* A part is "live", as on the landing graph: tinted ring, glow, dot. The
+     opaque disc under the tint stops the edges at the ring. */
+  .under {
+    fill: var(--color-bg-alt);
+  }
   .ring {
-    fill: var(--color-surface);
-    stroke: var(--node-colour, var(--color-border-strong));
+    fill: var(--color-accent-tint);
+    stroke: var(--color-accent-strong);
     stroke-width: 2;
+    filter: drop-shadow(0 0 10px var(--color-accent));
   }
   .core {
-    fill: var(--node-colour, var(--color-border-strong));
+    fill: var(--color-accent-strong);
+  }
+  .hub .ring {
+    /* Opaque, so the edges stop at the ring instead of meeting behind "Heuristics". */
+    fill: var(--color-bg-alt);
+    stroke: var(--color-border-strong);
+    filter: none;
+  }
+  .hub-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    fill: var(--color-text-2);
+    text-anchor: middle;
+  }
+  .graph :global(.spark) {
+    fill: none;
+    stroke: var(--color-accent-strong);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px var(--color-accent))
+      drop-shadow(0 0 10px var(--color-accent));
+    pointer-events: none;
   }
   .label {
     font-size: 13px;
-    fill: var(--color-text-2);
+    fill: var(--color-text);
+    font-weight: 600;
     text-anchor: middle;
     /* A halo keeps the text readable where an edge runs behind it. */
     stroke: var(--color-bg-alt);
@@ -156,49 +206,6 @@ const lines = (name: string, p: (typeof parts)[number]) =>
     stroke-linejoin: round;
     paint-order: stroke;
   }
-  .node-context {
-    --node-colour: var(--color-context);
-  }
-  .node-constraints {
-    --node-colour: var(--color-constraints);
-  }
-  .node-capabilities {
-    --node-colour: var(--color-capabilities);
-  }
-  .node-feedback {
-    --node-colour: var(--color-feedback);
-  }
-  .stroke-neutral {
-    stroke: var(--color-border-strong);
-  }
-  .stroke-context {
-    stroke: var(--color-context);
-  }
-  .stroke-constraints {
-    stroke: var(--color-constraints);
-  }
-  .stroke-capabilities {
-    stroke: var(--color-capabilities);
-  }
-  .stroke-feedback {
-    stroke: var(--color-feedback);
-  }
-  .fill-neutral {
-    fill: var(--color-border-strong);
-  }
-  .fill-context {
-    fill: var(--color-context);
-  }
-  .fill-constraints {
-    fill: var(--color-constraints);
-  }
-  .fill-capabilities {
-    fill: var(--color-capabilities);
-  }
-  .fill-feedback {
-    fill: var(--color-feedback);
-  }
-
   @media (max-width: 1023px) {
     .box {
       max-width: 420px;
@@ -212,6 +219,17 @@ const lines = (name: string, p: (typeof parts)[number]) =>
     .label {
       font-size: 12px;
     }
+    .hub-label {
+      font-size: 11px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .edge,
+    .node,
+    .focus {
+      transition: none;
+    }
   }
 
   /* Entrance: hidden only once the script has taken over, so no-JS and
@@ -222,8 +240,5 @@ const lines = (name: string, p: (typeof parts)[number]) =>
   [data-harness-graph][data-anim='ready'] .edge {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-  }
-  [data-harness-graph][data-anim='ready'] marker {
-    opacity: 0;
   }
 </style>

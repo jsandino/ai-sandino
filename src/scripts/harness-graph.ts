@@ -2,9 +2,12 @@
 // paradigm (docs/design-system.md#motion): once the graph scrolls into view
 // each node glides out from the centre (fading, growing, sharpening), the
 // edges draw in following the nodes, and at rest the nodes breathe by a
-// pixel or two. Under reduced motion nothing is hidden or moved.
+// pixel or two, and the hub sparks. Hovering a node dims the rest and
+// lights up its edges, as on the landing graph. Under reduced motion nothing
+// is hidden or moved, and the hub does not spark.
 
 import { edgeD, type Pt } from '../lib/harness-graph';
+import { startSpark } from '../lib/spark';
 
 const GLIDE_MS = 1600;
 const STAGGER = 160;
@@ -28,7 +31,6 @@ type NodeRig = {
 };
 
 function rig(svg: SVGSVGElement) {
-  const r = Number(svg.dataset.r);
   const [, , w, h] = svg.getAttribute('viewBox')!.split(' ').map(Number);
   const middle = { x: w / 2, y: h / 2 };
   const nodes = new Map<string, NodeRig>();
@@ -47,13 +49,11 @@ function rig(svg: SVGSVGElement) {
       el,
       from: nodes.get(el.dataset.from!)!,
       to: nodes.get(el.dataset.to!)!,
-      directed: el.hasAttribute('data-directed'),
     }),
   );
-  const markers = [...svg.querySelectorAll<SVGMarkerElement>('marker')];
-  const edgesEnd = EDGE_START + edges.length * EDGE_STAGGER + EDGE_MS;
+  const hubBody = svg.querySelector<SVGGElement>('.hub .body')!;
 
-  return (elapsed: number, now: number) => {
+  const frame = (elapsed: number, now: number) => {
     [...nodes.values()].forEach((n, i) => {
       const t = clamp01((elapsed - DELAY - i * STAGGER) / GLIDE_MS);
       const k = easeOut(t);
@@ -75,27 +75,68 @@ function rig(svg: SVGSVGElement) {
     });
     edges.forEach((e, i) => {
       const t = clamp01((elapsed - EDGE_START - i * EDGE_STAGGER) / EDGE_MS);
-      e.el.setAttribute('d', edgeD(e.from.pos, e.to.pos, r, e.directed));
+      e.el.setAttribute('d', edgeD(e.from.pos, e.to.pos));
       e.el.style.strokeDashoffset = t < 1 ? String(1 - easeInOut(t)) : '0';
       e.el.style.strokeDasharray = t < 1 ? '1' : 'none';
     });
-    const m = clamp01((elapsed - edgesEnd) / 400);
-    markers.forEach((el) => (el.style.opacity = String(m)));
   };
+  const sparkAfter = DELAY + nodes.size * STAGGER + GLIDE_MS;
+  const spark = () =>
+    startSpark(hubBody, Number(svg.dataset.hubR) + 4, sparkAfter);
+  return { frame, spark };
+}
+
+/** Hover or tap a node: dim the rest, light up its edges, grow it. */
+function wireHover(root: HTMLElement): void {
+  const svgs = [...root.querySelectorAll<SVGSVGElement>('svg.graph')];
+  let selected: string | null = null;
+
+  const show = (id: string | null) =>
+    svgs.forEach((svg) => {
+      const edges = [...svg.querySelectorAll<SVGPathElement>('.edge')];
+      const touching = (e: SVGPathElement) =>
+        e.dataset.from === id || e.dataset.to === id;
+      svg.querySelectorAll<SVGGElement>('.node').forEach((n) => {
+        const mine = n.dataset.node;
+        n.classList.toggle('on', mine === id);
+        n.classList.toggle(
+          'dim',
+          id !== null && mine !== id && !n.classList.contains('hub'),
+        );
+      });
+      edges.forEach((e) => {
+        e.classList.toggle('hl', id !== null && touching(e));
+        e.classList.toggle('dim', id !== null && !touching(e));
+      });
+    });
+  const restore = () => show(selected);
+
+  svgs.forEach((svg) => {
+    svg.querySelectorAll<SVGGElement>('.node:not(.hub)').forEach((n) => {
+      n.addEventListener('mouseenter', () => {
+        if (!selected) show(n.dataset.node!);
+      });
+      n.addEventListener('click', () => {
+        selected = selected === n.dataset.node ? null : n.dataset.node!;
+        restore();
+      });
+    });
+  });
+  root.addEventListener('mouseleave', restore);
 }
 
 export function mountHarnessGraph(root: HTMLElement): void {
+  wireHover(root);
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const frames = [...root.querySelectorAll<SVGSVGElement>('svg.graph')].map(
-    rig,
-  );
+  const rigs = [...root.querySelectorAll<SVGSVGElement>('svg.graph')].map(rig);
   root.dataset.anim = 'ready';
 
   const play = () => {
     const t0 = performance.now();
+    rigs.forEach((r) => r.spark());
     const loop = (now: number) => {
-      frames.forEach((f) => f(now - t0, now));
+      rigs.forEach((r) => r.frame(now - t0, now));
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);

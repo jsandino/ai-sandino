@@ -31,6 +31,7 @@ import {
   type GraphLink,
   type GraphNode,
 } from '../lib/topic-graph';
+import { startSpark } from '../lib/spark';
 
 // Layout settings per frame. The phone runs the same force layout in a
 // portrait frame at real size, so labels stay readable.
@@ -92,17 +93,6 @@ type Link = Omit<GraphLink, 'source' | 'target'> &
   SimulationLinkDatum<Node> & { source: Node; target: Node };
 
 const radius = (d: GraphNode) => (d.hub ? 22 : d.live ? 26 : 20);
-
-// "The centre is charged": a jagged arc of `span` radians from angle `from`.
-function jaggedArc(r: number, from: number, span: number, steps = 16) {
-  let d = '';
-  for (let i = 0; i <= steps; i++) {
-    const a = from + (span * i) / steps;
-    const rr = r + (i === 0 || i === steps ? 0 : (Math.random() - 0.5) * 7);
-    d += `${i ? 'L' : 'M'}${(Math.cos(a) * rr).toFixed(1)},${(Math.sin(a) * rr).toFixed(1)}`;
-  }
-  return d;
-}
 
 function fillCard(card: HTMLElement, d: GraphNode | null) {
   // Already showing this node: keep the DOM, so a link being tapped or
@@ -174,7 +164,7 @@ function draw(
   const CY = H / 2;
   const ms = (t: number) => (reduce ? 0 : t);
   const timers: Timer[] = [];
-  let sparkTimeout: ReturnType<typeof setTimeout> | undefined;
+  let stopSpark = () => {};
 
   const svg = select(svgEl);
   svg.selectAll('*').remove();
@@ -374,7 +364,7 @@ function draw(
     region.removeEventListener('focusout', onFocusOut);
     sim.stop();
     timers.forEach((t) => t.stop());
-    clearTimeout(sparkTimeout);
+    stopSpark();
     svg.selectAll('*').interrupt();
   };
 
@@ -383,31 +373,8 @@ function draw(
     return stopAll;
   }
 
-  // Every 2.5–5s a jagged arc races part-way round the hub, then fades.
   const hubBody = body.filter((d) => d.hub);
   const hubR = radius(nodes.find((n) => n.hub)!) + 4;
-  const spark = () => {
-    const arc = hubBody
-      .append('path')
-      .attr('class', 'spark')
-      .attr('aria-hidden', 'true')
-      .style('opacity', 0);
-    const start = Math.random() * Math.PI * 2;
-    const span = Math.PI * (0.45 + Math.random() * 0.35);
-    const t0 = performance.now();
-    const tick = timer(() => {
-      const t = Math.min(1, (performance.now() - t0) / 700);
-      arc
-        .attr('d', jaggedArc(hubR, start + t * Math.PI * 1.1, span))
-        .style('opacity', t < 0.15 ? t / 0.15 : t > 0.7 ? (1 - t) / 0.3 : 1);
-      if (t >= 1) {
-        tick.stop();
-        arc.remove();
-      }
-    });
-    timers.push(tick);
-    sparkTimeout = setTimeout(spark, 2500 + Math.random() * 2500);
-  };
 
   // At rest: breathe gently (≤ ~2px), and let nodes be dragged.
   const breathe = () => {
@@ -418,7 +385,7 @@ function draw(
     }
   };
   const goLive = () => {
-    sparkTimeout = setTimeout(spark, 600);
+    stopSpark = startSpark(hubBody.node()!, hubR, 600);
     sim
       .force('breathe', breathe)
       .velocityDecay(0.6)
