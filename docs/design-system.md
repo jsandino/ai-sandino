@@ -98,10 +98,11 @@ Sizes: hero title `clamp(48px, 8vw, 84px)`; section title
 - **Background grid:** 30px grid in `grid-line`, radial mask fading to the
   edges. On the landing page it runs behind the whole page, with the falling
   beams; on other pages, behind the hero only.
-- **Feathered panel:** a borderless `bg` panel (radius 12px) whose edge
-  feathers into the grid over ~40px (`box-shadow: 0 0 40px 28px var(--bg)`),
-  so the grid dissolves around content rather than ending at a box. Used
-  behind the landing graph so beams never cross it.
+- **Graphs on the grid:** the landing, Harness Engineering and Heuristics
+  graphs sit directly on the page, with no panel or band behind them, so the
+  grid (and, on the landing page, the beams) shows through. Marks that must
+  hide what is behind them (a node's disc, the hub ring, a label's halo) are
+  filled with the `bg` token.
 - **Topic graph:** see `docs/briefs/landing.md`; references in
   `docs/design/graph-layouts.html` (panel A) and `docs/design/graph-edges.html`.
 - **Pixel field:** twinkling accent squares at the foot of the page.

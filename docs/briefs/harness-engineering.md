@@ -34,8 +34,8 @@ the graph and light up their own edge on hover.
 4. **GitHub link:** to the companion project, this repo:
    `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
 
-Sections are clearly separated visually (alternating bands, per the design
-system).
+Sections are clearly separated visually (the PDF section is a band; the
+graph sits directly on the page grid, per the design system).
 
 ## Copy
 
