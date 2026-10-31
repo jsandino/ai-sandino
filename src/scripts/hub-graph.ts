@@ -87,12 +87,20 @@ function rig(svg: SVGSVGElement) {
   return { frame, spark };
 }
 
-/** Hover or tap a node: dim the rest, light up its edges, grow it. */
-export function wireHubHover(root: HTMLElement): void {
+/**
+ * Hover or tap a node: dim the rest, light up its edges, grow it. A node
+ * with tabindex also previews on focus, selects on Enter or Space, and
+ * Escape clears the selection. `onShow` hears which node is lit (null for
+ * none), so a page can fill a card.
+ */
+export function wireHubHover(
+  root: HTMLElement,
+  onShow?: (id: string | null) => void,
+): void {
   const svgs = [...root.querySelectorAll<SVGSVGElement>('svg.hub-graph')];
   let selected: string | null = null;
 
-  const show = (id: string | null) =>
+  const show = (id: string | null) => {
     svgs.forEach((svg) => {
       const edges = [...svg.querySelectorAll<SVGPathElement>('.edge')];
       const touching = (e: SVGPathElement) =>
@@ -110,20 +118,38 @@ export function wireHubHover(root: HTMLElement): void {
         e.classList.toggle('dim', id !== null && !touching(e));
       });
     });
+    onShow?.(id);
+  };
   const restore = () => show(selected);
+  const toggle = (id: string) => {
+    selected = selected === id ? null : id;
+    restore();
+  };
 
   svgs.forEach((svg) => {
     svg.querySelectorAll<SVGGElement>('.node:not(.hub)').forEach((n) => {
+      const id = n.dataset.node!;
       n.addEventListener('mouseenter', () => {
-        if (!selected) show(n.dataset.node!);
+        if (!selected) show(id);
       });
-      n.addEventListener('click', () => {
-        selected = selected === n.dataset.node ? null : n.dataset.node!;
-        restore();
+      n.addEventListener('click', () => toggle(id));
+      n.addEventListener('focus', () => show(id));
+      n.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle(id);
+        } else if (e.key === 'Escape') {
+          selected = null;
+          restore();
+        }
       });
     });
   });
   root.addEventListener('mouseleave', restore);
+  root.addEventListener('focusout', (e) => {
+    if (!(e.relatedTarget instanceof Element && root.contains(e.relatedTarget)))
+      restore();
+  });
 }
 
 export function animateHubGraph(root: HTMLElement): void {

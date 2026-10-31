@@ -1,0 +1,217 @@
+---
+// The twelve heuristics as a hub-and-spoke graph, with a heuristic card under
+// it (docs/briefs/harness-engineering.md, *Heuristics*), drawn like the
+// landing topic graph. It renders first as a plain list, so search engines,
+// screen readers and no-JS visitors get the same content; the script below
+// hides the list and shows the graph and card, which are filled from the
+// same data.
+import '../styles/hub-graph.css';
+import { edgeD } from '../lib/hub-graph';
+import {
+  capitalizeFirst,
+  CARD_PROMPT,
+  codeSpans,
+  titleCase,
+  type Heuristic,
+} from '../lib/heuristics';
+import {
+  centre,
+  HUB_ID,
+  HUB_LABEL,
+  labelFor,
+  nodeId,
+  phone,
+  ringPoint,
+  wide,
+} from '../lib/heuristics-graph';
+
+interface Props {
+  heuristics: Heuristic[];
+}
+
+const { heuristics } = Astro.props;
+const layouts = { wide, phone };
+const cards = heuristics.map((h) => ({
+  id: nodeId(h.n),
+  number: String(h.n).padStart(2, '0'),
+  name: titleCase(h.name),
+  text: capitalizeFirst(h.text),
+}));
+---
+
+<div data-heuristics-graph data-cards={JSON.stringify(cards)}>
+  <ol class="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3" data-list>
+    {heuristics.map((h, i) => (
+      <li
+        class="bg-surface border-border rounded-lg border p-5"
+        data-heuristic={h.n}
+      >
+        <span class="text-accent-text font-mono text-xs tracking-[0.1em]">
+          {cards[i].number}
+        </span>
+        <h2 class="mt-2 mb-2 text-lg font-bold tracking-normal">
+          {cards[i].name}
+        </h2>
+        <p class="text-text-2 text-[15px]">
+          {codeSpans(cards[i].text).map((s, j) =>
+            j % 2 ? <code class="font-mono text-[0.9em]">{s}</code> : s,
+          )}
+        </p>
+      </li>
+    ))}
+  </ol>
+
+  <div data-graph hidden>
+    <div class="box">
+      {Object.entries(layouts).map(([name, l]) => (
+        <svg
+          class={`hub-graph graph-${name}`}
+          viewBox={`0 0 ${l.width} ${l.height}`}
+          data-hub-r={l.hubR}
+          role="group"
+          aria-label="The twelve heuristics, as a graph around the Heuristics hub."
+        >
+          <g class="edges" aria-hidden="true">
+            {heuristics.map((h, i) => (
+              <path
+                class="edge"
+                data-edge={`${HUB_ID}-${nodeId(h.n)}`}
+                data-from={HUB_ID}
+                data-to={nodeId(h.n)}
+                d={edgeD(centre(l), ringPoint(l, i))}
+                pathLength="1"
+              />
+            ))}
+          </g>
+          <g
+            class="node hub"
+            data-node={HUB_ID}
+            data-x={centre(l).x}
+            data-y={centre(l).y}
+            transform={`translate(${centre(l).x} ${centre(l).y})`}
+            aria-hidden="true"
+          >
+            <g class="body">
+              <g class="focus">
+                <circle class="ring" r={l.hubR} />
+                <text class="hub-label" dy="0.35em">
+                  {HUB_LABEL}
+                </text>
+              </g>
+            </g>
+          </g>
+          {heuristics.map((h, i) => {
+            const p = ringPoint(l, i);
+            const label = labelFor(l, i, cards[i].name);
+            return (
+              <g
+                class="node"
+                data-node={nodeId(h.n)}
+                data-x={p.x}
+                data-y={p.y}
+                transform={`translate(${p.x} ${p.y})`}
+                tabindex="0"
+                role="button"
+                aria-label={cards[i].name}
+              >
+                <g class="body">
+                  <g class="focus">
+                    <circle class="under" r={l.r} />
+                    <circle class="ring" r={l.r} />
+                    <circle class="core" r={l.r * 0.3} />
+                    <circle class="hit" r={l.hit} />
+                    <text
+                      class={`label ${label.anchor === 'middle' ? '' : label.anchor}`}
+                      x={label.x}
+                      y={label.y}
+                    >
+                      {label.lines.map((line, j) => (
+                        <tspan x={label.x} dy={j ? l.lineHeight : 0}>
+                          {line}{' '}
+                        </tspan>
+                      ))}
+                    </text>
+                  </g>
+                </g>
+              </g>
+            );
+          })}
+        </svg>
+      ))}
+    </div>
+    <div
+      class="card bg-surface border-border mx-auto mt-6 min-h-[132px] max-w-[720px] rounded-lg border p-5"
+      aria-live="polite"
+      data-card
+      data-prompt={CARD_PROMPT}
+    ></div>
+  </div>
+</div>
+
+<script>
+  import { mountHeuristicsGraph } from '../scripts/heuristics-graph';
+  document
+    .querySelectorAll<HTMLElement>('[data-heuristics-graph]')
+    .forEach(mountHeuristicsGraph);
+</script>
+
+<style>
+  .box {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .graph-phone {
+    display: none;
+  }
+  .card {
+    transition: border-color 0.25s;
+  }
+  .card:global(:not(.empty)) {
+    border-color: var(--color-border-strong);
+  }
+  .card :global(.card-number) {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+  .card :global(h3) {
+    margin: 8px 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: normal;
+  }
+  .card :global(.card-text),
+  .card :global(.card-prompt) {
+    margin: 0;
+    color: var(--color-text-2);
+    font-size: 15px;
+  }
+  .card :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  @media (max-width: 639.98px) {
+    .box {
+      max-width: 420px;
+    }
+    .graph-wide {
+      display: none;
+    }
+    .graph-phone {
+      display: block;
+    }
+    .label {
+      font-size: 11px;
+    }
+    .hub-label {
+      font-size: 11px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
+  }
+</style>

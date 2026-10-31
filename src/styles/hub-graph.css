@@ -81,6 +81,22 @@
   stroke-linejoin: round;
   paint-order: stroke;
 }
+.hub-graph .label.start {
+  text-anchor: start;
+}
+.hub-graph .label.end {
+  text-anchor: end;
+}
+.hub-graph .node:focus {
+  outline: none;
+}
+.hub-graph .node:focus-visible .ring {
+  stroke-width: 3;
+}
+.hub-graph .hit {
+  fill: transparent;
+  stroke: none;
+}
 .hub-graph .spark {
   fill: none;
   stroke: var(--color-accent-strong);

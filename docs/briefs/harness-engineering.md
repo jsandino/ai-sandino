@@ -99,13 +99,32 @@ in the screen-reader text, and the follow-up brief uses it:
 ## Heuristics
 
 The twelve heuristics live on their own page, `/heuristics`, reached from the
-graph's hub. It has a link back to this page, a heading ("Twelve Heuristics")
-with the sub-line "Harness-engineering ideas worth remembering.", and twelve
-cards, in the guide's order. Each card shows its number, its name (for
-example "Map vs. Territory", the guide's lowercase name shown in title case)
-and its one-sentence statement, taken verbatim from `02-heuristics.md`. Cards
-are not links. On wide screens they form a grid; on phone width, a single
-column.
+graph's hub. It has a link back to this page, the heading "Twelve
+Heuristics" with the sub-line "Harness-engineering ideas worth remembering.",
+and a graph with a heuristic card under it (*Decided*), drawn like the
+landing topic graph:
+
+- **Graph:** a hub labelled **Heuristics** and twelve nodes, one per
+  heuristic, joined to the hub by twelve gray edges. Nodes use the same
+  style, entrance, resting motion, spark and hover as the harness graph
+  (`docs/design-system.md#motion`), and show only the heuristic's name, in
+  title case (for example "Map vs. Territory"; the guide keeps its lowercase
+  name). The layout is fixed: a ring in the guide's order, clockwise from the
+  top, with each label pointing away from the hub. On phone width it is a
+  tall, narrow ring with wrapped labels and larger tap targets.
+- **Heuristic card:** under the graph, as the topic card is on the landing
+  page. Empty, it says "Pick a heuristic to see what it says." Hovering,
+  focusing or selecting a node fills it with the number (`01`–`12`, in the
+  accent colour), the name (bold) and the statement, with its `code` spans.
+  The statement is the guide's, verbatim, except that its first letter is
+  capitalised. The card is an `aria-live="polite"` region and keeps its
+  content while the pointer moves from a node onto it.
+- **Interaction:** hover or focus previews; a click or tap selects, and a
+  second one clears it; Enter or Space selects, and Escape clears. Nodes are
+  keyboard-focusable. Selecting wins over hovering until it is cleared.
+- **No JavaScript, and assistive tech:** the page renders first as a list of
+  twelve cards (number, name, statement; the same capitalisation) which the
+  graph replaces once the script runs. Cards are not links.
 
 ## Accessibility, performance, mobile
 
@@ -131,9 +150,11 @@ column.
 - [ ] The graph animates on scroll, reacts to hover, and has a text
       equivalent.
       → check: `make test-e2e` (text equivalent); animation → human review
-- [ ] The hub opens `/heuristics`, where twelve heuristic cards appear in
-      order, with the guide's text.
-      → check: `make test-e2e` (link, count and order); wording → human review
+- [ ] The hub opens `/heuristics`, where twelve nodes appear in order and
+      hovering, focusing or selecting one fills the heuristic card with the
+      guide's text; the list shows without JavaScript.
+      → check: `make test-e2e` (link, order, card, keyboard, no-JS); wording
+      and look → human review
 - [ ] The PDF downloads. → check: `make linkcheck`
 - [ ] All text matches the *Copy* table. → human review
 - [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
