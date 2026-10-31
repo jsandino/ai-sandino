@@ -2,7 +2,8 @@
 
 import { expect, test } from 'vitest';
 import {
-  edgePath,
+  centre,
+  edgeD,
   edges,
   parts,
   phone,
@@ -45,6 +46,20 @@ test('every edge has a path in both layouts, and every part has a box', () => {
       parts.map((p) => p.id).sort(),
     );
     for (const e of edges)
-      expect(edgePath(layout, e)).toMatch(/^M[\d. -]+ L[\d. -]+$/);
+      expect(
+        edgeD(
+          centre(layout, e.from),
+          centre(layout, e.to),
+          layout.r,
+          e.directed,
+        ),
+      ).toMatch(/^M[\d. -]+ L[\d. -]+$/);
   }
+});
+
+test('a directed edge stops one radius short of its target; an undirected one reaches the centre', () => {
+  const a = { x: 0, y: 0 };
+  const b = { x: 0, y: 100 };
+  expect(edgeD(a, b, 26, true)).toBe('M0 0 L0 74');
+  expect(edgeD(a, b, 26, false)).toBe('M0 0 L0 100');
 });

@@ -96,10 +96,12 @@ export const edges: Edge[] = [
   })),
 ];
 
-type Box = { x: number; y: number; w: number; h: number }; // % of the graph box
+type Box = { x: number; y: number }; // node centre, % of the graph box
 export type Layout = {
   width: number;
   height: number;
+  /** Node radius, in the layout's units. */
+  r: number;
   boxes: Record<string, Box>;
 };
 
@@ -108,58 +110,53 @@ export type Layout = {
 export const wide: Layout = {
   width: 1000,
   height: 620,
+  r: 26,
   boxes: {
-    foundations: { x: 14, y: 50, w: 26, h: 24 },
-    capabilities: { x: 50, y: 11.5, w: 26, h: 22.5 },
-    context: { x: 50, y: 37.2, w: 26, h: 22.5 },
-    constraints: { x: 50, y: 62.8, w: 26, h: 22.5 },
-    feedback: { x: 50, y: 88.5, w: 26, h: 22.5 },
-    discipline: { x: 86, y: 50, w: 26, h: 24 },
+    foundations: { x: 14, y: 50 },
+    capabilities: { x: 50, y: 11.5 },
+    context: { x: 50, y: 37.2 },
+    constraints: { x: 50, y: 62.8 },
+    feedback: { x: 50, y: 88.5 },
+    discipline: { x: 86, y: 50 },
   },
 };
 
 export const phone: Layout = {
   width: 360,
   height: 600,
+  r: 20,
   boxes: {
-    foundations: { x: 50, y: 14, w: 80, h: 26 },
-    capabilities: { x: 12.5, y: 50, w: 20, h: 26 },
-    context: { x: 37.5, y: 50, w: 20, h: 26 },
-    constraints: { x: 62.5, y: 50, w: 20, h: 26 },
-    feedback: { x: 87.5, y: 50, w: 20, h: 26 },
-    discipline: { x: 50, y: 86, w: 80, h: 26 },
+    foundations: { x: 50, y: 12 },
+    capabilities: { x: 12.5, y: 50 },
+    context: { x: 37.5, y: 50 },
+    constraints: { x: 62.5, y: 50 },
+    feedback: { x: 87.5, y: 50 },
+    discipline: { x: 50, y: 82 },
   },
 };
 
-type Pt = { x: number; y: number };
+export type Pt = { x: number; y: number };
 
-/** Where a ray from the box centre towards `to` leaves the box. */
-function exit(layout: Layout, id: string, to: Pt): Pt {
-  const b = layout.boxes[id];
-  const cx = (b.x / 100) * layout.width;
-  const cy = (b.y / 100) * layout.height;
-  const hw = (b.w / 200) * layout.width;
-  const hh = (b.h / 200) * layout.height;
-  const dx = to.x - cx;
-  const dy = to.y - cy;
-  const k = Math.min(
-    dx === 0 ? Infinity : hw / Math.abs(dx),
-    dy === 0 ? Infinity : hh / Math.abs(dy),
-  );
-  return { x: cx + dx * k, y: cy + dy * k };
-}
-
-const centre = (layout: Layout, id: string): Pt => ({
+export const centre = (layout: Layout, id: string): Pt => ({
   x: (layout.boxes[id].x / 100) * layout.width,
   y: (layout.boxes[id].y / 100) * layout.height,
 });
 
-/** SVG path for an edge, running between the two boxes' borders. */
-export function edgePath(layout: Layout, e: Edge): string {
-  const a = exit(layout, e.from, centre(layout, e.to));
-  const b = exit(layout, e.to, centre(layout, e.from));
+/**
+ * SVG path for an edge, from one node centre to the other. Nodes are drawn
+ * over the edges, so an undirected edge ends hidden under its ring; a
+ * directed one stops at the target's ring so its arrowhead shows.
+ */
+export function edgeD(a: Pt, b: Pt, r: number, directed: boolean): string {
   const f = (n: number) => Math.round(n * 10) / 10;
-  return `M${f(a.x)} ${f(a.y)} L${f(b.x)} ${f(b.y)}`;
+  let end = b;
+  if (directed) {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const k = (Math.hypot(dx, dy) - r) / Math.hypot(dx, dy);
+    end = { x: a.x + dx * k, y: a.y + dy * k };
+  }
+  return `M${f(a.x)} ${f(a.y)} L${f(end.x)} ${f(end.y)}`;
 }
 
 /** The graph as readable sentences, for the text equivalent. */
