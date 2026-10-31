@@ -3,13 +3,13 @@
 import { expect, test } from 'vitest';
 import {
   centre,
-  edgeD,
   edges,
   hub,
   parts,
   phone,
   wide,
 } from '../../src/lib/harness-graph';
+import { edgeD } from '../../src/lib/hub-graph';
 
 test('six parts, Part I to VI', () => {
   expect(parts.map((p) => p.numeral)).toEqual([

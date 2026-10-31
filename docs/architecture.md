@@ -136,7 +136,7 @@ Directory roles, not file lists. Docs are listed in the
 | `src/layouts/` | The shared page shell |
 | `src/data/` | Typed data, e.g. `topics.ts` |
 | `src/lib/` | Pure logic shared by pages, scripts and tests (no DOM) |
-| `src/scripts/` | Client-side scripts too large to inline in a component |
+| `src/scripts/` | Client-side scripts too large to inline in a component (`hub-graph.ts` animates the hub-and-spoke graphs of the Harness Engineering and Heuristics pages) |
 | `src/content/` | Guide source Markdown (PDF only) |
 | `src/styles/` | Global CSS and Tailwind theme tokens |
 | `public/` | Static files served as-is, including committed PDFs |

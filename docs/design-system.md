@@ -155,12 +155,12 @@ state with no movement.
 | Word highlight | words go from 0.28 to 1 opacity as you scroll | One key statement per page at most |
 | Falling beams | 1px accent gradient lines, 7–9s linear loop | Behind the whole landing page; elsewhere, hero background only |
 | Grid fade | opacity 0→1, 1.5s | Background grid on load |
-| Graph glide | layout computed off-screen; each node eases out (cubic) from the centre to its place over 1.6s, 260ms stagger, while fading, growing (0.3→1) and sharpening (blur 8→0px) | Topic graph entrance |
-| Graph breathing | tiny sinusoidal drift per node (≤ ~2px), heavily damped | Topic graph at rest (loop) |
-| Hub spark | jagged accent arc sweeping ~half a lap round the hub in 0.7s, every 2.5–5s, after the entrance | Topic graph hub (loop) |
+| Graph glide | layout computed off-screen; each node eases out (cubic) from the centre to its place over 1.6s, 260ms stagger, while fading, growing (0.3→1) and sharpening (blur 8→0px) | Topic graph entrance; hub graphs (Harness Engineering, Heuristics) use 1.6s with a 160ms stagger |
+| Graph breathing | tiny sinusoidal drift per node (≤ ~2px), heavily damped | Topic graph and hub graphs at rest (loop) |
+| Hub spark | jagged accent arc sweeping ~half a lap round the hub in 0.7s, every 2.5–5s, after the entrance | Topic graph hub and hub graphs' hub (loop) |
 | Page fade | the old page fades out in place (300ms ease-in), then the new one fades in (500ms ease-out, after a 150ms delay); no movement; the header stays put; cross-document View Transitions, so unsupported browsers (Firefox) just navigate | Every navigation |
 | Sticky header | backdrop blur 10px with a gradient mask | Always |
 
 Entrances trigger once, when an element scrolls into view. Nothing loops
-except the falling beams, the pixel field, and the topic graph's breathing
-and hub spark.
+except the falling beams, the pixel field, and the topic and hub graphs'
+breathing and hub spark.

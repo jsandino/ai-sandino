@@ -5,9 +5,10 @@
 // layout are swapped by CSS. The graph is hidden from assistive tech; the
 // list below it is the text equivalent. src/scripts/harness-graph.ts
 // animates the entrance and the rest state.
+import '../styles/hub-graph.css';
+import { edgeD } from '../lib/hub-graph';
 import {
   centre,
-  edgeD,
   edges,
   edgeSentence,
   hub,
@@ -30,7 +31,7 @@ const labelY = (id: string, r: number, n: number) =>
   <div class="box" aria-hidden="true">
     {Object.entries(layouts).map(([name, layout]) => (
       <svg
-        class={`graph graph-${name}`}
+        class={`hub-graph graph graph-${name}`}
         viewBox={`0 0 ${layout.width} ${layout.height}`}
         data-hub-r={layout.hubR}
       >
@@ -126,95 +127,15 @@ const labelY = (id: string, r: number, n: number) =>
     width: 100%;
     max-width: 1000px;
   }
-  .graph {
-    display: block;
-    width: 100%;
-    height: auto;
-    fill: none;
-  }
   .graph-phone {
     display: none;
   }
-  .edge {
-    stroke: var(--color-border-strong);
-    stroke-width: 1.5;
-    transition:
-      opacity 0.25s,
-      stroke 0.25s;
-  }
-  /* Hover (docs/design-system.md#motion): the rest dims, the node's own
-     edges light up, and the node grows. */
-  .edge.hl {
-    stroke: var(--color-accent-strong);
-  }
-  .edge.dim {
-    opacity: 0.2;
-  }
-  .node {
-    transition: opacity 0.25s;
-  }
-  .node {
+  /* The hub is a link here (mouse and touch). */
+  .hub {
     cursor: pointer;
   }
   .hub:hover .ring {
     stroke: var(--color-accent-strong);
-  }
-  .node.dim {
-    opacity: 0.3;
-  }
-  .focus {
-    transition: transform 0.25s;
-  }
-  .node.on .focus {
-    transform: scale(1.15);
-  }
-  /* A part is "live", as on the landing graph: tinted ring, glow, dot. The
-     opaque disc under the tint stops the edges at the ring. */
-  .under {
-    fill: var(--color-bg-alt);
-  }
-  .ring {
-    fill: var(--color-accent-tint);
-    stroke: var(--color-accent-strong);
-    stroke-width: 2;
-    filter: drop-shadow(0 0 10px var(--color-accent));
-  }
-  .core {
-    fill: var(--color-accent-strong);
-  }
-  .hub .ring {
-    /* Opaque, so the edges stop at the ring instead of meeting behind "Heuristics". */
-    fill: var(--color-bg-alt);
-    stroke: var(--color-border-strong);
-    filter: none;
-  }
-  .hub-label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    fill: var(--color-text-2);
-    text-anchor: middle;
-  }
-  .graph :global(.spark) {
-    fill: none;
-    stroke: var(--color-accent-strong);
-    stroke-width: 1.6;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 4px var(--color-accent))
-      drop-shadow(0 0 10px var(--color-accent));
-    pointer-events: none;
-  }
-  .label {
-    font-size: 13px;
-    fill: var(--color-text);
-    font-weight: 600;
-    text-anchor: middle;
-    /* A halo keeps the text readable where an edge runs behind it. */
-    stroke: var(--color-bg-alt);
-    stroke-width: 4px;
-    stroke-linejoin: round;
-    paint-order: stroke;
   }
   @media (max-width: 1023px) {
     .box {
@@ -232,23 +153,5 @@ const labelY = (id: string, r: number, n: number) =>
     .hub-label {
       font-size: 11px;
     }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .edge,
-    .node,
-    .focus {
-      transition: none;
-    }
-  }
-
-  /* Entrance: hidden only once the script has taken over, so no-JS and
-     reduced-motion visitors see the settled graph. */
-  [data-harness-graph][data-anim='ready'] .body {
-    opacity: 0;
-  }
-  [data-harness-graph][data-anim='ready'] .edge {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
   }
 </style>

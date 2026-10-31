@@ -3,6 +3,8 @@
 // percentages of the graph box, so every layout's nodes and edges share one
 // coordinate system.
 
+import type { Pt } from './hub-graph';
+
 export type Part = {
   id: string;
   numeral: string;
@@ -109,21 +111,10 @@ export const phone: Layout = {
   },
 };
 
-export type Pt = { x: number; y: number };
-
 export const centre = (layout: Layout, id: string): Pt => ({
   x: (layout.boxes[id].x / 100) * layout.width,
   y: (layout.boxes[id].y / 100) * layout.height,
 });
-
-/**
- * SVG path for an edge, from one node centre to the other. Nodes are drawn
- * over the edges, so each end is hidden under its ring.
- */
-export function edgeD(a: Pt, b: Pt): string {
-  const f = (n: number) => Math.round(n * 10) / 10;
-  return `M${f(a.x)} ${f(a.y)} L${f(b.x)} ${f(b.y)}`;
-}
 
 /** The graph as readable sentences, for the text equivalent. */
 export function edgeSentence(e: Edge): string {
