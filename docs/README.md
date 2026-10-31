@@ -77,15 +77,18 @@ companion guide for topic 1 is in `src/content/harness-guide/`.
   is **Draft** (open questions remain), **Ready** (none remain, every
   criterion maps to a check or "human review", and all user-facing text and
   data is in the brief, cited to a named source in the repo, or explicitly
-  marked "placeholder OK"; a `<<loop>>` may start), or **Done**. A brief is a work order, not a living doc:
+  marked "placeholder OK"; a `<<loop>>` may start), or **Done**. A brief is
+  a short-lived work order:
   - Each acceptance criterion ends with what verifies it:
     `→ check: <make target or CI>` or `→ human review`. One without either
     keeps the brief in Draft.
   - Write it just in time, as its own step and PR (not inside a build PR).
   - Answer its open questions in the brief ("Decided: …") before building;
     add an ADR if an answer is non-obvious and spans pages.
-  - The PR that builds the page sets its **Status** to `Done`; it is then
-    frozen. A later redesign gets a new brief. Never write a PR's own number
+  - The PR that builds the page sets its **Status** to `Done`: the work it
+    ordered has shipped, and the roadmap moves on. Done doesn't freeze the
+    content. A later PR that changes the page may revise the brief so it
+    still describes the page as built. Never write a PR's own number
     into it: the number doesn't exist until the PR is opened. `git log`
     finds the PR, and a phase's closing PR can list them (as `phase-001.md`
     does).
