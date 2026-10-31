@@ -1,0 +1,53 @@
+---
+// The Twelve Heuristics page (docs/briefs/harness-engineering.md): the
+// guide's heuristics, as cards. Reached from the Harness Engineering graph's
+// centre node.
+import Backdrop from '../components/Backdrop.astro';
+import { codeSpans, parseHeuristics, titleCase } from '../lib/heuristics';
+import Base from '../layouts/Base.astro';
+import heuristicsMd from '../content/harness-guide/02-heuristics.md?raw';
+
+const heuristics = parseHeuristics(heuristicsMd);
+---
+
+<Base
+  title="Twelve Heuristics"
+  description="Harness-engineering ideas worth remembering."
+>
+  <Backdrop slot="backdrop" />
+  <section id="hero" class="pt-24 pb-10" aria-labelledby="hero-title">
+    <a
+      href="/harness-engineering"
+      class="text-accent-text mb-6 inline-block font-mono text-xs tracking-[0.1em] uppercase underline-offset-4 hover:underline"
+    >
+      ← Harness Engineering
+    </a>
+    <h1 id="hero-title" class="mb-[18px] text-[clamp(40px,7vw,72px)]">
+      Twelve Heuristics
+    </h1>
+    <p class="text-text-2 max-w-[640px] text-[clamp(17px,2vw,20px)]">
+      Harness-engineering ideas worth remembering.
+    </p>
+  </section>
+
+  <section id="heuristics" class="pb-24" aria-label="The twelve heuristics">
+    <ol class="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {heuristics.map((h) => (
+        <li
+          class="bg-surface border-border rounded-lg border p-5"
+          data-heuristic={h.n}
+        >
+          <span class="text-accent-text font-mono text-xs tracking-[0.1em]">
+            {String(h.n).padStart(2, '0')}
+          </span>
+          <h2 class="mt-2 mb-2 text-lg tracking-normal">{titleCase(h.name)}</h2>
+          <p class="text-text-2 text-[15px]">
+            {codeSpans(h.text).map((s, i) =>
+              i % 2 ? <code class="font-mono text-[0.9em]">{s}</code> : s,
+            )}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>

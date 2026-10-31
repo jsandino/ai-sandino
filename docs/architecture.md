@@ -13,6 +13,7 @@ Flat slugs, one per topic, plus the landing page ([ADR 0008](decisions/0008-flat
 |---|---|
 | `/` | Landing: short intro + node graph of the five topics |
 | `/harness-engineering` | Topic 1 (live first) |
+| `/heuristics` | The twelve heuristics, linked from topic 1's graph (not a topic) |
 | `/rag-in-production` | Topic 2 (coming soon) |
 | `/llm-gateway` | Topic 3 (coming soon) |
 | `/transformer-architecture` | Topic 4 (coming soon) |

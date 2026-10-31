@@ -10,13 +10,14 @@
 
 Show the shape of the whole guide at a glance, then hand the reader the full
 guide (PDF) and a real project. The page is a map that builds intuition: a
-graph of the guide's six parts around the heuristics, and the twelve
-heuristics worth remembering.
+graph of the guide's six parts around the heuristics, which has its own page
+(`/heuristics`, the twelve heuristics worth remembering).
 The guide is the reference.
 
 ## Scope of this brief
 
-This brief builds the page frame: the graph and the heuristics cards. What
+This brief builds the page frame: the graph, and the Heuristics page it links
+to. What
 happens when a reader hovers or selects a node (a card, a page, or a visual
 shown in place) is **not decided here**. A follow-up brief settles it. Until
 then, nodes show their label and, as on the landing graph, dim the rest of
@@ -29,9 +30,8 @@ the graph and light up their own edge on hover.
 2. **Primary Building Blocks:** a graph of a centre node and six part
    nodes, one per part of the guide, in a fixed hand-placed layout (see
    *Graph*), entering on scroll.
-3. **The twelve heuristics:** twelve cards (see *Heuristics*).
-4. **PDF download:** a button linking to `/harness-guide.pdf`.
-5. **GitHub link:** to the companion project, this repo:
+3. **PDF download:** a button linking to `/harness-guide.pdf`.
+4. **GitHub link:** to the companion project, this repo:
    `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
 
 Sections are clearly separated visually (alternating bands, per the design
@@ -47,8 +47,6 @@ may be reworded later without a new brief.
 | Hero title | Harness Engineering with Code Agents | `docs/content/topic-blurbs.md` |
 | Hero line | Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses. | `docs/content/topic-blurbs.md` |
 | Graph heading | Primary Building Blocks | placeholder OK |
-| Heuristics heading | Twelve Heuristics | placeholder OK |
-| Heuristics sub-line | Harness-engineering ideas worth remembering. | guide `02-heuristics.md` |
 | PDF button | Download the guide (PDF) | placeholder OK |
 | PDF caption | A Practical Guide to Harness Engineering | guide `00-intro.md` |
 | GitHub text | This site was built using these principles. | placeholder OK |
@@ -87,10 +85,9 @@ in the screen-reader text, and the follow-up brief uses it:
   are no other edges: the frame edges from Parts I and VI and the arrows
   between the primitives were dropped, as they crowded the diagram. Edges
   draw in after the nodes appear.
-- Hub link (*Decided*, temporary): the hub links to the *Twelve Heuristics*
-  section on the same page. The link goes away when the heuristics move to
-  their own page. It is mouse and touch only (the graph is hidden from
-  assistive tech); the text equivalent carries a real link.
+- Hub link (*Decided*): the hub opens the Heuristics page (`/heuristics`).
+  It is mouse and touch only (the graph is hidden from assistive tech); the
+  text equivalent carries a real link.
 - Hover (*Decided*): hovering a part dims the other parts, lights up its
   edge and grows the node. The hub stays lit. A tap selects on touch.
 - Layout (*Decided*): fixed and hand-placed, no force simulation. The hub is
@@ -101,10 +98,14 @@ in the screen-reader text, and the follow-up brief uses it:
 
 ## Heuristics
 
-Twelve cards, in the guide's order. Each card shows its number, its name
-(for example "Map vs. Territory", the guide's lowercase name shown in title case) and its one-sentence statement, taken
-verbatim from `02-heuristics.md`. Cards are not links. On wide screens they
-form a grid; on phone width, a single column.
+The twelve heuristics live on their own page, `/heuristics`, reached from the
+graph's hub. It has a link back to this page, a heading ("Twelve Heuristics")
+with the sub-line "Harness-engineering ideas worth remembering.", and twelve
+cards, in the guide's order. Each card shows its number, its name (for
+example "Map vs. Territory", the guide's lowercase name shown in title case)
+and its one-sentence statement, taken verbatim from `02-heuristics.md`. Cards
+are not links. On wide screens they form a grid; on phone width, a single
+column.
 
 ## Accessibility, performance, mobile
 
@@ -123,15 +124,16 @@ form a grid; on phone width, a single column.
 - [ ] `topics.ts` marks the topic `live`, with `pdf: "/harness-guide.pdf"`,
       in the same PR as the page (the live ⇔ page check passes).
       → check: `make test-unit`
-- [ ] All five sections are present, in order, visually separated.
+- [ ] All four sections are present, in order, visually separated.
       → check: `make test-e2e` (section order); separation → human review
 - [ ] The graph shows the hub and six part nodes with the labels above, and
       the six edges between them. → check: `make test-e2e`
 - [ ] The graph animates on scroll, reacts to hover, and has a text
       equivalent.
       → check: `make test-e2e` (text equivalent); animation → human review
-- [ ] Twelve heuristic cards appear in order, with the guide's text.
-      → check: `make test-e2e` (count and order); wording → human review
+- [ ] The hub opens `/heuristics`, where twelve heuristic cards appear in
+      order, with the guide's text.
+      → check: `make test-e2e` (link, count and order); wording → human review
 - [ ] The PDF downloads. → check: `make linkcheck`
 - [ ] All text matches the *Copy* table. → human review
 - [ ] The GitHub link points to `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
@@ -147,7 +149,8 @@ form a grid; on phone width, a single column.
 1. ~~**GitHub project:** which repo?~~ Decided: this repo,
    `https://github.com/jsandino/ai-sandino#practical-ai-engineering`. No placeholder state.
 2. ~~**The 12 heuristics:** add them as a section?~~ Decided: yes, as twelve
-   cards below the graph, with the guide's wording. [ADR 0018](../decisions/0018-topic-page-content-sources.md)
+   cards, with the guide's wording (first below the graph, now on their own
+   page). [ADR 0018](../decisions/0018-topic-page-content-sources.md)
    supersedes ADR 0007's hand-written rule to allow it.
 3. ~~**Key concepts visuals:** a diagram per concept?~~ Decided: dropped. The
    graph replaces the key-concepts section.
