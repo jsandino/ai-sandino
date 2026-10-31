@@ -1,0 +1,111 @@
+/* The hub-and-spoke SVG graphs (the Harness Engineering and Heuristics
+   pages), drawn like the landing topic graph. Everything is namespaced under
+   .hub-graph so it never reaches the landing graph's own marks. The script is
+   src/scripts/hub-graph.ts. */
+
+.hub-graph {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: none;
+}
+
+.hub-graph .edge {
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+  transition:
+    opacity 0.25s,
+    stroke 0.25s;
+}
+
+/* Hover (docs/design-system.md#motion): the rest dims, the node's own edges
+   light up, and the node grows. */
+.hub-graph .edge.hl {
+  stroke: var(--color-accent-strong);
+}
+.hub-graph .edge.dim {
+  opacity: 0.2;
+}
+.hub-graph .node {
+  transition: opacity 0.25s;
+}
+.hub-graph .node:not(.hub) {
+  cursor: pointer;
+}
+.hub-graph .node.dim {
+  opacity: 0.3;
+}
+.hub-graph .focus {
+  transition: transform 0.25s;
+}
+.hub-graph .node.on .focus {
+  transform: scale(1.15);
+}
+
+/* A part is "live", as on the landing graph: tinted ring, glow, dot. The
+   opaque disc under the tint stops the edges at the ring. */
+.hub-graph .under {
+  fill: var(--color-bg-alt);
+}
+.hub-graph .ring {
+  fill: var(--color-accent-tint);
+  stroke: var(--color-accent-strong);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px var(--color-accent));
+}
+.hub-graph .core {
+  fill: var(--color-accent-strong);
+}
+.hub-graph .hub .ring {
+  /* Opaque, so the edges stop at the ring instead of meeting behind the label. */
+  fill: var(--color-bg-alt);
+  stroke: var(--color-border-strong);
+  filter: none;
+}
+.hub-graph .hub-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  fill: var(--color-text-2);
+  text-anchor: middle;
+}
+.hub-graph .label {
+  font-size: 13px;
+  fill: var(--color-text);
+  font-weight: 600;
+  text-anchor: middle;
+  /* A halo keeps the text readable where an edge runs behind it. */
+  stroke: var(--color-bg-alt);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+.hub-graph .spark {
+  fill: none;
+  stroke: var(--color-accent-strong);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px var(--color-accent))
+    drop-shadow(0 0 10px var(--color-accent));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-graph .edge,
+  .hub-graph .node,
+  .hub-graph .focus {
+    transition: none;
+  }
+}
+
+/* Entrance: hidden only once the script has taken over (it sets data-anim on
+   the graph's root), so no-JS and reduced-motion visitors see the settled
+   graph. */
+[data-anim='ready'] .hub-graph .body {
+  opacity: 0;
+}
+[data-anim='ready'] .hub-graph .edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
