@@ -4,6 +4,7 @@
 import { expect, test } from 'vitest';
 import heuristicsMd from '../../src/content/harness-guide/02-heuristics.md?raw';
 import {
+  capitalizeFirst,
   codeSpans,
   parseHeuristics,
   titleCase,
@@ -44,4 +45,16 @@ test('titleCase capitalises every word but the short connecting ones', () => {
   ]);
   // A minor word still opens and closes a name.
   expect(titleCase('the end of the')).toBe('The End of The');
+});
+
+test('capitalizeFirst raises a leading lowercase letter and nothing else', () => {
+  expect(capitalizeFirst('delegate research and investigation')).toBe(
+    'Delegate research and investigation',
+  );
+  expect(capitalizeFirst('pre-commit beats CI')).toBe('Pre-commit beats CI');
+  expect(capitalizeFirst('ADRs are append-only')).toBe('ADRs are append-only');
+  // A statement that opens with a code span is left as written.
+  expect(capitalizeFirst('`CLAUDE.md` routes')).toBe('`CLAUDE.md` routes');
+  const texts = parseHeuristics(heuristicsMd).map((h) => h.text);
+  expect(texts.map((t) => capitalizeFirst(t)[0]).join('')).toMatch(/^[A-Z`]+$/);
 });

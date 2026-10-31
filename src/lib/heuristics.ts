@@ -48,3 +48,13 @@ export function titleCase(name: string): string {
     )
     .join(' ');
 }
+
+/**
+ * A guide statement starts with a capital: "delegate research…" → "Delegate
+ * research…". One that opens with a code span or a capital is left alone.
+ */
+export function capitalizeFirst(text: string): string {
+  return text.replace(/^\p{Ll}/u, (c) => c.toUpperCase());
+}
+
+export const CARD_PROMPT = 'Pick a heuristic to see what it says.';
