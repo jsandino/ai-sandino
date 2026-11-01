@@ -66,7 +66,7 @@ export type Edge = { from: string; to: string };
 export const edges: Edge[] = parts.map((p) => ({ from: hub.id, to: p.id }));
 
 /** Nodes whose label sits above the ring, away from the edge below it. */
-export const labelAbove = new Set(['capabilities', 'context']);
+export const labelAbove = new Set(['foundations', 'context']);
 
 type Box = { x: number; y: number }; // node centre, % of the graph box
 export type Layout = {
@@ -79,8 +79,8 @@ export type Layout = {
 };
 
 // Units are 1 per px at the layout's reference width, so the viewBox and the
-// percentage positions agree. The hub is in the middle, Part I and Part VI
-// either side of it, and the four primitives at the corners.
+// percentage positions agree. The hub is in the middle and the parts go round
+// it clockwise from the top left: I, II, III, IV, V, VI.
 export const wide: Layout = {
   width: 1000,
   height: 346,
@@ -88,12 +88,12 @@ export const wide: Layout = {
   hubR: 44,
   boxes: {
     [hub.id]: { x: 50, y: 50 },
-    foundations: { x: 35, y: 50 },
-    capabilities: { x: 41, y: 25.7 },
+    foundations: { x: 41, y: 25.7 },
+    capabilities: { x: 59, y: 74.3 },
     context: { x: 59, y: 25.7 },
-    constraints: { x: 59, y: 74.3 },
+    constraints: { x: 65, y: 50 },
     feedback: { x: 41, y: 74.3 },
-    discipline: { x: 65, y: 50 },
+    discipline: { x: 35, y: 50 },
   },
 };
 
@@ -104,12 +104,12 @@ export const phone: Layout = {
   hubR: 40,
   boxes: {
     [hub.id]: { x: 50, y: 50 },
-    foundations: { x: 26.4, y: 50 },
-    capabilities: { x: 37.5, y: 25.3 },
+    foundations: { x: 37.5, y: 25.3 },
+    capabilities: { x: 62.5, y: 74.7 },
     context: { x: 62.5, y: 25.3 },
-    constraints: { x: 62.5, y: 74.7 },
+    constraints: { x: 73.6, y: 50 },
     feedback: { x: 37.5, y: 74.7 },
-    discipline: { x: 73.6, y: 50 },
+    discipline: { x: 26.4, y: 50 },
   },
 };
 

@@ -118,24 +118,35 @@ test('at 360px the page does not scroll sideways and the phone edges show', asyn
   await expect(page.locator('.graph-wide')).toBeHidden();
   const at = async (id: string) =>
     (await page.locator(`[data-node="${id}"]:visible .ring`).boundingBox())!;
-  const [hub, foundations, discipline, capabilities, context, feedback] =
-    await Promise.all(
-      [
-        'heuristics',
-        'foundations',
-        'discipline',
-        'capabilities',
-        'context',
-        'feedback',
-      ].map(at),
-    );
-  // The hub is in the middle, Part I and Part VI either side of it, and the
-  // primitives at the corners in chain order.
-  expect(foundations.x).toBeLessThan(hub.x);
-  expect(hub.x).toBeLessThan(discipline.x);
-  expect(capabilities.x).toBeLessThan(context.x);
-  expect(capabilities.y).toBeLessThan(hub.y);
-  expect(hub.y).toBeLessThan(feedback.y);
+  const [
+    hub,
+    foundations,
+    context,
+    constraints,
+    capabilities,
+    feedback,
+    discipline,
+  ] = await Promise.all(
+    [
+      'heuristics',
+      'foundations',
+      'context',
+      'constraints',
+      'capabilities',
+      'feedback',
+      'discipline',
+    ].map(at),
+  );
+  // The hub is in the middle and the parts go round it clockwise from the
+  // top left: I, II (top), III (right), IV, V (bottom), VI (left).
+  expect(foundations.y).toBeLessThan(hub.y);
+  expect(context.y).toBeLessThan(hub.y);
+  expect(foundations.x).toBeLessThan(context.x);
+  expect(hub.x).toBeLessThan(constraints.x);
+  expect(capabilities.y).toBeGreaterThan(hub.y);
+  expect(feedback.y).toBeGreaterThan(hub.y);
+  expect(feedback.x).toBeLessThan(capabilities.x);
+  expect(discipline.x).toBeLessThan(hub.x);
 });
 
 test('hovering a node dims the rest and lights its edge; leaving restores', async ({
