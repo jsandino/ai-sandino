@@ -55,6 +55,8 @@ export const parts: Part[] = [
   },
 ];
 
+export const CARD_PROMPT = 'Pick a part to see what it covers.';
+
 /** The centre node: every part connects to it. */
 export const hub = { id: 'heuristics', label: 'Heuristics' };
 
