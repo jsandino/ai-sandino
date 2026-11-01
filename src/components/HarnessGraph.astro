@@ -8,6 +8,7 @@
 import '../styles/hub-graph.css';
 import { edgeD } from '../lib/hub-graph';
 import {
+  CARD_PROMPT,
   centre,
   edges,
   edgeSentence,
@@ -19,6 +20,12 @@ import {
 } from '../lib/harness-graph';
 
 const layouts = { wide, phone };
+const cards = parts.map((p) => ({
+  id: p.id,
+  number: `Part ${p.numeral}`,
+  name: p.label,
+  text: p.summary,
+}));
 // On a phone the nodes are close, so labels wrap word by word.
 const lines = (name: string, label: string) =>
   name === 'phone' ? label.split(' ') : [label];
@@ -27,7 +34,11 @@ const labelY = (id: string, r: number, n: number) =>
   labelAbove.has(id) ? -(r + 10) - 14 * (n - 1) : r + 18;
 ---
 
-<div class="harness-graph" data-harness-graph>
+<div
+  class="harness-graph"
+  data-harness-graph
+  data-cards={JSON.stringify(cards)}
+>
   <div class="box" aria-hidden="true">
     {Object.entries(layouts).map(([name, layout]) => (
       <svg
@@ -97,6 +108,15 @@ const labelY = (id: string, r: number, n: number) =>
         })}
       </svg>
     ))}
+  </div>
+
+  {/* Mouse, touch and keyboard only; the list below carries the same text. */}
+  <div
+    class="hub-card empty bg-surface border-border mx-auto mt-6 min-h-[132px] max-w-[720px] rounded-lg border p-5"
+    aria-hidden="true"
+    data-card
+  >
+    <p class="card-prompt">{CARD_PROMPT}</p>
   </div>
 
   <ul class="sr-only" data-graph-text>

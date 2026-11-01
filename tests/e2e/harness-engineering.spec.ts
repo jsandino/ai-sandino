@@ -170,6 +170,29 @@ test('hovering a node dims the rest and lights its edge; leaving restores', asyn
   await expect(node('foundations')).toHaveCSS('opacity', '1');
 });
 
+test('the card prompts, then shows the hovered part, then prompts again', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/harness-engineering');
+  const card = page.locator('[data-card]');
+  await page
+    .locator('[data-harness-graph]')
+    .evaluate((e) => e.scrollIntoView({ block: 'center' }));
+  await expect(card).toHaveText('Pick a part to see what it covers.');
+  await page
+    .locator('[data-node="constraints"]:visible')
+    .locator('.core')
+    .hover();
+  await expect(card.locator('.card-number')).toHaveText('Part III');
+  await expect(card.locator('h3')).toHaveText('Mechanical Constraints');
+  await expect(card.locator('.card-text')).toHaveText(
+    "If a rule matters, make it mechanical. Prose drifts, checks don't.",
+  );
+  await page.mouse.move(0, 0);
+  await expect(card).toHaveText('Pick a part to see what it covers.');
+});
+
 test('the hub opens the heuristics page, and so does the text list', async ({
   page,
 }) => {

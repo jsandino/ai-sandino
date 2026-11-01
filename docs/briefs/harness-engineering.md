@@ -17,11 +17,10 @@ The guide is the reference.
 ## Scope of this brief
 
 This brief builds the page frame: the graph, and the Heuristics page it links
-to. What
-happens when a reader hovers or selects a node (a card, a page, or a visual
-shown in place) is **not decided here**. A follow-up brief settles it. Until
-then, nodes show their label and, as on the landing graph, dim the rest of
-the graph and light up their own edge on hover.
+to. Hovering or selecting a part dims the rest of the graph, lights up
+its edge and fills the part card under the graph (see *Graph*). Richer
+detail for a part (a page, or a visual shown in place) is **not decided
+here**; a follow-up brief settles it.
 
 ## Required sections (in order)
 
@@ -64,8 +63,8 @@ Drawn like the landing topic graph: an SVG of rings over centre-to-centre
 edges, with the same entrance, rest and hover behaviour
 (`docs/design-system.md#motion`). A centre node, **Heuristics**, connects to
 six part nodes, one per part. Each part's summary (the part's epigraph in
-the guide, except Part I's, which is a quote from §1) is not shown yet; it is
-in the screen-reader text, and the follow-up brief uses it:
+the guide, except Part I's, which is a quote from §1) is shown on the part
+card (see *Part card*) and is in the screen-reader text:
 
 | Part | Label | Summary |
 |---|---|---|
@@ -77,7 +76,7 @@ in the screen-reader text, and the follow-up brief uses it:
 | VI | Operating Discipline | The repo outlives the session, the model, and the conversation. |
 
 - Nodes (*Decided*): small circles with the label outside, and no part
-  numeral or summary. All six parts use the landing graph's *live* style
+  numeral or summary on the node itself. All six parts use the landing graph's *live* style
   (green ring, glow, dot, bold label); the hub is a gray ring with its label
   inside, and sparks like the landing graph's `AI` node. There are no
   per-part colours.
@@ -95,6 +94,13 @@ in the screen-reader text, and the follow-up brief uses it:
   primitives at the corners (Parts IV and II on top, V and III below). The
   phone layout has the same arrangement in a narrow frame, with labels
   wrapped.
+
+- Part card (*Decided*): under the graph, styled as the heuristic card.
+  Empty, it says "Pick a part to see what it covers." Hovering, focusing or
+  selecting a part fills it with "Part I"–"Part VI" (accent colour), the part
+  label (bold) and its summary from the table above, verbatim. The card is
+  hidden from assistive tech, as the graph is; the text list carries the
+  same content. The hub does not fill it.
 
 ## Heuristics
 
@@ -181,5 +187,5 @@ landing topic graph:
 
 ## Out of scope
 
-The card shown when a node is hovered or selected (follow-up brief), rendering guide chapters on the web,
+A page or visual for each part (follow-up brief), rendering guide chapters on the web,
 comments, newsletter sign-up.
