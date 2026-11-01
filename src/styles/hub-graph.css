@@ -87,6 +87,10 @@
 .hub-graph .label.end {
   text-anchor: end;
 }
+.hub-graph a {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 .hub-graph .node:focus {
   outline: none;
 }

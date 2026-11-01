@@ -189,6 +189,17 @@ test('the hub opens the heuristics page, and so does the text list', async ({
   );
 });
 
+test('the hub link shows no outline or tap highlight', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/harness-engineering');
+  const link = page.locator('.graph-wide a[href="/heuristics"]');
+  await expect(link).toHaveCSS('outline-style', 'none');
+  await expect(link).toHaveCSS(
+    '-webkit-tap-highlight-color',
+    'rgba(0, 0, 0, 0)',
+  );
+});
+
 test('the hub sparks within 10s under motion, and not under reduced motion', async ({
   page,
 }) => {
