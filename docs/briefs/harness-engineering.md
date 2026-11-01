@@ -90,8 +90,9 @@ card (see *Part card*) and is in the screen-reader text:
 - Hover (*Decided*): hovering a part dims the other parts, lights up its
   edge and grows the node. The hub stays lit. A tap selects on touch.
 - Layout (*Decided*): fixed and hand-placed, no force simulation. The hub is
-  in the middle, Part I on its left and Part VI on its right, and the four
-  primitives at the corners (Parts IV and II on top, V and III below). The
+  in the middle and the six parts go round it clockwise from the top left,
+  in order: Part I top left, II top right, III right, IV bottom right, V
+  bottom left, VI left. The
   phone layout has the same arrangement in a narrow frame, with labels
   wrapped.
 
