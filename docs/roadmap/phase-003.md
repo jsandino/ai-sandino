@@ -24,8 +24,8 @@ Moved here from phase 002, step 11.
 |---|---|---|---|---|
 | 1 | Metadata and intro (`00-intro.md`) | — | gated | Done |
 | 2 | Notation and conventions | — | gated | Done |
-| 3 | Part I — Foundations | — | gated | Next |
-| 4 | Part II — Input processing | — | gated | Planned |
+| 3 | Part I — Foundations | — | gated | Done |
+| 4 | Part II — Input processing | — | gated | Next |
 | 5 | Part III — Scaled dot-product attention | — | gated | Planned |
 | 6 | Part IV — Multi-head attention | — | gated | Planned |
 | 7 | Part V — Causal masking | — | gated | Planned |
