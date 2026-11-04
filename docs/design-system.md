@@ -158,7 +158,7 @@ state with no movement.
 | Line draw | stroke-dashoffset length→0, 1.4s ease-in-out, staggered | Line art, diagram edges |
 | Count up | 0→value, 1.6s ease-out | Numeric stats |
 | Word highlight | words go from 0.28 to 1 opacity as you scroll | One key statement per page at most |
-| Falling beams | 1px accent gradient lines, 7–9s linear loop | Behind the whole page, with the background grid (landing, Harness Engineering, Heuristics) |
+| Falling beams | 1px accent gradient lines, 14–18s linear loop; one beam, picked at random on each page load, runs at 7–9s | Behind the whole page, with the background grid (landing, Harness Engineering, Heuristics) |
 | Grid fade | opacity 0→1, 1.5s | Background grid on load |
 | Graph glide | layout computed off-screen; each node eases out (cubic) from the centre to its place over 1.6s, 260ms stagger, while fading, growing (0.3→1) and sharpening (blur 8→0px) | Topic graph entrance; hub graphs (Harness Engineering, Heuristics) use 1.6s with a 160ms stagger |
 | Graph breathing | tiny sinusoidal drift per node (≤ ~2px), heavily damped | Topic graph and hub graphs at rest (loop) |

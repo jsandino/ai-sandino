@@ -4,6 +4,9 @@
 // falling beams behind the page content, decorative and hidden
 // from assistive tech. Under reduced motion the beams are hidden and the
 // grid is static. Placed in Base's "backdrop" slot.
+// Each beam falls at SLOW times its listed duration, except one beam, picked
+// at random on each page load, which falls at the listed duration.
+const SLOW = 2;
 const BEAMS = [
   { left: 7, delay: -2, duration: 8 },
   { left: 22, delay: -6, duration: 9 },
@@ -22,10 +25,17 @@ const BEAMS = [
   {BEAMS.map((b) => (
     <div
       class="beam absolute"
-      style={`left:${b.left}%;animation-delay:${b.delay}s;animation-duration:${b.duration}s`}
+      data-fast={`${b.duration}s`}
+      style={`left:${b.left}%;animation-delay:${b.delay}s;animation-duration:${b.duration * SLOW}s`}
     />
   ))}
 </div>
+
+<script>
+  const beams = document.querySelectorAll<HTMLElement>('.beam');
+  const fast = beams[Math.floor(Math.random() * beams.length)];
+  if (fast) fast.style.animationDuration = fast.dataset.fast ?? '';
+</script>
 
 <style>
   .grid-bg {
