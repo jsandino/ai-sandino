@@ -95,6 +95,9 @@ Sizes: hero title `clamp(48px, 8vw, 84px)`; section title
 - **Quote:** 3px `violet` left bar.
 - **Accordion:** `surface` rows, with an accent `+` that rotates to `×`.
 - **Section bands:** alternate `bg` and `bg-alt`.
+- **PDF button:** every guide's topic page puts it in its own section
+  between the hero and the first graph, left-aligned, with no band or
+  caption, the same on web and mobile.
 - **Background grid:** 30px grid in `grid-line`, radial mask fading to the
   edges. It runs behind the whole page, with the falling beams, on the
   landing, Harness Engineering and Heuristics pages (the `Backdrop`

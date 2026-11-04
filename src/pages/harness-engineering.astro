@@ -7,8 +7,6 @@ import { topics } from '../data/topics';
 import Base from '../layouts/Base.astro';
 
 const topic = topics.find((t) => t.slug === 'harness-engineering')!;
-const band =
-  'shadow-[0_0_0_100vmax_var(--color-bg-alt)] [clip-path:inset(0_-100vmax)] bg-bg-alt';
 const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
 ---
 
@@ -23,14 +21,7 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
     </p>
   </section>
 
-  <section id="graph" class="py-16" aria-labelledby="graph-title">
-    <h2 id="graph-title" class={`${title} mb-10`}>
-      Primary Building Blocks
-    </h2>
-    <HarnessGraph />
-  </section>
-
-  <section id="pdf" class={`${band} py-16`} aria-labelledby="pdf-title">
+  <section id="pdf" class="py-8" aria-labelledby="pdf-title">
     <h2 id="pdf-title" class="sr-only">
       The Guide as a PDF
     </h2>
@@ -41,9 +32,13 @@ const title = 'mb-4 text-[clamp(32px,4.5vw,44px)]';
     >
       Download the guide (PDF)
     </a>
-    <p class="text-text-2 mt-3 text-[15px]">
-      A Practical Guide to Harness Engineering
-    </p>
+  </section>
+
+  <section id="graph" class="py-16" aria-labelledby="graph-title">
+    <h2 id="graph-title" class={`${title} mb-10`}>
+      Primary Building Blocks
+    </h2>
+    <HarnessGraph />
   </section>
 
   <section id="github" class="py-16" aria-labelledby="github-title">
