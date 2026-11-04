@@ -60,7 +60,7 @@ $$\mathbf{y} = \mathbf{x}\mathbf{W} + \mathbf{b}$$
 
 where $\mathbf{x} \in \mathbb{R}^{1 \times d_{\text{in}}}$, $\mathbf{W} \in \mathbb{R}^{d_{\text{in}} \times d_{\text{out}}}$, $\mathbf{b} \in \mathbb{R}^{1 \times d_{\text{out}}}$ and $\mathbf{y} \in \mathbb{R}^{1 \times d_{\text{out}}}$. With the row-vector convention, $\mathbf{x}$ is on the left of $\mathbf{W}$.
 
-The transformer applies linear transformations everywhere — usually without the bias term $\mathbf{b}$. The omitted bias is a deliberate choice that simplifies the architecture and slightly improves performance in practice ([Touvron et al., 2023](./14-appendix-a-further-reading.md#touvron-et-al-2023)).
+Modern transformers apply linear transformations everywhere, and many of them drop the bias term $\mathbf{b}$. PaLM reports that omitting biases increased training stability at large scale ([Chowdhery et al., 2022](./14-appendix-a-further-reading.md#chowdhery-et-al-2022)), although the original Transformer's feed-forward layers did use biases ([Vaswani et al., 2017](./14-appendix-a-further-reading.md#vaswani-et-al-2017)).
 
 ### Element-wise nonlinearities
 
@@ -136,4 +136,4 @@ flowchart TD
     class BLOCK1,BLOCKL neutral
 ```
 
-*Figure: High-level data flow through a decoder-only transformer. The transformer block is repeated $L$ times, from Block 1 to Block $L$ (Llama 3 8B has $L = 32$; GPT-3 has $L = 96$). The shape of the data flowing between blocks is always (sequence length $n$ × hidden dimension $d_{\text{model}}$).*
+*Figure: High-level data flow through a decoder-only transformer. The transformer block is repeated $L$ times, from Block 1 to Block $L$ (Llama 3 8B has $L = 32$; GPT-3 175B has $L = 96$). The shape of the data flowing between blocks is always (sequence length $n$ × hidden dimension $d_{\text{model}}$).*
