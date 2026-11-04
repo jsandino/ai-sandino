@@ -26,15 +26,18 @@ here**; a follow-up brief settles it.
 
 1. **Hero:** introduces the topic: what harness engineering is, in one or
    two lines.
-2. **Primary Building Blocks:** a graph of a centre node and six part
+2. **PDF download:** a button linking to `/harness-guide.pdf`, on its own
+   between the hero and the graph, left-aligned like the hero text, with
+   no band or caption.
+3. **Primary Building Blocks:** a graph of a centre node and six part
    nodes, one per part of the guide, in a fixed hand-placed layout (see
    *Graph*), entering on scroll.
-3. **PDF download:** a button linking to `/harness-guide.pdf`.
 4. **GitHub link:** to the companion project, this repo:
    `https://github.com/jsandino/ai-sandino#practical-ai-engineering`.
 
-Sections are clearly separated visually (the PDF section is a band; the
-graph sits directly on the page grid, per the design system).
+Sections are separated by spacing alone; the graph sits directly on the
+page grid, per the design system. The PDF button sits above the graph so
+it is the first call to action on every width.
 
 ## Copy
 
@@ -45,9 +48,8 @@ may be reworded later without a new brief.
 |---|---|---|
 | Hero title | Harness Engineering with Code Agents | `docs/content/topic-blurbs.md` |
 | Hero line | Build the environment around a coding agent (context, constraints, capabilities and feedback loops) so it ships reliable software, not plausible guesses. | `docs/content/topic-blurbs.md` |
-| Graph heading | Primary Building Blocks | placeholder OK |
 | PDF button | Download the guide (PDF) | placeholder OK |
-| PDF caption | A Practical Guide to Harness Engineering | guide `00-intro.md` |
+| Graph heading | Primary Building Blocks | placeholder OK |
 | GitHub text | This site was built using these principles. | placeholder OK |
 | GitHub link | Browse the source on GitHub | placeholder OK |
 

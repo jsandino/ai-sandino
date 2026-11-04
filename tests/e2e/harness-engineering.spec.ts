@@ -19,7 +19,7 @@ test('the four sections appear in order', async ({ page }) => {
   const ids = await page
     .locator('main > section')
     .evaluateAll((s) => s.map((e) => e.id));
-  expect(ids).toEqual(['hero', 'graph', 'pdf', 'github']);
+  expect(ids).toEqual(['hero', 'pdf', 'graph', 'github']);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Harness Engineering with Code Agents',
   );
