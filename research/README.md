@@ -38,3 +38,6 @@ kept so the project never re-investigates a question it has already answered.
 | [0005](0005-ralph-loop.md) | Huntley's loop ("Ralph") and headless Claude Code | 2026-10-14 | Current |
 | [0006](0006-test-layers.md) | Unit and end-to-end test layers for a static Astro 7 site | 2026-10-16 | Current |
 | [0007](0007-social-preview-image.md) | Social preview images (og:image) for the shared shell | 2026-10-18 | Current |
+| [0008](0008-karpathy-tokenizer-citation.md) | Karpathy's "Let's build the GPT Tokenizer": citation check | 2026-11-03 | Current |
+| [0009](0009-text-sources-tokenization-embeddings.md) | Text sources for tokenization and embedding claims | 2026-11-03 | Current |
+| [0010](0010-tied-embeddings-bias-model-numbers.md) | Tied embeddings, bias terms and model numbers: fact-check | 2026-11-03 | Current |
