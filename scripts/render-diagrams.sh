@@ -12,7 +12,12 @@
 #
 # Files without any Mermaid blocks are copied verbatim.
 #
-# Requires: mmdc (Mermaid CLI).
+# Also compiles the guide's TikZ figures, if it has any: each
+# src/content/<guide>/figures/<name>.tex becomes
+# build/<guide>/rendered/figures/<name>.pdf, which a chapter shows with
+# ![...](figures/<name>.pdf) (docs/guide-format.md#figures).
+#
+# Requires: mmdc (Mermaid CLI), and xelatex for figures.
 #   npm install -g @mermaid-js/mermaid-cli
 
 set -euo pipefail
@@ -119,5 +124,29 @@ for name in "${FILES[@]}"; do
     s/\x{2190}/\$\\leftarrow\$/g;
   ' -e "$FRAG_SUB ${LINK_SUBS[*]}" "$OUT_DIR/$name"
 done
+
+# --- TikZ figures (docs/guide-format.md#figures) ------------------------
+# Each figure is a standalone LaTeX document. It gets the diagram colour
+# names as the `diagram-colours` package, generated from the palette.
+FIGURES=("$SRC_DIR"/figures/*.tex)
+if [[ -f "${FIGURES[0]}" ]]; then
+  SUPPORT_DIR="$ROOT_DIR/build/$GUIDE/figure-support"
+  mkdir -p "$SUPPORT_DIR" "$OUT_DIR/figures"
+  node "$ROOT_DIR/scripts/pdf/figure-colours.mjs" >"$SUPPORT_DIR/diagram-colours.sty"
+  for fig in "${FIGURES[@]}"; do
+    fig_name="$(basename "$fig" .tex)"
+    echo "  figure   figures/$fig_name.tex"
+    if ! TEXINPUTS="$SUPPORT_DIR:" xelatex -interaction=nonstopmode -halt-on-error \
+      -output-directory "$OUT_DIR/figures" "$fig" >"$OUT_DIR/figures/$fig_name.log" 2>&1; then
+      guide_error "PDF BUILD: FIGURE FAILED" \
+        "a figure in src/content/$GUIDE/figures/ must compile with xelatex." \
+        "$fig_name.tex did not compile; the end of its log follows." \
+        "fix the error below, or see $OUT_DIR/figures/$fig_name.log (docs/guide-format.md#figures)."
+      tail -n 20 "$OUT_DIR/figures/$fig_name.log" >&2
+      exit 1
+    fi
+    rm -f "$OUT_DIR/figures/$fig_name.aux" "$OUT_DIR/figures/$fig_name.log"
+  done
+fi
 
 echo "Done. $(find "$OUT_DIR" -name '*.pdf' | wc -l | tr -d ' ') diagram image(s) rendered."

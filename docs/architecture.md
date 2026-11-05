@@ -114,6 +114,11 @@ and their chapters for every PDF script. In `scripts/pdf/`:
   column widths, so its text wraps inside the page. The guides are read as
   GitHub-flavoured Markdown, which carries no widths, so pandoc would
   otherwise set each column on one line and run it off the page.
+- `figure-colours.mjs`: writes the `diagram-colours` LaTeX package from
+  `diagram-classes.mmd`. `render-diagrams.sh` uses it to compile a guide's
+  TikZ figures (`src/content/<guide>/figures/*.tex`) into
+  `build/<guide>/rendered/figures/*.pdf`
+  ([`guide-format.md`](guide-format.md#figures)).
 - `spread-filter.mjs`, `relaxed-filter.mjs`, `grid-filter.mjs`: pandoc
   filters for the named blocks in
   [`guide-format.md`](guide-format.md#named-blocks). Each acts only inside

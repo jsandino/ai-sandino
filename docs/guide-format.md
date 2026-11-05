@@ -18,6 +18,7 @@ src/content/<guide>/
   02-heuristics.md       chapter 2
   03-part-1-....md
   ...
+  figures/               optional: TikZ figures (below)
 ```
 
 - **Chapters** are the files named `[0-9][0-9]-*.md`, in name order. Gaps in
@@ -150,6 +151,30 @@ every diagram (`scripts/pdf/diagram-classes.mmd`); in print:
 | `neutral` | `#f4f4f4` | `#888` |
 
 Text is black on every colour.
+
+## Figures
+
+A plot or drawing that Mermaid can't make is a TikZ figure
+([ADR 0020](decisions/0020-tikz-figures-in-guides.md)): a standalone LaTeX
+document in `src/content/<guide>/figures/<name>.tex`. The pipeline compiles
+it with `xelatex` into a vector PDF, and a chapter shows it like any image:
+
+```markdown
+![A description of the figure](figures/<name>.pdf)
+```
+
+The image path names the compiled `.pdf`, not the `.tex` source. Put the
+caption in a paragraph under the image, as for a diagram.
+
+A figure takes its colours from the diagram palette by name, never by
+value: it loads `\usepackage{diagram-colours}`, which the pipeline generates
+from `scripts/pdf/diagram-classes.mmd`. For each name in the
+[diagram colours](#diagram-colours) table, `sky` is the stroke colour and
+`skyfill` the fill colour, and likewise for `violet`, `emerald`, `coral`,
+`amber` and `neutral`. A figure sets its own fonts: match the body font and
+the math in `scripts/build-pdf.sh`, and set digits in math mode (`$5$`), since
+Georgia's own digits are old-style. A guide without a `figures/` folder builds
+exactly as before.
 
 ## Content rules
 
