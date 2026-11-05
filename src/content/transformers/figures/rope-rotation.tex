@@ -1,0 +1,35 @@
+% RoPE in two dimensions (Part II, Section 9, "A concrete example"): the same
+% query q = (2, 1) and key k = (1, 2) rotated for positions (1, 2) and then
+% (2, 3), with theta = 90 degrees. Compiled by scripts/render-diagrams.sh;
+% colours are the pipeline's names (docs/guide-format.md#figures). Fonts match
+% scripts/build-pdf.sh.
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{Georgia}
+\usepackage{amsmath}
+\usepackage{diagram-colours}
+\usetikzlibrary{arrows.meta}
+\begin{document}
+\begin{tikzpicture}[font=\small,>=Stealth,scale=0.62]
+% \panel{m}{n}{q'x}{q'y}{k'x}{k'y}{dot}
+\newcommand{\panel}[7]{%
+  \draw[neutral!25] (-2.5,-2.5) grid (2.5,2.5);
+  \draw[neutral!60,->] (-2.7,0) -- (2.7,0);
+  \draw[neutral!60,->] (0,-2.7) -- (0,2.7);
+  \draw[neutral,dashed,thick,->] (0,0) -- (2,1) node[right,font=\scriptsize,black] {$\mathbf{q}$};
+  \draw[neutral,dashed,thick,->] (0,0) -- (1,2) node[above,font=\scriptsize,black] {$\mathbf{k}$};
+  \draw[sky,very thick,->] (0,0) -- (#3,#4) node[pos=1.18,black] {$\mathbf{q}'_{#1}$};
+  \draw[amber,very thick,->] (0,0) -- (#5,#6) node[pos=1.18,black] {$\mathbf{k}'_{#2}$};
+}
+\begin{scope}
+  \node[font=\small\bfseries,align=center] at (0,3.7) {$m = 1,\ n = 2$\\[1pt]{\scriptsize\mdseries turns of $90^\circ$ and $180^\circ$}};
+  \panel{1}{2}{-1}{2}{-1}{-2}{-3}
+  \node[font=\scriptsize] at (0,-3.4) {$\mathbf{q}'_1\cdot\mathbf{k}'_2 = (-1)(-1) + (2)(-2) = -3$};
+\end{scope}
+\begin{scope}[shift={(7.6,0)}]
+  \node[font=\small\bfseries,align=center] at (0,3.7) {$m = 2,\ n = 3$\\[1pt]{\scriptsize\mdseries turns of $180^\circ$ and $270^\circ$}};
+  \panel{2}{3}{-2}{-1}{2}{-1}{-3}
+  \node[font=\scriptsize] at (0,-3.4) {$\mathbf{q}'_2\cdot\mathbf{k}'_3 = (-2)(2) + (-1)(-1) = -3$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

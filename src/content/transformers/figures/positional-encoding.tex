@@ -1,0 +1,54 @@
+% The sinusoidal positional encoding at two frequencies (Part II, Section 7).
+% Compiled by scripts/render-diagrams.sh; colours are the pipeline's names
+% (docs/guide-format.md#figures). Fonts match scripts/build-pdf.sh.
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{Georgia}
+\usepackage{amsmath}
+\usepackage{diagram-colours}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=0.95cm,font=\small]
+
+% \panel{x scale (cm per position)}{last position}{tick step}{divisor}{one cycle}
+\newcommand{\panel}[5]{%
+  \begin{scope}[x=#1 cm]
+    \foreach \y in {-1,0,1} \draw[neutral!25] (0,\y) -- (#2,\y);
+    \draw[neutral,->] (0,-1.25) -- (0,1.35);
+    \draw[neutral,->] (0,0) -- (#2,0) node[right,black,font=\scriptsize] {$pos$};
+    \foreach \y in {-1,0,1} \draw[neutral] (0,\y) -- (-0.03*#2,\y) node[left,black] {$\y$};
+    \draw[sky,very thick,domain=0:#2,samples=400,smooth,variable=\x]
+      plot ({\x},{sin(deg(\x/#4))});
+    \draw[amber,very thick,domain=0:#2,samples=400,smooth,variable=\x]
+      plot ({\x},{cos(deg(\x/#4))});
+    % one cycle
+    \draw[<->,thick,black] (0,-1.85) -- (#5,-1.85);
+    \draw[black] (0,-1.75) -- (0,-1.95);
+    \draw[black] (#5,-1.75) -- (#5,-1.95);
+    \node[below,black] at ({#5/2},-1.9) {one cycle $= 2\pi \cdot #4 \approx #5$ positions};
+    % x ticks along the bottom edge, clear of the curves
+    \foreach \x in {0,#3,...,#2}
+      \draw[neutral] (\x,-1) -- (\x,-1.06) node[below=1pt,black,font=\scriptsize] {$\x$};
+  \end{scope}
+}
+
+% Top: divisor 1 (the first two columns of PE).
+\node[anchor=west,font=\small\bfseries] at (-0.9,1.9)
+  {Divisor $1$ (columns $1$--$2$): $\sin(pos)$ and $\cos(pos)$};
+\draw[sky,very thick] (7.4,1.9) -- (7.9,1.9);
+\node[anchor=west,font=\scriptsize] at (7.95,1.9) {sin};
+\draw[amber,very thick] (8.8,1.9) -- (9.3,1.9);
+\node[anchor=west,font=\scriptsize] at (9.35,1.9) {cos};
+\panel{0.5}{20}{5}{1}{6.28}
+
+% Bottom: divisor 100 (the last two columns).
+\begin{scope}[shift={(0,-5.7)}]
+  \node[anchor=west,font=\small\bfseries] at (-0.9,1.9)
+    {Divisor $100$ (columns $3$--$4$): $\sin(pos/100)$ and $\cos(pos/100)$};
+  \panel{0.0077}{1300}{200}{100}{628}
+  \draw[->,neutral] (1.6,1.45) -- (0.1,1.1);
+  \node[anchor=west,font=\scriptsize,neutral] at (1.6,1.5) {positions $0, 1, 2$ sit here};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}
