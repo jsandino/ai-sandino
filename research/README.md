@@ -41,3 +41,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0008](0008-karpathy-tokenizer-citation.md) | Karpathy's "Let's build the GPT Tokenizer": citation check | 2026-11-03 | Current |
 | [0009](0009-text-sources-tokenization-embeddings.md) | Text sources for tokenization and embedding claims | 2026-11-03 | Current |
 | [0010](0010-tied-embeddings-bias-model-numbers.md) | Tied embeddings, bias terms and model numbers: fact-check | 2026-11-03 | Current |
+| [0011](0011-positional-encoding-fact-check.md) | Positional-encoding fact-check | 2026-11-04 | Current |
