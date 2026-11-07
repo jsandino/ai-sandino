@@ -119,15 +119,19 @@
   }
 }
 
-/* Entrance: hidden only once the script has taken over (it sets data-anim on
-   the graph's root), so no-JS and reduced-motion visitors see the settled
-   graph. */
-[data-anim='ready'] .hub-graph .body {
-  opacity: 0;
-}
-[data-anim='ready'] .hub-graph .edge {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+/* Entrance: hidden from first paint (the `js` class is set in Base.astro's
+   head) so the graph never flashes before the script starts the entrance.
+   No-JS and reduced-motion visitors see the settled graph. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hub-graph .body,
+  [data-anim='ready'] .hub-graph .body {
+    opacity: 0;
+  }
+  .js .hub-graph .edge,
+  [data-anim='ready'] .hub-graph .edge {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
 }
 
 /* The card under a graph. */
