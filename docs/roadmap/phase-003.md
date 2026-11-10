@@ -26,8 +26,8 @@ Moved here from phase 002, step 11.
 | 2 | Notation and conventions | — | gated | Done |
 | 3 | Part I — Foundations | — | gated | Done |
 | 4 | Part II — Input processing | — | gated | Done |
-| 5 | Part III — Scaled dot-product attention | — | gated | Next |
-| 6 | Part IV — Multi-head attention | — | gated | Planned |
+| 5 | Part III — Scaled dot-product attention | — | gated | Done |
+| 6 | Part IV — Multi-head attention | — | gated | Next |
 | 7 | Part V — Causal masking | — | gated | Planned |
 | 8 | Part VI — The position-wise feed-forward network | — | gated | Planned |
 | 9 | Part VII — Residual connections and normalization | — | gated | Planned |

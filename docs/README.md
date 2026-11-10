@@ -21,7 +21,7 @@ adds its own phase's block below this one, on that branch only
 phase 002 block above is `main`'s stream.
 
 - **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
-- **Next step:** 5 — Part III — Scaled dot-product attention (gated)
+- **Next step:** 6 — Part IV — Multi-head attention (gated)
 
 ---
 
