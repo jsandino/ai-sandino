@@ -4,126 +4,157 @@ The sources this guide draws on, in the order the parts first cite them. Each en
 
 ---
 
-### Vaswani et al. (2017)
+::: {#vaswani-et-al-2017}
+**Vaswani et al. (2017)**\
+[Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+:::
 
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. *Attention Is All You Need.* Advances in Neural Information Processing Systems 30. [arXiv:1706.03762](https://arxiv.org/abs/1706.03762).
+::: {#weng-2018}
+**Weng (2018)**\
+[Attention? Attention!](https://lilianweng.github.io/posts/2018-06-24-attention/)
+:::
 
-### Weng (2018)
+::: {#chowdhery-et-al-2022}
+**Chowdhery et al. (2022)**\
+[PaLM: Scaling Language Modeling with Pathways](https://arxiv.org/abs/2204.02311)
+:::
 
-Weng, L. *Attention? Attention!* Lil'Log. [lilianweng.github.io/posts/2018-06-24-attention](https://lilianweng.github.io/posts/2018-06-24-attention/).
+::: {#he-et-al-2015}
+**He et al. (2015)**\
+[Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+:::
 
-### Chowdhery et al. (2022)
+::: {#hugging-face-tokenization-algorithms}
+**Hugging Face, Tokenization algorithms**\
+[Tokenization algorithms (Transformers documentation)](https://huggingface.co/docs/transformers/tokenizer_summary)
+:::
 
-Chowdhery, A., et al. *PaLM: Scaling Language Modeling with Pathways.* [arXiv:2204.02311](https://arxiv.org/abs/2204.02311).
+::: {#sennrich-et-al-2016}
+**Sennrich et al. (2016)**\
+[Neural Machine Translation of Rare Words with Subword Units](https://arxiv.org/abs/1508.07909)
+:::
 
-### He et al. (2015)
+::: {#radford-et-al-2019}
+**Radford et al. (2019)**\
+[Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
+:::
 
-He, K., Zhang, X., Ren, S., & Sun, J. *Deep Residual Learning for Image Recognition.* [arXiv:1512.03385](https://arxiv.org/abs/1512.03385).
+::: {#hugging-face-gpt-2-model-documentation}
+**Hugging Face, GPT-2 model documentation**\
+[GPT-2 (Transformers documentation)](https://huggingface.co/docs/transformers/model_doc/gpt2)
+:::
 
-### Hugging Face, Tokenization algorithms
+::: {#mikolov-et-al-2013}
+**Mikolov et al. (2013)**\
+[Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781)
+:::
 
-Hugging Face. *Tokenization algorithms.* Transformers documentation. [huggingface.co/docs/transformers/tokenizer_summary](https://huggingface.co/docs/transformers/tokenizer_summary). Accessed 2026-11-03.
+::: {#gemma-team-2024}
+**Gemma Team (2024)**\
+[Gemma: Open Models Based on Gemini Research and Technology](https://arxiv.org/abs/2403.08295)
+:::
 
-### Sennrich et al. (2016)
+::: {#mistral-7b-configuration}
+**Mistral 7B configuration**\
+[Mistral-7B-v0.1 config.json (Hugging Face Hub)](https://huggingface.co/mistralai/Mistral-7B-v0.1/blob/main/config.json)
+:::
 
-Sennrich, R., Haddow, B., & Birch, A. *Neural Machine Translation of Rare Words with Subword Units.* ACL 2016. [arXiv:1508.07909](https://arxiv.org/abs/1508.07909).
+::: {#haviv-et-al-2022}
+**Haviv et al. (2022)**\
+[Language models without positional encodings still learn position](https://arxiv.org/abs/2203.16634)
+:::
 
-### Radford et al. (2019)
+::: {#alammar-2018}
+**Alammar (2018)**\
+[The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
+:::
 
-Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., & Sutskever, I. *Language Models are Unsupervised Multitask Learners.* OpenAI technical report. [PDF](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf).
+::: {#press-et-al-2021}
+**Press et al. (2021)**\
+[Train Short, Test Long: Attention with Linear Biases](https://arxiv.org/abs/2108.12409)
+:::
 
-### Hugging Face, GPT-2 model documentation
+::: {#devlin-et-al-2019}
+**Devlin et al. (2019)**\
+[BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/abs/1810.04805)
+:::
 
-Hugging Face. *GPT-2.* Transformers documentation. [huggingface.co/docs/transformers/model_doc/gpt2](https://huggingface.co/docs/transformers/model_doc/gpt2). Accessed 2026-11-03.
+::: {#weng-2023}
+**Weng (2023)**\
+[The Transformer Family Version 2.0](https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/)
+:::
 
-### Mikolov et al. (2013)
+::: {#su-et-al-2021}
+**Su et al. (2021)**\
+[RoFormer: Enhanced Transformer with Rotary Position Embedding](https://arxiv.org/abs/2104.09864)
+:::
 
-Mikolov, T., Chen, K., Corrado, G., & Dean, J. *Efficient Estimation of Word Representations in Vector Space.* [arXiv:1301.3781](https://arxiv.org/abs/1301.3781).
+::: {#touvron-et-al-2023}
+**Touvron et al. (2023)**\
+[LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
+:::
 
-### Gemma Team (2024)
+::: {#qwen-team-2024}
+**Qwen Team (2024)**\
+[Qwen2.5 Technical Report](https://arxiv.org/abs/2412.15115)
+:::
 
-Gemma Team. *Gemma: Open Models Based on Gemini Research and Technology.* [arXiv:2403.08295](https://arxiv.org/abs/2403.08295).
+::: {#deepseek-ai-2024}
+**DeepSeek-AI (2024)**\
+[DeepSeek-V3 Technical Report](https://arxiv.org/abs/2412.19437)
+:::
 
-### Mistral 7B configuration
+::: {#biderman-et-al-2021}
+**Biderman et al. (2021)**\
+[Rotary Embeddings: A Relative Revolution](https://blog.eleuther.ai/rotary-embeddings/)
+:::
 
-Mistral AI. *Mistral-7B-v0.1: config.json.* Hugging Face Hub. [huggingface.co/mistralai/Mistral-7B-v0.1](https://huggingface.co/mistralai/Mistral-7B-v0.1/blob/main/config.json). Accessed 2026-11-03.
+::: {#chen-et-al-2023}
+**Chen et al. (2023)**\
+[Extending Context Window via Positional Interpolation](https://arxiv.org/abs/2306.15595)
+:::
 
-### Haviv et al. (2022)
+::: {#peng-et-al-2023}
+**Peng et al. (2023)**\
+[YaRN: Efficient Context Window Extension of Large Language Models](https://arxiv.org/abs/2309.00071)
+:::
 
-Haviv, A., Ram, O., Press, O., Izsak, P., & Levy, O. *Transformer Language Models without Positional Encodings Still Learn Positional Information.* Findings of EMNLP 2022. [arXiv:2203.16634](https://arxiv.org/abs/2203.16634).
+::: {#clark-et-al-2019}
+**Clark et al. (2019)**\
+[What Does BERT Look At? An Analysis of BERT's Attention](https://arxiv.org/abs/1906.04341)
+:::
 
-### Alammar (2018)
+::: {#voita-et-al-2019}
+**Voita et al. (2019)**\
+[Specialized Heads Do the Heavy Lifting, the Rest Can Be Pruned](https://arxiv.org/abs/1905.09418)
+:::
 
-Alammar, J. *The Illustrated Transformer.* [jalammar.github.io/illustrated-transformer](https://jalammar.github.io/illustrated-transformer/).
+::: {#olsson-et-al-2022}
+**Olsson et al. (2022)**\
+[In-context Learning and Induction Heads](https://arxiv.org/abs/2209.11895)
+:::
 
-### Press et al. (2021)
+::: {#llama-2-configurations}
+**Llama 2 configurations**\
+Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw/main/config.json), [13B](https://huggingface.co/NousResearch/Llama-2-13b-hf/raw/main/config.json), [70B](https://huggingface.co/NousResearch/Llama-2-70b-hf/raw/main/config.json)
+:::
 
-Press, O., Smith, N. A., & Lewis, M. *Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation.* ICLR 2022. [arXiv:2108.12409](https://arxiv.org/abs/2108.12409).
+::: {#shazeer-2019}
+**Shazeer (2019)**\
+[Fast Transformer Decoding: One Write-Head is All You Need](https://arxiv.org/abs/1911.02150)
+:::
 
-### Devlin et al. (2019)
+::: {#ainslie-et-al-2023}
+**Ainslie et al. (2023)**\
+[GQA: Training Generalized Multi-Query Transformer Models](https://arxiv.org/abs/2305.13245)
+:::
 
-Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. *BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.* [arXiv:1810.04805](https://arxiv.org/abs/1810.04805).
+::: {#touvron-et-al-2023-llama-2}
+**Touvron et al. (2023), Llama 2**\
+[Llama 2: Open Foundation and Fine-Tuned Chat Models](https://arxiv.org/abs/2307.09288)
+:::
 
-### Weng (2023)
-
-Weng, L. *The Transformer Family Version 2.0.* Lil'Log. [lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2](https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/).
-
-### Su et al. (2021)
-
-Su, J., Lu, Y., Pan, S., Murtadha, A., Wen, B., & Liu, Y. *RoFormer: Enhanced Transformer with Rotary Position Embedding.* [arXiv:2104.09864](https://arxiv.org/abs/2104.09864).
-
-### Touvron et al. (2023)
-
-Touvron, H., et al. *LLaMA: Open and Efficient Foundation Language Models.* [arXiv:2302.13971](https://arxiv.org/abs/2302.13971).
-
-### Qwen Team (2024)
-
-Qwen Team. *Qwen2.5 Technical Report.* [arXiv:2412.15115](https://arxiv.org/abs/2412.15115).
-
-### DeepSeek-AI (2024)
-
-DeepSeek-AI. *DeepSeek-V3 Technical Report.* [arXiv:2412.19437](https://arxiv.org/abs/2412.19437).
-
-### Biderman et al. (2021)
-
-Biderman, S., Black, S., Foster, C., Gao, L., Hallahan, E., He, H., Wang, B., & Wang, P. *Rotary Embeddings: A Relative Revolution.* EleutherAI blog. [blog.eleuther.ai/rotary-embeddings](https://blog.eleuther.ai/rotary-embeddings/).
-
-### Chen et al. (2023)
-
-Chen, S., Wong, S., Chen, L., & Tian, Y. *Extending Context Window of Large Language Models via Positional Interpolation.* [arXiv:2306.15595](https://arxiv.org/abs/2306.15595).
-
-### Peng et al. (2023)
-
-Peng, B., Quesnelle, J., Fan, H., & Shippole, E. *YaRN: Efficient Context Window Extension of Large Language Models.* [arXiv:2309.00071](https://arxiv.org/abs/2309.00071).
-
-### Clark et al. (2019)
-
-Clark, K., Khandelwal, U., Levy, O., & Manning, C. D. *What Does BERT Look At? An Analysis of BERT's Attention.* BlackBoxNLP 2019. [arXiv:1906.04341](https://arxiv.org/abs/1906.04341).
-
-### Voita et al. (2019)
-
-Voita, E., Talbot, D., Moiseev, F., Sennrich, R., & Titov, I. *Analyzing Multi-Head Self-Attention: Specialized Heads Do the Heavy Lifting, the Rest Can Be Pruned.* ACL 2019. [arXiv:1905.09418](https://arxiv.org/abs/1905.09418).
-
-### Olsson et al. (2022)
-
-Olsson, C., et al. *In-context Learning and Induction Heads.* Transformer Circuits Thread. [arXiv:2209.11895](https://arxiv.org/abs/2209.11895).
-
-### Llama 2 configurations
-
-Hugging Face model configurations for Llama 2: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw/main/config.json), [13B](https://huggingface.co/NousResearch/Llama-2-13b-hf/raw/main/config.json) and [70B](https://huggingface.co/NousResearch/Llama-2-70b-hf/raw/main/config.json), from a public mirror of Meta's files. Accessed 2026-11-10.
-
-### Shazeer (2019)
-
-Shazeer, N. *Fast Transformer Decoding: One Write-Head is All You Need.* [arXiv:1911.02150](https://arxiv.org/abs/1911.02150).
-
-### Ainslie et al. (2023)
-
-Ainslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y., Lebrón, F., & Sanghai, S. *GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints.* EMNLP 2023. [arXiv:2305.13245](https://arxiv.org/abs/2305.13245).
-
-### Touvron et al. (2023), Llama 2
-
-Touvron, H., et al. *Llama 2: Open Foundation and Fine-Tuned Chat Models.* [arXiv:2307.09288](https://arxiv.org/abs/2307.09288).
-
-### Llama Team (2024)
-
-Llama Team, AI @ Meta. *The Llama 3 Herd of Models.* [arXiv:2407.21783](https://arxiv.org/abs/2407.21783).
+::: {#llama-team-2024}
+**Llama Team (2024)**\
+[The Llama 3 Herd of Models](https://arxiv.org/abs/2407.21783)
+:::
