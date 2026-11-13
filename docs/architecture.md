@@ -112,7 +112,9 @@ and their chapters for every PDF script. In `scripts/pdf/`:
   first chapter and a page break before every chapter.
 
 Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
-by every guide. The pre-commit hook rebuilds the PDF of each guide whose
+by every guide. The fonts are bundled in `scripts/pdf/fonts/`, and the
+heading sizes live in `style-header.tex` and `heading-sizes.mjs`
+([ADR 0019](decisions/0019-pdf-typography.md)). The pre-commit hook rebuilds the PDF of each guide whose
 source is staged ([ADR 0002](decisions/0002-commit-pdf-rebuild-in-hook.md));
 see [`development.md`](development.md#the-pdf-hook).
 

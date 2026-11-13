@@ -1,0 +1,17 @@
+% style-header.tex — extra LaTeX for every guide's PDF, included by
+% scripts/build-pdf.sh. Makes the top-level headings (the "Part I" titles)
+% 24pt and the numbered chapter headings under them ("1. What harness...")
+% 14pt; unnumbered ones keep 12pt (sized per heading by heading-sizes.mjs).
+% These are LaTeX's own \section and \subsection definitions with bigger
+% fonts.
+\def\subsecfont{\fontsize{12}{15}\selectfont}% set per heading by heading-sizes.mjs
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\normalfont\fontsize{24}{28}\selectfont\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-3.25ex \@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\subsecfont\bfseries}}
+\makeatother

@@ -51,3 +51,4 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0016](0016-guide-format-and-generic-pdf-pipeline.md) | Define one guide format, and build every guide's PDF from it | Accepted |
 | [0017](0017-parallel-phases.md) | Run parallel streams of work as separate phases | Accepted |
 | [0018](0018-topic-page-content-sources.md) | Let topic pages draw their content from the guide, by any means | Accepted |
+| [0019](0019-pdf-typography.md) | Set every guide's PDF in bundled, readable type | Accepted |
