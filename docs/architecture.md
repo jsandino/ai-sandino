@@ -110,6 +110,10 @@ and their chapters for every PDF script. In `scripts/pdf/`:
 - `contents-filter.mjs`: a pandoc filter that marks the headings the
   contents must not list. The pipeline puts `\tableofcontents` after the
   first chapter and a page break before every chapter.
+- `table-widths.mjs`: a pandoc filter that gives a table with long cells
+  column widths, so its text wraps inside the page. The guides are read as
+  GitHub-flavoured Markdown, which carries no widths, so pandoc would
+  otherwise set each column on one line and run it off the page.
 
 Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
 by every guide. The fonts are bundled in `scripts/pdf/fonts/`, and the
