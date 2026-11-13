@@ -16,6 +16,9 @@
 #      and the contents after the first. One pass means hyperref resolves
 #      every intra-document link; there is no PDF merge step to strip the
 #      destination table.
+#      The type is set in scripts/pdf/fonts/ (Source Serif 4, Source Sans 3,
+#      Ubuntu Mono; Outfit for the cover title), so a build needs no
+#      system fonts.
 #   4. The PDF is copied to public/<guide>.pdf, which is committed.
 #
 # Requires: xelatex, pandoc, node, mmdc. This script never installs
@@ -26,6 +29,7 @@ set -euo pipefail
 # --- Locations -----------------------------------------------------------
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PDF_DIR="$ROOT_DIR/scripts/pdf"
+FONTS_DIR="$PDF_DIR/fonts"
 # shellcheck source=pdf/guides.sh
 source "$PDF_DIR/guides.sh"
 
@@ -172,8 +176,10 @@ build_guide() {
   modified="$(long_date "$DATE")"
   echo "Date: $modified ($DATE_WHY)"
 
-  # Cover: the shared template, filled from metadata.yml.
+  # Cover: the shared template, filled from metadata.yml. titlefontdir is
+  # where the cover's title font (Outfit) lives.
   pandoc --metadata-file="$CONTENT_DIR/$g/metadata.yml" -M modified="$modified" \
+    -V titlefontdir="$FONTS_DIR" \
     --template="$PDF_DIR/cover.tex" --from=markdown --to=latex /dev/null \
     -o "$build_dir/cover.tex"
 
@@ -211,13 +217,20 @@ build_guide() {
     --pdf-engine=xelatex \
     --filter="$PDF_DIR/contents-filter.mjs" \
     --filter="$PDF_DIR/spread-filter.mjs" \
+    --filter="$PDF_DIR/heading-sizes.mjs" \
     --include-before-body="$build_dir/cover.tex" \
     -V title-meta="$title_meta" \
     -V author-meta="$META_author" \
-    -V geometry:"a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=3cm" \
-    -V mainfont="Georgia" \
-    -V sansfont="Helvetica Neue" \
-    -V monofont="Menlo" \
+    -V geometry:"a4paper,top=2.2cm,bottom=2.2cm,left=2.4cm,right=2.4cm" \
+    -V fontsize=10pt \
+    -V linestretch=1.1 \
+    --include-in-header="$PDF_DIR/style-header.tex" \
+    -V mainfont="SourceSerif4-Regular.otf" \
+    -V mainfontoptions="Path=$FONTS_DIR/,BoldFont=SourceSerif4-Bold.otf,ItalicFont=SourceSerif4-It.otf,BoldItalicFont=SourceSerif4-BoldIt.otf" \
+    -V sansfont="SourceSans3-Regular.otf" \
+    -V sansfontoptions="Path=$FONTS_DIR/,BoldFont=SourceSans3-Bold.otf,ItalicFont=SourceSans3-It.otf,BoldItalicFont=SourceSans3-BoldIt.otf" \
+    -V monofont="UbuntuMono-Regular.ttf" \
+    -V monofontoptions="Path=$FONTS_DIR/,BoldFont=UbuntuMono-Bold.ttf,ItalicFont=UbuntuMono-Italic.ttf,BoldItalicFont=UbuntuMono-BoldItalic.ttf" \
     -V colorlinks=true \
     --resource-path=. \
     -o "$final_pdf")
