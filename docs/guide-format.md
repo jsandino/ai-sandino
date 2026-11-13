@@ -171,10 +171,10 @@ value: it loads `\usepackage{diagram-colours}`, which the pipeline generates
 from `scripts/pdf/diagram-classes.mmd`. For each name in the
 [diagram colours](#diagram-colours) table, `sky` is the stroke colour and
 `skyfill` the fill colour, and likewise for `violet`, `emerald`, `coral`,
-`amber` and `neutral`. A figure sets its own fonts: match the body font and
-the math in `scripts/build-pdf.sh`, and set digits in math mode (`$5$`), since
-Georgia's own digits are old-style. A guide without a `figures/` folder builds
-exactly as before.
+`amber` and `neutral`. It takes its text font from `\usepackage{diagram-fonts}`,
+which the pipeline generates and which sets the body font of `build-pdf.sh`
+(the bundled Source Serif 4), so a figure never names a font. A guide without a
+`figures/` folder builds exactly as before.
 
 ## Content rules
 

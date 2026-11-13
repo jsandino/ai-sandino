@@ -133,6 +133,15 @@ if [[ -f "${FIGURES[0]}" ]]; then
   SUPPORT_DIR="$ROOT_DIR/build/$GUIDE/figure-support"
   mkdir -p "$SUPPORT_DIR" "$OUT_DIR/figures"
   node "$ROOT_DIR/scripts/pdf/figure-colours.mjs" >"$SUPPORT_DIR/diagram-colours.sty"
+  # The body font of the guide PDFs (the bundled Source Serif 4, as in
+  # build-pdf.sh), so a figure's text matches the page it sits on.
+  FONTS_DIR="$ROOT_DIR/scripts/pdf/fonts"
+  cat >"$SUPPORT_DIR/diagram-fonts.sty" <<STY
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{diagram-fonts}[2000/01/01 the guide PDF's body font]
+\RequirePackage{fontspec}
+\setmainfont{SourceSerif4-Regular.otf}[Path=$FONTS_DIR/,BoldFont=SourceSerif4-Bold.otf,ItalicFont=SourceSerif4-It.otf,BoldItalicFont=SourceSerif4-BoldIt.otf]
+STY
   for fig in "${FIGURES[@]}"; do
     fig_name="$(basename "$fig" .tex)"
     echo "  figure   figures/$fig_name.tex"

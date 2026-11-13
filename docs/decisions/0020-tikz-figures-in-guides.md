@@ -32,8 +32,9 @@ diagram palette (`scripts/pdf/diagram-classes.mmd`) by name: the pipeline
 generates a `diagram-colours` package from that file, defining `sky`,
 `violet`, `emerald`, `coral`, `amber` and `neutral` (the stroke colour) and
 `skyfill` and so on (the fill colour). A figure uses these names and never
-writes a colour value, as a Mermaid diagram never styles itself. The figure
-sets its own fonts; the guide format says to match `build-pdf.sh`.
+writes a colour value, as a Mermaid diagram never styles itself. The pipeline
+also generates a `diagram-fonts` package that sets the body font of
+`build-pdf.sh`, so a figure never names a font.
 
 ## Alternatives considered
 
@@ -52,8 +53,9 @@ sets its own fonts; the guide format says to match `build-pdf.sh`.
   with the palette. Any guide can use the mechanism, and guides without a
   `figures/` folder build exactly as before.
 - **Negative:** figures are TeX, a second drawing language beside Mermaid, and
-  the fonts are set in each figure, so a font change in the pipeline has to be
-  repeated there. A figure that fails to compile fails the guide's build.
+  the body font is named twice, in `build-pdf.sh` and in the generated
+  `diagram-fonts` package, so a font change has to be made in both. A figure
+  that fails to compile fails the guide's build.
 - **Neutral:** raw LaTeX is still not allowed inside chapters
   ([ADR 0016](0016-guide-format-and-generic-pdf-pipeline.md)); a figure
   source is a separate file, and the chapter only references its output.
