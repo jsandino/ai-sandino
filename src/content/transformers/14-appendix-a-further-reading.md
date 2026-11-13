@@ -95,3 +95,35 @@ Chen, S., Wong, S., Chen, L., & Tian, Y. *Extending Context Window of Large Lang
 ### Peng et al. (2023)
 
 Peng, B., Quesnelle, J., Fan, H., & Shippole, E. *YaRN: Efficient Context Window Extension of Large Language Models.* [arXiv:2309.00071](https://arxiv.org/abs/2309.00071).
+
+### Clark et al. (2019)
+
+Clark, K., Khandelwal, U., Levy, O., & Manning, C. D. *What Does BERT Look At? An Analysis of BERT's Attention.* BlackBoxNLP 2019. [arXiv:1906.04341](https://arxiv.org/abs/1906.04341).
+
+### Voita et al. (2019)
+
+Voita, E., Talbot, D., Moiseev, F., Sennrich, R., & Titov, I. *Analyzing Multi-Head Self-Attention: Specialized Heads Do the Heavy Lifting, the Rest Can Be Pruned.* ACL 2019. [arXiv:1905.09418](https://arxiv.org/abs/1905.09418).
+
+### Olsson et al. (2022)
+
+Olsson, C., et al. *In-context Learning and Induction Heads.* Transformer Circuits Thread. [arXiv:2209.11895](https://arxiv.org/abs/2209.11895).
+
+### Llama 2 configurations
+
+Hugging Face model configurations for Llama 2: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw/main/config.json), [13B](https://huggingface.co/NousResearch/Llama-2-13b-hf/raw/main/config.json) and [70B](https://huggingface.co/NousResearch/Llama-2-70b-hf/raw/main/config.json), from a public mirror of Meta's files. Accessed 2026-11-10.
+
+### Shazeer (2019)
+
+Shazeer, N. *Fast Transformer Decoding: One Write-Head is All You Need.* [arXiv:1911.02150](https://arxiv.org/abs/1911.02150).
+
+### Ainslie et al. (2023)
+
+Ainslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y., Lebrón, F., & Sanghai, S. *GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints.* EMNLP 2023. [arXiv:2305.13245](https://arxiv.org/abs/2305.13245).
+
+### Touvron et al. (2023), Llama 2
+
+Touvron, H., et al. *Llama 2: Open Foundation and Fine-Tuned Chat Models.* [arXiv:2307.09288](https://arxiv.org/abs/2307.09288).
+
+### Llama Team (2024)
+
+Llama Team, AI @ Meta. *The Llama 3 Herd of Models.* [arXiv:2407.21783](https://arxiv.org/abs/2407.21783).

@@ -27,8 +27,8 @@ Moved here from phase 002, step 11.
 | 3 | Part I — Foundations | — | gated | Done |
 | 4 | Part II — Input processing | — | gated | Done |
 | 5 | Part III — Scaled dot-product attention | — | gated | Done |
-| 6 | Part IV — Multi-head attention | — | gated | Next |
-| 7 | Part V — Causal masking | — | gated | Planned |
+| 6 | Part IV — Multi-head attention | — | gated | Done |
+| 7 | Part V — Causal masking | — | gated | Next |
 | 8 | Part VI — The position-wise feed-forward network | — | gated | Planned |
 | 9 | Part VII — Residual connections and normalization | — | gated | Planned |
 | 10 | Part VIII — The full transformer block | — | gated | Planned |
