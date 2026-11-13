@@ -136,4 +136,4 @@ flowchart TD
     class BLOCK1,BLOCKL neutral
 ```
 
-*Figure: High-level data flow through a decoder-only transformer. The transformer block is repeated $L$ times, from Block 1 to Block $L$ (Llama 3 8B has $L = 32$; GPT-3 175B has $L = 96$). The shape of the data flowing between blocks is always (sequence length $n$ × hidden dimension $d_{\text{model}}$).*
+*Figure: Decoder-only data flow. The block repeats $L$ times (32 in Llama 3 8B, 96 in GPT-3 175B).*

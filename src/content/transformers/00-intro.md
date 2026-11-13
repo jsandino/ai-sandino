@@ -1,4 +1,4 @@
-# The Transformer Architecture: A Deep Dive
+# The Transformer Architecture
 
 *Every component of the transformer, with the matrices shown.*
 
