@@ -5,7 +5,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from 'vitest';
 import {
-  addPreamble,
   columnType,
   expandGrids,
   lightTokens,
@@ -100,18 +99,6 @@ test('column types follow the alignment, or the width when one is set', () => {
   expect(columnType([{ t: 'AlignLeft' }, { t: 'ColWidth', c: 0.25 }])).toBe(
     'p{\\dimexpr 0.25\\linewidth-2\\tabcolsep\\relax}',
   );
-});
-
-test('the preamble is appended to any existing header-includes', () => {
-  const existing = { t: 'MetaBlocks', c: [] };
-  const meta = addPreamble(
-    { 'header-includes': existing },
-    '\\usepackage{colortbl}',
-  );
-  const list = meta['header-includes'] as { t: string; c: unknown[] };
-  expect(list.t).toBe('MetaList');
-  expect(list.c[0]).toEqual(existing);
-  expect(JSON.stringify(list.c[1])).toContain('colortbl');
 });
 
 const css = `

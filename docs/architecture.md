@@ -122,8 +122,9 @@ and their chapters for every PDF script. In `scripts/pdf/`:
 - `spread-filter.mjs`, `relaxed-filter.mjs`, `grid-filter.mjs`: pandoc
   filters for the named blocks in
   [`guide-format.md`](guide-format.md#named-blocks). Each acts only inside
-  its own block; `grid-filter.mjs` adds its LaTeX packages to the preamble
-  only for a guide that has a grid.
+  its own block; `build-pdf.sh` adds the LaTeX packages `grid-filter.mjs`
+  needs (`grid-filter.mjs --preamble`) to the preamble only for a guide that
+  has a grid.
 
 Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
 by every guide. The fonts are bundled in `scripts/pdf/fonts/`, and the

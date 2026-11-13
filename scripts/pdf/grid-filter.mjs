@@ -8,9 +8,12 @@
 // shaded header row and padded cells. Pandoc's own table output has no hook
 // for vertical rules or row colours, so in LaTeX output this filter writes
 // the table itself, asking pandoc to convert each cell's contents. The
-// packages and colours it needs are added to the preamble only when a guide
-// has a grid, so other guides' output is unchanged. In any other format the
-// div is dropped and its children kept unchanged.
+// packages and colours it needs are printed by `grid-filter.mjs --preamble`;
+// build-pdf.sh passes them to pandoc as a header file only for a guide that
+// has a grid, so other guides' output is unchanged. (The filter cannot add
+// them itself: pandoc's --include-in-header replaces any header-includes a
+// filter sets.) In any other format the div is dropped and its children kept
+// unchanged.
 //
 // The colours are design tokens from the light theme (the PDF is printed on
 // white), read from src/styles/global.css, the one place tokens are defined
@@ -161,39 +164,21 @@ export function expandGrids(blocks, format, render) {
   return { blocks: walk(blocks), found };
 }
 
-/** Appends the grid preamble to the document's header-includes. */
-export function addPreamble(meta, latex) {
-  const raw = {
-    t: 'MetaBlocks',
-    c: [{ t: 'RawBlock', c: ['latex', latex] }],
-  };
-  const current = meta['header-includes'];
-  const list =
-    current === undefined
-      ? []
-      : current.t === 'MetaList'
-        ? current.c
-        : [current];
-  return { ...meta, 'header-includes': { t: 'MetaList', c: [...list, raw] } };
-}
-
 async function main() {
+  if (process.argv[2] === '--preamble') {
+    process.stdout.write(preamble(readFileSync(GLOBAL_CSS, 'utf8')) + '\n');
+    return;
+  }
   let input = '';
   for await (const chunk of process.stdin) input += chunk;
   const doc = JSON.parse(input);
   const format = process.argv[2];
-  const { blocks, found } = expandGrids(
+  const { blocks } = expandGrids(
     doc.blocks,
     format,
     pandocRender(doc['pandoc-api-version']),
   );
   doc.blocks = blocks;
-  if (found && format === 'latex') {
-    doc.meta = addPreamble(
-      doc.meta,
-      preamble(readFileSync(GLOBAL_CSS, 'utf8')),
-    );
-  }
   process.stdout.write(JSON.stringify(doc));
 }
 

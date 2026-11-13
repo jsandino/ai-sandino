@@ -197,6 +197,14 @@ build_guide() {
 
   echo "Converting Markdown -> ${final_pdf#"$ROOT_DIR"/}"
 
+  # Extra preamble: the packages and colours for ::: grid tables, only if a
+  # chapter has one (pandoc's --include-in-header files are concatenated).
+  local header_args=(--include-in-header="$PDF_DIR/style-header.tex")
+  if grep -q '^::: grid' "$rendered"/[0-9][0-9]-*.md; then
+    node "$PDF_DIR/grid-filter.mjs" --preamble >"$build_dir/grid-header.tex"
+    header_args+=(--include-in-header="$build_dir/grid-header.tex")
+  fi
+
   # Run from the rendered dir so the ./<name>-N.pdf diagram paths resolve.
   #   +smart            : straighten quotes/dashes into typographic forms
   #                       (a raw " in LaTeX renders as a closing quote)
@@ -228,7 +236,7 @@ build_guide() {
     -V geometry:"a4paper,top=2.2cm,bottom=2.2cm,left=2.4cm,right=2.4cm" \
     -V fontsize=10pt \
     -V linestretch=1.1 \
-    --include-in-header="$PDF_DIR/style-header.tex" \
+    "${header_args[@]}" \
     -V mainfont="SourceSerif4-Regular.otf" \
     -V mainfontoptions="Path=$FONTS_DIR/,BoldFont=SourceSerif4-Bold.otf,ItalicFont=SourceSerif4-It.otf,BoldItalicFont=SourceSerif4-BoldIt.otf" \
     -V sansfont="SourceSans3-Regular.otf" \
