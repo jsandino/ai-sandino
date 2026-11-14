@@ -158,3 +158,13 @@ Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw
 **Llama Team (2024)**\
 [The Llama 3 Herd of Models](https://arxiv.org/abs/2407.21783)
 :::
+
+::: {#pytorch-scaled-dot-product-attention-documentation}
+**PyTorch, scaled dot-product attention documentation**\
+[torch.nn.functional.scaled_dot_product_attention (version 2.3)](https://docs.pytorch.org/docs/2.3/generated/torch.nn.functional.scaled_dot_product_attention.html)
+:::
+
+::: {#dao-2023}
+**Dao (2023)**\
+[FlashAttention-2: Faster Attention with Better Parallelism](https://arxiv.org/abs/2307.08691)
+:::

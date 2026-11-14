@@ -21,7 +21,7 @@ adds its own phase's block below this one, on that branch only
 phase 002 block above is `main`'s stream.
 
 - **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
-- **Next step:** 7 — Part V — Causal masking (gated)
+- **Next step:** 8 — Part VI — The position-wise feed-forward network (gated)
 
 ---
 

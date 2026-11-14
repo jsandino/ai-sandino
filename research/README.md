@@ -43,3 +43,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0010](0010-tied-embeddings-bias-model-numbers.md) | Tied embeddings, bias terms and model numbers: fact-check | 2026-11-03 | Current |
 | [0011](0011-positional-encoding-fact-check.md) | Positional-encoding fact-check | 2026-11-04 | Current |
 | [0012](0012-multi-head-attention-fact-check.md) | Multi-head attention fact-check | 2026-11-10 | Current |
+| [0013](0013-causal-masking-fact-check.md) | Causal masking fact-check | 2026-11-13 | Current |
