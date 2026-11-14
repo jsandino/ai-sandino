@@ -227,9 +227,9 @@ build_guide() {
     --filter="$PDF_DIR/contents-filter.mjs" \
     --filter="$PDF_DIR/spread-filter.mjs" \
     --filter="$PDF_DIR/relaxed-filter.mjs" \
-    --filter="$PDF_DIR/grid-filter.mjs" \
     --filter="$PDF_DIR/heading-sizes.mjs" \
     --filter="$PDF_DIR/table-widths.mjs" \
+    --filter="$PDF_DIR/grid-filter.mjs" \
     --include-before-body="$build_dir/cover.tex" \
     -V title-meta="$title_meta" \
     -V author-meta="$META_author" \
