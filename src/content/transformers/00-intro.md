@@ -21,7 +21,7 @@ The aim is complete understanding — not just what each operation does, but exa
 
 Read the parts in order. Each one assumes the one before it and adds one new piece of the architecture. Start with the one-page notation and conventions: every symbol the guide uses is defined there, and it is the page to come back to.
 
-By the end of Part VIII you should be able to draw the full transformer block from memory and explain the role of every matrix. Part XI walks through a complete forward pass with numbers small enough to verify by hand. Part XII gives a reference implementation in PyTorch-style pseudocode and notes the practical pitfalls.
+By the end of Part VIII you should be able to draw the full transformer block from memory and explain the role of every matrix. Parts IX and X cover the output side and the encoder–decoder and decoder-only families.
 
 ## Prerequisites
 

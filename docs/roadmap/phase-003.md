@@ -31,12 +31,18 @@ Moved here from phase 002, step 11.
 | 7 | Part V — Causal masking | — | gated | Done |
 | 8 | Part VI — The feed-forward network | — | gated | Done |
 | 9 | Part VII — Residuals and normalization | — | gated | Done |
-| 10 | Part VIII — The full transformer block | — | gated | Next |
-| 11 | Part IX — Output processing | — | gated | Planned |
+| 10 | Part VIII — The full transformer block | — | gated | Done |
+| 11 | Part IX — Output processing (without sampling) | — | gated | Next |
 | 12 | Part X — Encoder–decoder vs decoder-only | — | gated | Planned |
-| 13 | Part XI — A complete worked example | — | gated | Planned |
-| 14 | Part XII — Implementation notes | — | gated | Planned |
+| 13 | Part XI — A complete worked example | — | gated | Dropped |
+| 14 | Part XII — Implementation notes | — | gated | Dropped |
 | 15 | Further reading: the sources, as a closing appendix | — | gated | Planned |
+
+Steps 13 and 14 are dropped to keep the guide to the essentials: Part XI's
+numeric forward pass repeats the worked examples in Parts III to VII (Part VIII
+ends with a shape trace instead), and Part XII's code belongs in the companion
+GitHub project. Sampling is left out of Part IX because it is inference, not
+architecture.
 
 ## Exit criterion
 

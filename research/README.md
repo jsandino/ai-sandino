@@ -46,3 +46,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0013](0013-causal-masking-fact-check.md) | Causal masking fact-check | 2026-11-13 | Current |
 | [0014](0014-feed-forward-network-fact-check.md) | Feed-forward network fact-check | 2026-11-14 | Current |
 | [0015](0015-residuals-and-normalization-fact-check.md) | Residuals and normalization fact-check | 2026-11-17 | Current |
+| [0016](0016-model-size-table-check.md) | Model size table check | 2026-11-17 | Current |

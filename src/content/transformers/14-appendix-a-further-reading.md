@@ -238,3 +238,18 @@ Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw
 **OLMo Team (2025)**\
 [2 OLMo 2 Furious](https://arxiv.org/abs/2501.00656)
 :::
+
+::: {#brown-et-al-2020}
+**Brown et al. (2020)**\
+[Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165)
+:::
+
+::: {#openai-gpt-2-repository}
+**OpenAI, GPT-2 repository**\
+[openai/gpt-2 (note on parameter counts)](https://github.com/openai/gpt-2)
+:::
+
+::: {#kaplan-et-al-2020}
+**Kaplan et al. (2020)**\
+[Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361)
+:::
