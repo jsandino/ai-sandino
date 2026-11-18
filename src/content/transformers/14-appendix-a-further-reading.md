@@ -198,3 +198,43 @@ Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw
 **Shazeer (2020)**\
 [GLU Variants Improve Transformer](https://arxiv.org/abs/2002.05202)
 :::
+
+::: {#he-et-al-2016}
+**He et al. (2016)**\
+[Identity Mappings in Deep Residual Networks](https://arxiv.org/abs/1603.05027)
+:::
+
+::: {#elhage-et-al-2021}
+**Elhage et al. (2021)**\
+[A Mathematical Framework for Transformer Circuits](https://transformer-circuits.pub/2021/framework/index.html)
+:::
+
+::: {#ba-et-al-2016}
+**Ba et al. (2016)**\
+[Layer Normalization](https://arxiv.org/abs/1607.06450)
+:::
+
+::: {#zhang-and-sennrich-2019}
+**Zhang and Sennrich (2019)**\
+[Root Mean Square Layer Normalization](https://arxiv.org/abs/1910.07467)
+:::
+
+::: {#xiong-et-al-2020}
+**Xiong et al. (2020)**\
+[On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
+:::
+
+::: {#sun-et-al-2025}
+**Sun et al. (2025)**\
+[The Curse of Depth in Large Language Models](https://arxiv.org/abs/2502.05795)
+:::
+
+::: {#gemma-team-2024-gemma-2}
+**Gemma Team (2024), Gemma 2**\
+[Gemma 2: Improving Open Language Models at a Practical Size](https://arxiv.org/abs/2408.00118)
+:::
+
+::: {#olmo-team-2025}
+**OLMo Team (2025)**\
+[2 OLMo 2 Furious](https://arxiv.org/abs/2501.00656)
+:::

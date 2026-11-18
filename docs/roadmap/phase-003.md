@@ -30,8 +30,8 @@ Moved here from phase 002, step 11.
 | 6 | Part IV — Multi-head attention | — | gated | Done |
 | 7 | Part V — Causal masking | — | gated | Done |
 | 8 | Part VI — The feed-forward network | — | gated | Done |
-| 9 | Part VII — Residual connections and normalization | — | gated | Next |
-| 10 | Part VIII — The full transformer block | — | gated | Planned |
+| 9 | Part VII — Residuals and normalization | — | gated | Done |
+| 10 | Part VIII — The full transformer block | — | gated | Next |
 | 11 | Part IX — Output processing | — | gated | Planned |
 | 12 | Part X — Encoder–decoder vs decoder-only | — | gated | Planned |
 | 13 | Part XI — A complete worked example | — | gated | Planned |
