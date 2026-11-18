@@ -168,3 +168,33 @@ Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw
 **Dao (2023)**\
 [FlashAttention-2: Faster Attention with Better Parallelism](https://arxiv.org/abs/2307.08691)
 :::
+
+::: {#geva-et-al-2021}
+**Geva et al. (2021)**\
+[Transformer Feed-Forward Layers Are Key-Value Memories](https://arxiv.org/abs/2012.14913)
+:::
+
+::: {#dong-et-al-2021}
+**Dong et al. (2021)**\
+[Attention is Not All You Need: Pure Attention Loses Rank Doubly Exponentially with Depth](https://arxiv.org/abs/2103.03404)
+:::
+
+::: {#hendrycks-and-gimpel-2016}
+**Hendrycks and Gimpel (2016)**\
+[Gaussian Error Linear Units (GELUs)](https://arxiv.org/abs/1606.08415)
+:::
+
+::: {#ramachandran-et-al-2017}
+**Ramachandran et al. (2017)**\
+[Searching for Activation Functions](https://arxiv.org/abs/1710.05941)
+:::
+
+::: {#dauphin-et-al-2017}
+**Dauphin et al. (2017)**\
+[Language Modeling with Gated Convolutional Networks](https://arxiv.org/abs/1612.08083)
+:::
+
+::: {#shazeer-2020}
+**Shazeer (2020)**\
+[GLU Variants Improve Transformer](https://arxiv.org/abs/2002.05202)
+:::

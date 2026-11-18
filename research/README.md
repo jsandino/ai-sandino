@@ -44,3 +44,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0011](0011-positional-encoding-fact-check.md) | Positional-encoding fact-check | 2026-11-04 | Current |
 | [0012](0012-multi-head-attention-fact-check.md) | Multi-head attention fact-check | 2026-11-10 | Current |
 | [0013](0013-causal-masking-fact-check.md) | Causal masking fact-check | 2026-11-13 | Current |
+| [0014](0014-feed-forward-network-fact-check.md) | Feed-forward network fact-check | 2026-11-14 | Current |
