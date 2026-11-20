@@ -32,8 +32,8 @@ Moved here from phase 002, step 11.
 | 8 | Part VI — The feed-forward network | — | gated | Done |
 | 9 | Part VII — Residuals and normalization | — | gated | Done |
 | 10 | Part VIII — The full transformer block | — | gated | Done |
-| 11 | Part IX — Output processing (without sampling) | — | gated | Next |
-| 12 | Part X — Encoder–decoder vs decoder-only | — | gated | Planned |
+| 11 | Part IX — Output processing (without sampling) | — | gated | Done |
+| 12 | Part X — Encoder–decoder vs decoder-only | — | gated | Next |
 | 13 | Part XI — A complete worked example | — | gated | Dropped |
 | 14 | Part XII — Implementation notes | — | gated | Dropped |
 | 15 | Further reading: the sources, as a closing appendix | — | gated | Planned |

@@ -253,3 +253,13 @@ Hugging Face configs: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/raw
 **Kaplan et al. (2020)**\
 [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361)
 :::
+
+::: {#hugging-face-llama-docs}
+**Hugging Face Transformers documentation**\
+[Llama 2 model documentation (LlamaForCausalLM)](https://huggingface.co/docs/transformers/model_doc/llama2)
+:::
+
+::: {#pytorch-cross-entropy-loss}
+**PyTorch documentation**\
+[torch.nn.CrossEntropyLoss](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html)
+:::

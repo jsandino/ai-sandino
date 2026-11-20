@@ -21,7 +21,7 @@ adds its own phase's block below this one, on that branch only
 phase 002 block above is `main`'s stream.
 
 - **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
-- **Next step:** 11 — Part IX — Output processing (gated)
+- **Next step:** 12 — Part X — Encoder–decoder vs decoder-only (gated)
 
 ---
 
