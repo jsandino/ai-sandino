@@ -209,3 +209,23 @@ Llama 2 configurations: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/r
 ::: {#pytorch-cross-entropy-loss}
 [torch.nn.CrossEntropyLoss](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) — PyTorch documentation
 :::
+
+::: {#hugging-face-kv-cache}
+[KV cache (Transformers documentation)](https://huggingface.co/docs/transformers/en/kv_cache) — Hugging Face
+:::
+
+::: {#raffel-et-al-2020}
+[Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer](https://arxiv.org/abs/1910.10683) — Raffel et al. (2020)
+:::
+
+::: {#lewis-et-al-2019}
+[BART: Denoising Sequence-to-Sequence Pre-training](https://arxiv.org/abs/1910.13461) — Lewis et al. (2019)
+:::
+
+::: {#radford-et-al-2022}
+[Robust Speech Recognition via Large-Scale Weak Supervision](https://arxiv.org/abs/2212.04356) — Radford et al. (2022)
+:::
+
+::: {#wang-et-al-2022}
+[What Language Model Architecture and Pretraining Objective Work Best for Zero-Shot Generalization?](https://arxiv.org/abs/2204.05832) — Wang et al. (2022)
+:::

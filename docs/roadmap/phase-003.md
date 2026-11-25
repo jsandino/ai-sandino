@@ -33,10 +33,10 @@ Moved here from phase 002, step 11.
 | 9 | Part VII — Residuals and normalization | — | gated | Done |
 | 10 | Part VIII — The full transformer block | — | gated | Done |
 | 11 | Part IX — Output processing (without sampling) | — | gated | Done |
-| 12 | Part X — Encoder–decoder vs decoder-only | — | gated | Next |
+| 12 | Part X — Encoder and decoder families | — | gated | Done |
 | 13 | Part XI — A complete worked example | — | gated | Dropped |
 | 14 | Part XII — Implementation notes | — | gated | Dropped |
-| 15 | References: the sources, as a closing appendix | — | gated | Planned |
+| 15 | References: the sources, as a closing appendix | — | gated | Next |
 
 Steps 13 and 14 are dropped to keep the guide to the essentials: Part XI's
 numeric forward pass repeats the worked examples in Parts III to VII (Part VIII
