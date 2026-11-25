@@ -36,7 +36,7 @@ Moved here from phase 002, step 11.
 | 12 | Part X — Encoder and decoder families | — | gated | Done |
 | 13 | Part XI — A complete worked example | — | gated | Dropped |
 | 14 | Part XII — Implementation notes | — | gated | Dropped |
-| 15 | References: the sources, as a closing appendix | — | gated | Next |
+| 15 | References: the sources, as a closing appendix | — | gated | Done |
 
 Steps 13 and 14 are dropped to keep the guide to the essentials: Part XI's
 numeric forward pass repeats the worked examples in Parts III to VII (Part VIII

@@ -21,7 +21,7 @@ adds its own phase's block below this one, on that branch only
 phase 002 block above is `main`'s stream.
 
 - **Phase:** [003 — Transformers guide](roadmap/phase-003.md)
-- **Next step:** 15 — References: the closing appendix (gated)
+- **Next step:** none: every step of phase 003 is done, and merging this branch closes the phase
 
 ---
 

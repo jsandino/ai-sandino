@@ -13,7 +13,7 @@ The aim is complete understanding — not just what each operation does, but exa
 ## What this guide is not
 
 - A guide to training or optimizing models
-- A survey of model families
+- A catalogue of models: models appear only as examples of how the architecture varies
 - A tutorial for any one framework
 - A mathematics text — it treats matrices concretely, and where a formal definition would obscure rather than clarify, it prefers the operational view
 
