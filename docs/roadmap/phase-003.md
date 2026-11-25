@@ -1,7 +1,7 @@
 # Phase 003 — Transformers guide
 
-- **Status:** Current
-- **Dates:** 2026-10-27 →
+- **Status:** Done
+- **Dates:** 2026-10-27 → 2026-11-25
 - **Branch:** `feat/transformers-guide` (long-lived; [ADR 0017](../decisions/0017-parallel-phases.md))
 
 ---
