@@ -229,3 +229,11 @@ Llama 2 configurations: [7B](https://huggingface.co/NousResearch/Llama-2-7b-hf/r
 ::: {#wang-et-al-2022}
 [What Language Model Architecture and Pretraining Objective Work Best for Zero-Shot Generalization?](https://arxiv.org/abs/2204.05832) — Wang et al. (2022)
 :::
+
+::: {#dosovitskiy-et-al-2020}
+[An Image is Worth 16x16 Words: Transformers for Image Recognition…](https://arxiv.org/abs/2010.11929) — Dosovitskiy et al. (2020)
+:::
+
+::: {#lin-et-al-2022}
+[Evolutionary-scale prediction of atomic level protein structure…](https://www.biorxiv.org/content/10.1101/2022.07.20.500902v3) — Lin et al. (2022)
+:::

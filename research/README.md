@@ -49,3 +49,4 @@ kept so the project never re-investigates a question it has already answered.
 | [0016](0016-model-size-table-check.md) | Model size table check | 2026-11-17 | Current |
 | [0017](0017-output-processing-fact-check.md) | Output processing fact-check | 2026-11-19 | Current |
 | [0018](0018-encoder-decoder-fact-check.md) | Encoder–decoder fact-check | 2026-11-20 | Current |
+| [0019](0019-beyond-language-examples-check.md) | Beyond language: examples check | 2026-11-25 | Current |
