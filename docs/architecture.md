@@ -110,6 +110,9 @@ and their chapters for every PDF script. In `scripts/pdf/`:
 - `contents-filter.mjs`: a pandoc filter that marks the headings the
   contents must not list. The pipeline puts `\tableofcontents` after the
   first chapter and a page break before every chapter.
+- `contents-loose.tex`: looser spacing in the contents, included only for a
+  guide whose `metadata.yml` sets `contents-spacing: loose`
+  ([ADR 0021](decisions/0021-optional-loose-contents-spacing.md)).
 - `table-widths.mjs`: a pandoc filter that gives a table with long cells
   column widths, so its text wraps inside the page. The guides are read as
   GitHub-flavoured Markdown, which carries no widths, so pandoc would

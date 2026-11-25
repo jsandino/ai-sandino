@@ -44,6 +44,7 @@ date: 2026-09-07
 | `author` | yes | Cover; the PDF's `/Author` |
 | `coauthor` | no | Cover line `Co-authored with <coauthor>`, left out when unset |
 | `date` | no | Cover line `Last modified: <date>`, written `YYYY-MM-DD` |
+| `contents-spacing` | no | `loose` spaces the contents out, for a guide whose list runs past one page; `normal` (the default) leaves it as is ([ADR 0021](decisions/0021-optional-loose-contents-spacing.md)) |
 
 **The date.** Leave `date` out to use the date of the guide's last change:
 today if its folder has staged or uncommitted changes, otherwise the date of

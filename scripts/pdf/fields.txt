@@ -3,3 +3,4 @@ subtitle=$subtitle$
 author=$author$
 coauthor=$coauthor$
 date=$date$
+contents_spacing=$contents-spacing$
