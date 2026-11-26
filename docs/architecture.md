@@ -110,10 +110,24 @@ and their chapters for every PDF script. In `scripts/pdf/`:
 - `contents-filter.mjs`: a pandoc filter that marks the headings the
   contents must not list. The pipeline puts `\tableofcontents` after the
   first chapter and a page break before every chapter.
+- `contents-loose.tex`: looser spacing in the contents, included only for a
+  guide whose `metadata.yml` sets `contents-spacing: loose`
+  ([ADR 0021](decisions/0021-optional-loose-contents-spacing.md)).
 - `table-widths.mjs`: a pandoc filter that gives a table with long cells
   column widths, so its text wraps inside the page. The guides are read as
   GitHub-flavoured Markdown, which carries no widths, so pandoc would
   otherwise set each column on one line and run it off the page.
+- `figure-colours.mjs`: writes the `diagram-colours` LaTeX package from
+  `diagram-classes.mmd`. `render-diagrams.sh` uses it to compile a guide's
+  TikZ figures (`src/content/<guide>/figures/*.tex`) into
+  `build/<guide>/rendered/figures/*.pdf`
+  ([`guide-format.md`](guide-format.md#figures)).
+- `spread-filter.mjs`, `relaxed-filter.mjs`, `grid-filter.mjs`: pandoc
+  filters for the named blocks in
+  [`guide-format.md`](guide-format.md#named-blocks). Each acts only inside
+  its own block; `build-pdf.sh` adds the LaTeX packages `grid-filter.mjs`
+  needs (`grid-filter.mjs --preamble`) to the preamble only for a guide that
+  has a grid.
 
 Fonts, page geometry and link colours are set once in `build-pdf.sh`, shared
 by every guide. The fonts are bundled in `scripts/pdf/fonts/`, and the

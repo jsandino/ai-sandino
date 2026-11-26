@@ -106,6 +106,7 @@ long_date() {
 read_metadata() {
   local key value
   META_title="" META_subtitle="" META_author="" META_coauthor="" META_date=""
+  META_contents_spacing=""
   while IFS='=' read -r key value; do
     printf -v "META_$key" '%s' "$value"
   done < <(pandoc --metadata-file="$CONTENT_DIR/$1/metadata.yml" \
@@ -132,6 +133,13 @@ validate_guide() {
       "metadata.yml's optional date is written YYYY-MM-DD." \
       "src/content/$g/metadata.yml has date: $META_date" \
       "write it as e.g. 'date: 2026-09-07', or delete it to use the date of the guide's last change."
+    exit 1
+  fi
+  if [[ -n "$META_contents_spacing" && "$META_contents_spacing" != "loose" && "$META_contents_spacing" != "normal" ]]; then
+    guide_error "PDF BUILD: BAD contents-spacing" \
+      "metadata.yml's optional contents-spacing is 'normal' or 'loose'." \
+      "src/content/$g/metadata.yml has contents-spacing: $META_contents_spacing" \
+      "write 'contents-spacing: loose' for a longer contents spread over more room, or delete the field."
     exit 1
   fi
   if [[ -z "$(guide_chapters "$g")" ]]; then
@@ -197,16 +205,29 @@ build_guide() {
 
   echo "Converting Markdown -> ${final_pdf#"$ROOT_DIR"/}"
 
+  # Extra preamble: the packages and colours for ::: grid tables, only if a
+  # chapter has one (pandoc's --include-in-header files are concatenated).
+  local header_args=(--include-in-header="$PDF_DIR/style-header.tex")
+  # A guide that sets contents-spacing: loose gets looser contents spacing.
+  if [[ "$META_contents_spacing" == "loose" ]]; then
+    header_args+=(--include-in-header="$PDF_DIR/contents-loose.tex")
+  fi
+  if grep -q '^::: grid' "$rendered"/[0-9][0-9]-*.md; then
+    node "$PDF_DIR/grid-filter.mjs" --preamble >"$build_dir/grid-header.tex"
+    header_args+=(--include-in-header="$build_dir/grid-header.tex")
+  fi
+
   # Run from the rendered dir so the ./<name>-N.pdf diagram paths resolve.
   #   +smart            : straighten quotes/dashes into typographic forms
   #                       (a raw " in LaTeX renders as a closing quote)
-  #   +tex_math_dollars : render the $\rightarrow$ / $\leftarrow$ that
-  #                       render-diagrams.sh substituted for glyphs the
-  #                       body fonts lack (source has no literal $)
+  #   +tex_math_dollars : render $...$ math: the guides' own, and the
+  #                       $\rightarrow$ / $\leftarrow$ that render-diagrams.sh
+  #                       substituted for glyphs the body fonts lack
   #   +raw_attribute    : honour the ```{=latex} page-break and contents
   #                       blocks (gfm disables this extension by default)
-  #   +fenced_divs      : read ::: blocks such as ::: spread, which
-  #                       spread-filter.mjs lays out (also off in gfm)
+  #   +fenced_divs      : read ::: named blocks (spread, relaxed, grid),
+  #                       which the *-filter.mjs filters lay out (also off
+  #                       in gfm)
   #
   # metadata.yml is not passed here: its title/author would trigger the
   # template's \maketitle and print a second title block under the cover.
@@ -217,15 +238,17 @@ build_guide() {
     --pdf-engine=xelatex \
     --filter="$PDF_DIR/contents-filter.mjs" \
     --filter="$PDF_DIR/spread-filter.mjs" \
+    --filter="$PDF_DIR/relaxed-filter.mjs" \
     --filter="$PDF_DIR/heading-sizes.mjs" \
     --filter="$PDF_DIR/table-widths.mjs" \
+    --filter="$PDF_DIR/grid-filter.mjs" \
     --include-before-body="$build_dir/cover.tex" \
     -V title-meta="$title_meta" \
     -V author-meta="$META_author" \
     -V geometry:"a4paper,top=2.2cm,bottom=2.2cm,left=2.4cm,right=2.4cm" \
     -V fontsize=10pt \
     -V linestretch=1.1 \
-    --include-in-header="$PDF_DIR/style-header.tex" \
+    "${header_args[@]}" \
     -V mainfont="SourceSerif4-Regular.otf" \
     -V mainfontoptions="Path=$FONTS_DIR/,BoldFont=SourceSerif4-Bold.otf,ItalicFont=SourceSerif4-It.otf,BoldItalicFont=SourceSerif4-BoldIt.otf" \
     -V sansfont="SourceSans3-Regular.otf" \

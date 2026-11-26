@@ -11,7 +11,16 @@
 \vspace*{6cm}
 
 \newfontfamily\titlefont[Path=$titlefontdir$/]{Outfit-Medium.otf}
-{\fontsize{36}{42}\selectfont\titlefont\color{black}
+% The title stays on one line: 36pt, or smaller in proportion if that is
+% wider than the text.
+\newsavebox{\covertitle}%
+\newdimen\covertitlesize
+\sbox{\covertitle}{\fontsize{36}{42}\selectfont\titlefont $title$}%
+\covertitlesize=36pt
+\ifdim\wd\covertitle>\textwidth
+  \covertitlesize=\dimexpr 36pt * \number\textwidth / \number\wd\covertitle\relax
+\fi
+{\fontsize{\covertitlesize}{1.2\covertitlesize}\selectfont\titlefont\color{black}
 $title$%
 }
 $if(subtitle)$

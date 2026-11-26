@@ -1,0 +1,15 @@
+% contents-loose.tex — looser spacing in the contents, for a guide whose
+% metadata.yml sets `contents-spacing: loose` (docs/decisions/0021).
+% Included by build-pdf.sh after style-header.tex; no other guide gets it.
+%
+% Adds vertical space before every part entry (\section in the contents) and
+% every section entry (\subsection), and keeps a part entry on the page of
+% the entry after it. The article class's own entry styles do the rest.
+\makeatletter
+\newlength{\tocPartSkip}\setlength{\tocPartSkip}{30pt}
+\newlength{\tocEntrySkip}\setlength{\tocEntrySkip}{7pt}
+\let\origl@section\l@section
+\renewcommand*\l@section[2]{\addvspace{\tocPartSkip}\origl@section{#1}{#2}\nopagebreak}
+\let\origl@subsection\l@subsection
+\renewcommand*\l@subsection[2]{\addvspace{\tocEntrySkip}\origl@subsection{#1}{#2}}
+\makeatother

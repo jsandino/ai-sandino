@@ -52,3 +52,5 @@ See [`TEMPLATE.md`](TEMPLATE.md).
 | [0017](0017-parallel-phases.md) | Run parallel streams of work as separate phases | Accepted |
 | [0018](0018-topic-page-content-sources.md) | Let topic pages draw their content from the guide, by any means | Accepted |
 | [0019](0019-pdf-typography.md) | Set every guide's PDF in bundled, readable type | Accepted |
+| [0020](0020-tikz-figures-in-guides.md) | Draw plots in guides as TikZ files, coloured from the diagram palette | Accepted |
+| [0021](0021-optional-loose-contents-spacing.md) | Let a guide opt in to looser contents spacing | Accepted |

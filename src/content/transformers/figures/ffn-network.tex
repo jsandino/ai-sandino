@@ -1,0 +1,44 @@
+% The position-wise feed-forward network for one token (Part VI, Section 25).
+% Compiled by scripts/render-diagrams.sh; colours are the pipeline's names
+% (docs/guide-format.md#figures). Fonts: the pipeline's diagram-fonts package.
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{diagram-fonts}
+\usepackage{amsmath}
+\usepackage{diagram-colours}
+
+\begin{document}
+\begin{tikzpicture}[font=\small,
+  unit/.style={circle,draw=#1,fill=#1fill,minimum size=0.42cm,inner sep=0pt,thick}]
+
+% Layer positions (cm): input x=0, hidden x=5, output x=10.
+\foreach \i in {1,...,4} {
+  \node[unit=sky]     (in\i) at (0,{(2.5-\i)*1.1}) {};
+  \node[unit=emerald] (out\i) at (10,{(2.5-\i)*1.1}) {};
+}
+\foreach \j in {1,...,8} {
+  \node[unit=amber] (h\j) at (5,{(4.5-\j)*0.55}) {};
+}
+
+% Edges: W_1 (4 x 8) and W_2 (8 x 4).
+\foreach \i in {1,...,4} \foreach \j in {1,...,8}
+  \draw[neutral!45,line width=0.3pt] (in\i) -- (h\j);
+\foreach \j in {1,...,8} \foreach \i in {1,...,4}
+  \draw[neutral!45,line width=0.3pt] (h\j) -- (out\i);
+
+% Column titles.
+\node[align=center] at (0,3.0)  {input $\mathbf{x}$\\[-1pt]\scriptsize $d_{\text{model}} = 4$ numbers};
+\node[align=center] at (5,3.0)  {hidden layer\\[-1pt]\scriptsize $d_{\text{ff}} = 8$ units};
+\node[align=center] at (10,3.0) {output\\[-1pt]\scriptsize $d_{\text{model}} = 4$ numbers};
+
+% Step labels under the figure.
+\node[align=center] at (2.5,-3.0) {multiply by $\mathbf{W}_1$\\[-1pt]\scriptsize $4 \times 8$ weights (+ bias)};
+\node[align=center] at (5,-3.0)  {};
+\node[align=center] at (7.5,-3.0) {multiply by $\mathbf{W}_2$\\[-1pt]\scriptsize $8 \times 4$ weights (+ bias)};
+\node[align=center,text=black] at (5,-3.75) {activation applied to each hidden unit, one at a time};
+\draw[->,neutral] (5,-3.5) -- (5,-2.45);
+
+% Where the input comes from.
+\node[anchor=east,align=right,font=\scriptsize] at (-0.5,0) {one row of the\\attention output};
+\draw[->,neutral] (-0.45,0) -- (-0.25,0);
+\end{tikzpicture}
+\end{document}
